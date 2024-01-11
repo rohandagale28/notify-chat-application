@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = import.meta.env.VITE_BASE_URL;
+const url = "https://notify-chat-application-server.vercel.app";
 
 export const addUser = async (data: object) => {
   try {
