@@ -7,14 +7,11 @@ import { TypeAccountContext } from '../../context/AccountContext'
 
 interface ChatboxFieldProps {
     messages: Array<{ _id: number }>;
-    person: {
-        sub: string
-    }
 }
 
 export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
 
-    const { person } = useContext(AccountContext) as TypeAccountContext
+    const { person }: TypeAccountContext = useContext(AccountContext)
 
 
     useEffect(() => {

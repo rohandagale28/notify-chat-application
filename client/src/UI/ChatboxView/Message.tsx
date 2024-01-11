@@ -8,6 +8,7 @@ interface MessageProps {
         senderId: string;
         text: string;
         createdAt: Date;
+        _id: string
     };
 }
 
