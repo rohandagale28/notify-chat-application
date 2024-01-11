@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react"
 import { AccountContext } from "../../../context/AccountProvider"
 
-export const Messanger = ({ contact, newMessage }) => {
+export const Messanger = ({ contact }) => {
     const { setPerson, person } = useContext(AccountContext)
     useEffect(() => {
     }, [])
