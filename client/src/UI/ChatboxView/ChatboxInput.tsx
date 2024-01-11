@@ -12,7 +12,7 @@ interface Message {
     text: string;
 }
 
-export const ChatboxInput = ({ conversationId, setMessages }) => {
+export const ChatboxInput: React.FC<Message> = ({ conversationId, setMessages }) => {
     const { account, person, setTrigger, trigger, socket } = useContext(AccountContext)
     const [text, setText] = useState("")
 

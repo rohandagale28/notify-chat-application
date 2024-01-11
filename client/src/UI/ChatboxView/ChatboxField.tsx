@@ -3,16 +3,18 @@ import { useEffect } from 'react'
 import { Message } from "./Message"
 import { EmptyChatbox } from '../../components/EmptyChatbox/EmptyChatbox'
 import { AccountContext } from '../../context/AccountProvider'
+import { TypeAccountContext } from '../../context/AccountContext'
 
-export const ChatboxField = ({ messages }) => {
+interface ChatboxFieldProps {
+    messages: Array<{ _id: number }>;
+}
 
-    const containerRef = useRef(0)
-    const { person } = useContext(AccountContext)
+export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
 
-    // console.log(messages)
+    const { person } = useContext(AccountContext) as TypeAccountContext
+
 
     useEffect(() => {
-        // containerRef.current?.scrollIntoView(true)
     }, [person.sub])
 
     const btn = document.querySelector('.chatbox-field')
@@ -26,7 +28,7 @@ export const ChatboxField = ({ messages }) => {
             <div className="chatbox-field" >
                 {messages && messages.length > 0 ? (
                     messages.map((item) => (
-                        <React.Fragment key={item._id}>
+                        <React.Fragment key={item?._id}>
                             <Message message={item} />
                         </React.Fragment>
                     ))

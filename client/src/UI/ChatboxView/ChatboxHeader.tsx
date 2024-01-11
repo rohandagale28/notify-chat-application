@@ -1,12 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CallIcon } from '../../components/svg/CallIcon'
 import { SearchIcon } from '../../components/svg/SearchIcon'
 import { VideoIcon } from '../../components/svg/VideoIcon'
 import { AccountContext } from '../../context/AccountProvider'
+import { TypeAccountContext } from '../../context/AccountContext'
+
+interface ChatboxHeaderProps {
+    person: string;
+}
 
 
-export const ChatboxHeader = ({ person }) => {
-    const { socket } = useContext(AccountContext)
+export const ChatboxHeader: React.FC<ChatboxHeaderProps> = ({ person }) => {
+    const { socket } = useContext(AccountContext) as TypeAccountContext
     const [activestatus, setActiveStatus] = useState(false)
 
     console.log(activestatus)
@@ -16,7 +21,7 @@ export const ChatboxHeader = ({ person }) => {
         if (socket) {
             socket.on("getUsers", (res) => {
                 console.log(res)
-                res.map((item) => {
+                res.map((item: string) => {
                     if (item.sub === person.sub) {
                         setActiveStatus(true)
                     } else {

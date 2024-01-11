@@ -1,8 +1,8 @@
 import { createContext, useState, useEffect } from "react"
 import { io, Socket } from 'socket.io-client'
+import { TypeAccountContext } from './AccountContext'
 
-
-export const AccountContext = createContext<unknown | undefined>(undefined)
+export const AccountContext = createContext<TypeAccountContext | null>(null)
 
 const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     const [account, setAccount] = useState<object | null>(null)

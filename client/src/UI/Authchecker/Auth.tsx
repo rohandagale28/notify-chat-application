@@ -4,9 +4,10 @@ import { Login } from "../LoginView/Login";
 import { AccountContext } from "../../context/AccountProvider";
 import { UI } from "../UI";
 import { addUser } from "../../services/Api";
+import { TypeAccountContext } from "../../context/AccountContext";
 
-export const Messanger = () => {
-    const { account, setAccount } = useContext(AccountContext);
+export const Messanger: React.FC = () => {
+    const { account, setAccount } = useContext(AccountContext) as TypeAccountContext;
 
     useEffect(() => {
         const checkUserInLocalStorage = async () => {
