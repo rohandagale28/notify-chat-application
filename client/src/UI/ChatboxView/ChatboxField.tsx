@@ -6,7 +6,15 @@ import { AccountContext } from '../../context/AccountProvider'
 import { TypeAccountContext } from '../../context/AccountContext'
 
 interface ChatboxFieldProps {
-    messages: Array<{ _id: number }>;
+    messages: Array<{
+        _id: string,
+        senderId: string;
+        text: string;
+        createdAt: Date;
+        conversationId: string;
+        receiverId: string;
+        type: string
+    }>;
 }
 
 export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {

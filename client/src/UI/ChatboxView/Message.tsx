@@ -9,11 +9,14 @@ interface MessageProps {
         text: string;
         createdAt: Date;
         _id: string
+        conversationId: string;
+        receiverId: string;
+        type: string
     };
 }
 
 export const Message: React.FC<MessageProps> = ({ message }) => {
-
+    console.log(message)
     const { account }: TypeAccountContext = useContext(AccountContext)
 
     const isSender = account.sub === message.senderId;

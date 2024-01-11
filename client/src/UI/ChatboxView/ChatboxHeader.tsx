@@ -26,13 +26,8 @@ export const ChatboxHeader: React.FC<ChatboxHeaderProps> = ({ person }) => {
         if (socket) {
             socket.on("getUsers", (res) => {
                 console.log(res)
-                res.map((item: string) => {
-                    if (item.sub === person.sub) {
-                        setActiveStatus(true)
-                    } else {
-                        setActiveStatus(false)
-                    }
-                })
+                const userFound = res.some((item) => item.sub === person.sub);
+                setActiveStatus(userFound);
             })
         }
     }, [socket, person.sub])
