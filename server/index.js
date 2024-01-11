@@ -13,7 +13,9 @@ require("./db")
 
 //==========|| User Routes ||==========//
 app.use("/", user_routes)
-
+app.get('/', (req, res) => {
+    res.send({ message: "server is running fine" })
+})
 
 //==========|| Server Listening On PORT ||==========//
 app.listen(process.env.PORT, () => {
