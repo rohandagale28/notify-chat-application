@@ -1,0 +1,25 @@
+@import "./variables.scss";
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: $vue;
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        background-color: transparent;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: hsla(0, 0%, 0%, 0);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: rgba(69, 69, 69, 0.8);
+        border-radius: 4rem;
+
+        &:hover {
+            background-color: rgba(69, 69, 69, 1);
+        }
+    }
+}

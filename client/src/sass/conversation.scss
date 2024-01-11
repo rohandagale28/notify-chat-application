@@ -1,0 +1,107 @@
+@import "./variables.scss";
+
+.conversation {
+    @include flex-col;
+    height: 100%;
+    width: clamp(14rem, 20%, 20%);
+    background-color: $backgroundColorSecondary;
+    padding: 2rem 0.5rem;
+    box-sizing: border-box;
+    position: relative;
+    gap: 2rem;
+
+    .conversation-header {
+        @include flex-col;
+        gap: 1rem;
+        padding: 0rem 1rem;
+
+        .user {
+            @include flex-row;
+            justify-content: space-between;
+            align-items: center;
+
+            .user-profile {
+                img {
+                    height: 40px;
+                    width: 40px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+
+            .more {
+                cursor: pointer;
+            }
+        }
+
+        .searchbar {
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
+
+            input {
+                border: none;
+                outline: none;
+                height: 2.4rem;
+                width: 100%;
+                border-radius: 8px;
+                background-color: #404040;
+                color: $textColorLightPrimary;
+                font-size: 0.9rem;
+                padding-left: 1rem;
+                box-sizing: border-box
+            }
+        }
+    }
+
+    .conversation-list {
+        @include flex-col;
+        height: 100%;
+        width: 100%;
+        gap: 0rem;
+
+        .messanger {
+            @include flex-row;
+            gap: 1rem;
+            padding: 1rem 1rem;
+            border-radius: 1rem;
+            position: relative;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #000;
+            }
+
+
+
+            .messanger-profile {
+                img {
+                    height: 40px;
+                    width: 40px;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    cursor: pointer;
+                }
+            }
+
+            .messanger-name {
+                padding-left: min(4px, 1rem);
+            }
+
+            .messanger-message {
+                padding-left: min(4px, 1rem);
+                font-size: 90%;
+                padding-top: 2px;
+                color: $textColorDarkCaption;
+            }
+        }
+
+        .messanger-time {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            font-size: 0.7rem;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+@import "./variables.scss";
+
+.main-container {
+    @include flex-row;
+    height: 100vh;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $backgroundColorPrimary;
+    color: $textColorLightPrimary;
+}
