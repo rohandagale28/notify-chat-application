@@ -6,7 +6,12 @@ import { AccountContext } from '../../context/AccountProvider'
 import { TypeAccountContext } from '../../context/AccountContext'
 
 interface ChatboxHeaderProps {
-    person: string;
+    person: {
+        picture: string;
+        name: string;
+        sub: string
+    }
+
 }
 
 
@@ -39,7 +44,7 @@ export const ChatboxHeader: React.FC<ChatboxHeaderProps> = ({ person }) => {
                     <img src={person?.picture} />
                 </div>
                 <div className="user-name">
-                    {person?.name}
+                    {person?.name as string}
                     {activestatus === true ? <>
                         <div className="user-status">
                             <div className="user-status-dot"></div>

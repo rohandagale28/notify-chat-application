@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext } from 'react'
 import { useEffect } from 'react'
 import { Message } from "./Message"
 import { EmptyChatbox } from '../../components/EmptyChatbox/EmptyChatbox'
@@ -7,6 +7,9 @@ import { TypeAccountContext } from '../../context/AccountContext'
 
 interface ChatboxFieldProps {
     messages: Array<{ _id: number }>;
+    person: {
+        sub: string
+    }
 }
 
 export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {

@@ -1,32 +1,39 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect } from 'react'
 import { AccountContext } from '../../context/AccountProvider'
 import { FormatDate } from '../../components/Utils/FormatDate'
+import { TypeAccountContext } from '../../context/AccountContext'
 
-export const
-    Message = ({ message }) => {
+interface MessageProps {
+    message: {
+        senderId: string;
+        text: string;
+        createdAt: Date;
+    };
+}
 
-        const { account } = useContext(AccountContext)
+export const Message: React.FC<MessageProps> = ({ message }) => {
 
-        const isSender = account.sub === message.senderId;
-        const containerRef = useRef(null)
+    const { account }: TypeAccountContext = useContext(AccountContext)
 
-        useEffect(() => {
-            // containerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
-        }, [])
+    const isSender = account.sub === message.senderId;
 
-        
-        return (
-            <>
-                <div className={`message-container-main${isSender ? '-sender' : ''}`}>
-                    <div className="message-container">
-                        <div className="message-text">
-                            {message.text}
-                        </div>
-                        <div className="message-container-created">
-                            {FormatDate(message.createdAt)}
-                        </div>
+    useEffect(() => {
+
+    }, [])
+
+
+    return (
+        <>
+            <div className={`message-container-main${isSender ? '-sender' : ''}`}>
+                <div className="message-container">
+                    <div className="message-text">
+                        {message.text}
                     </div>
-                </div >
-            </>
-        )
-    }
+                    <div className="message-container-created">
+                        {FormatDate(message.createdAt)}
+                    </div>
+                </div>
+            </div >
+        </>
+    )
+}

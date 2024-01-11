@@ -3,6 +3,7 @@ import { DocIcon } from "../../components/svg/DocIcon"
 import { SendIcon } from "../../components/svg/SendIcon"
 import { newMessage } from "../../services/Api"
 import { AccountContext } from "../../context/AccountProvider"
+import { TypeAccountContext } from "../../context/AccountContext"
 
 interface Message {
     senderId: string;
@@ -10,10 +11,11 @@ interface Message {
     conversationId: string;
     type: string;
     text: string;
+    setMessages: React.Dispatch<React.SetStateAction<object[]>>;
 }
 
 export const ChatboxInput: React.FC<Message> = ({ conversationId, setMessages }) => {
-    const { account, person, setTrigger, trigger, socket } = useContext(AccountContext)
+    const { account, person, setTrigger, trigger, socket } = useContext(AccountContext) as TypeAccountContext
     const [text, setText] = useState("")
 
     const sendText = async (e: React.FormEvent) => {
