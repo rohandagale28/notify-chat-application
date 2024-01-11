@@ -29,7 +29,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     const context = { account, setAccount, user, setUser, person, setPerson, messages, setMessages, trigger, setTrigger, newMessage, setNewMessage, search, setSearch, socket }
 
     return (
-        <AccountContext.Provider value={context}>
+        <AccountContext.Provider value={context as TypeAccountContext}>
             {children}
         </AccountContext.Provider>
     )

@@ -54,16 +54,18 @@ export const ChatboxView: React.FC = () => {
 
     useEffect(() => {
         getConversationMessages()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [incomingMessage, person.sub])
 
     return (
+
         <>
             <div className="chatbox">
                 {Object.keys(person).length ? (
                     <>
-                        <ChatboxHeader person={person} />
-                        <ChatboxField messages={messages} />
-                        <ChatboxInput conversationId={conversationId} setMessages={setMessages} />
+                        <ChatboxHeader person={person as never} />
+                        <ChatboxField messages={messages as never} />
+                        <ChatboxInput conversationId={conversationId as unknown as string} senderId={''} receiverId={''} type={''} text={''} />
                     </>
                 ) : (
                     <>
