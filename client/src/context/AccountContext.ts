@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client";
 
 export interface TypeAccountContext {
-  account: object | null;
+  account: { sub: string } | null;
   setAccount: React.Dispatch<React.SetStateAction<object | null>>;
   user: object;
   setUser: React.Dispatch<React.SetStateAction<object>>;
