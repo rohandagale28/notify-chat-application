@@ -19,7 +19,7 @@ export const ChatboxHeader: React.FC<ChatboxHeaderProps> = ({ person }) => {
     const { socket } = useContext(AccountContext) as TypeAccountContext
     const [activestatus, setActiveStatus] = useState(false)
 
-    console.log(activestatus)
+    console.log(person)
 
 
     useEffect(() => {

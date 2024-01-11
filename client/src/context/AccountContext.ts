@@ -5,7 +5,7 @@ export interface TypeAccountContext {
   setAccount: React.Dispatch<React.SetStateAction<object | null>>;
   user: object;
   setUser: React.Dispatch<React.SetStateAction<object>>;
-  person: { sub: string } | null;
+  person: { sub: string; name: string; picture: string } | null;
   setPerson: React.Dispatch<React.SetStateAction<object>>;
   messages: object[];
   setMessages: React.Dispatch<React.SetStateAction<object[]>>;

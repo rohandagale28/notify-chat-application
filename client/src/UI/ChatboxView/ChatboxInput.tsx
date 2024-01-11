@@ -11,20 +11,19 @@ interface Message {
     conversationId: string;
     type: string;
     text: string;
-    setMessages: React.Dispatch<React.SetStateAction<object[]>>;
 }
 
-export const ChatboxInput: React.FC<Message> = ({ conversationId, setMessages }) => {
-    const { account, person, setTrigger, trigger, socket } = useContext(AccountContext) as TypeAccountContext
+export const ChatboxInput: React.FC<Message> = ({ conversationId }, { setMessages }: TypeAccountContext) => {
+    const { account, person, setTrigger, trigger, socket }: TypeAccountContext = useContext(AccountContext)
     const [text, setText] = useState("")
-
+    console.log(conversationId)
     const sendText = async (e: React.FormEvent) => {
         e.preventDefault()
 
         const message: Message = {
             senderId: account.sub,
             receiverId: person.sub,
-            conversationId: conversationId._id,
+            conversationId: conversationId,
             type: "text",
             text: text
         }

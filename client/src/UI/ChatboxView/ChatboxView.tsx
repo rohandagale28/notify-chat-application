@@ -6,13 +6,25 @@ import { ChatboxHeader } from "./ChatboxHeader"
 import { ChatboxInput } from "./ChatboxInput"
 import { EmptyChatbox } from '../../components/EmptyChatbox/EmptyChatbox'
 import { createConversation, getMessages } from '../../services/Api'
+import { TypeAccountContext } from '../../context/AccountContext'
 
-export const ChatboxView = () => {
-    const { person, account, socket } = useContext(AccountContext)
+interface IncomingMessage {
+    senderId: string;
+    createdAt: number;
+}
 
-    const [conversationId, setConversationId] = useState<object | undefined>({ undefined });
+interface ConversationIdResponse {
+    _id: string;
+}
+
+
+
+export const ChatboxView: React.FC = () => {
+    const { person, account, socket }: TypeAccountContext = useContext(AccountContext)
+
+    const [conversationId, setConversationId] = useState<ConversationIdResponse | null>();
     const [messages, setMessages] = useState<object[]>([])
-    const [incomingMessage, setIncomingMessage] = useState<object | null>(null)
+    const [incomingMessage, setIncomingMessage] = useState<IncomingMessage | null>(null)
 
     const getConversationMessages = async () => {
         try {
@@ -28,7 +40,7 @@ export const ChatboxView = () => {
 
     useEffect(() => {
         if (socket) {
-            const handleMessage = (data: object) => {
+            const handleMessage = (data: IncomingMessage) => {
                 setIncomingMessage({ ...data, createdAt: Date.now() });
             }
             socket.on("getMessage", handleMessage)
@@ -37,7 +49,7 @@ export const ChatboxView = () => {
 
     useEffect(() => {
         incomingMessage && (incomingMessage.senderId === person.sub) &&
-            setMessages((prev: object) => [...prev, incomingMessage])
+            setMessages((prev: object[]) => [...prev, incomingMessage])
     }, [incomingMessage, person.sub])
 
     useEffect(() => {
