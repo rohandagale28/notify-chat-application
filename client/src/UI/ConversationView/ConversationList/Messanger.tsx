@@ -25,17 +25,6 @@ export const Messanger: React.FC<contactProps> = ({ contact }) => {
                     <div className="messanger-name">
                         {contact?.name}
                     </div>
-                    {/* <div className="messanger-message">
-                        {newMessage.sub === person.sub ?
-                            <>
-                                {newMessage.text}
-                            </>
-                            :
-                            <>
-                                empty
-                            </>
-                        }
-                    </div> */}
                 </div>
                 <div className="messanger-time">11:00</div>
             </div>
