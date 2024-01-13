@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react"
 import { Messanger } from "./Messanger"
 import { AccountContext } from "../../../context/AccountProvider"
 import { getUsers } from "../../../services/Api"
-import { TypeAccountContext } from "../../../context/AccountContext"
+import { Account } from "../../../context/Account"
 
 
-export const ConversationList = ({ account }: TypeAccountContext) => {
+export const ConversationList = ({ account }: Account) => {
     const [searchResult, setSearchResult] = useState([])
 
     const { search } = useContext(AccountContext)
