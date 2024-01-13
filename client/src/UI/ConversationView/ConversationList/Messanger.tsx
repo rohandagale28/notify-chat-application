@@ -10,7 +10,6 @@ interface contactProps {
 }
 
 export const Messanger: React.FC<contactProps> = ({ contact }) => {
-    console.log(contact)
     const { setPerson, person } = useContext(AccountContext)
     useEffect(() => {
     }, [])

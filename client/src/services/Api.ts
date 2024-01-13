@@ -31,7 +31,7 @@ export const createConversation = async (data: object) => {
   }
 };
 
-export const getMessages = async (id: any) => {
+export const getMessages = async (id: string) => {
   try {
     const res = await axios.get(`${url}/message/get/${id}`);
     return res.data.data;
@@ -41,7 +41,7 @@ export const getMessages = async (id: any) => {
   }
 };
 
-export const newMessage = async (data: any) => {
+export const newMessage = async (data: object) => {
   try {
     await axios.post(`${url}/message/add`, data);
   } catch (err) {
@@ -50,7 +50,7 @@ export const newMessage = async (data: any) => {
   }
 };
 
-export const getUsers = async (id: any) => {
+export const getUsers = async (id: string) => {
   try {
     const res = await axios.get(`${url}/${id}`);
     return res.data;
