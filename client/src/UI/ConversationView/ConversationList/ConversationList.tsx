@@ -6,7 +6,6 @@ import { TypeAccountContext } from "../../../context/AccountContext"
 
 
 export const ConversationList = ({ account }: TypeAccountContext) => {
-    console.log(account)
     const [searchResult, setSearchResult] = useState([])
 
     const { search } = useContext(AccountContext)

@@ -13,7 +13,7 @@ export interface TypeAccountContext {
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>;
   newMessage: object;
   setNewMessage: React.Dispatch<React.SetStateAction<object>>;
-  search: string;
+  search: string | null;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   socket: Socket | null;
 }
