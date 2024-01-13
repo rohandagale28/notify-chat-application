@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react"
 import { Messanger } from "./Messanger"
 import { AccountContext } from "../../../context/AccountProvider"
 import { getUsers } from "../../../services/Api"
+import { TypeAccountContext } from "../../../context/AccountContext"
 
-export const ConversationList = ({ account }) => {
 
+export const ConversationList = ({ account }: TypeAccountContext) => {
+    console.log(account)
     const [searchResult, setSearchResult] = useState([])
 
-    const { newMessage, search } = useContext(AccountContext)
+    const { search } = useContext(AccountContext)
 
     const fetchData = async () => {
         try {
@@ -34,8 +36,8 @@ export const ConversationList = ({ account }) => {
                 {!search ? <>
                     {account ? account?.contact_list?.map((item) => {
                         return (
-                            <React.Fragment key={item.sub}>
-                                <Messanger contact={item} newMessage={newMessage} />
+                            <React.Fragment key={item.sub as string}>
+                                <Messanger contact={item} />
                             </React.Fragment>
                         )
                     }
@@ -54,7 +56,7 @@ export const ConversationList = ({ account }) => {
                             else {
                                 return (
                                     <React.Fragment key={item}>
-                                        <Messanger contact={item} newMessage={newMessage} />
+                                        <Messanger contact={item} />
                                     </React.Fragment>
                                 )
                             }

@@ -1,7 +1,16 @@
 import { useContext, useEffect } from "react"
 import { AccountContext } from "../../../context/AccountProvider"
 
-export const Messanger = ({ contact }) => {
+interface contactProps {
+    contact: {
+        name: string,
+        sub: string,
+        picture: string
+    }
+}
+
+export const Messanger: React.FC<contactProps> = ({ contact }) => {
+    console.log(contact)
     const { setPerson, person } = useContext(AccountContext)
     useEffect(() => {
     }, [])
