@@ -5,7 +5,7 @@ import { getUsers } from "../../../services/Api"
 import { Account } from "../../../context/Account"
 
 
-export const ConversationList = ({ account }: Account) => {
+export const ConversationList = ({ account }: { account: Account }) => {
     const [searchResult, setSearchResult] = useState([])
 
     const { search } = useContext(AccountContext)

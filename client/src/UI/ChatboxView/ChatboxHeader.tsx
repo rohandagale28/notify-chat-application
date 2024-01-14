@@ -1,21 +1,14 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { CallIcon } from '../../components/svg/CallIcon'
 import { SearchIcon } from '../../components/svg/SearchIcon'
 import { VideoIcon } from '../../components/svg/VideoIcon'
 import { AccountContext } from '../../context/AccountProvider'
 import { TypeAccountContext } from '../../context/AccountContext'
 
-interface ChatboxHeaderProps {
-    person: {
-        picture: string;
-        name: string;
-        sub: string
-    }
-
-}
 
 
-export const ChatboxHeader: React.FC<ChatboxHeaderProps> = ({ person }) => {
+export const ChatboxHeader = ({ person }) => {
+    console.log(person)
     const { socket } = useContext(AccountContext) as TypeAccountContext
     const [activestatus, setActiveStatus] = useState(false)
 

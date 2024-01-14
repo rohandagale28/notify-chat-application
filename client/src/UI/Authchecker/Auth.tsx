@@ -7,7 +7,7 @@ import { addUser } from "../../services/Api";
 import { TypeAccountContext } from "../../context/AccountContext";
 
 export const Messanger: React.FC = () => {
-    const { account, setAccount } = useContext(AccountContext) as TypeAccountContext;
+    const { account, setAccount }: TypeAccountContext = useContext(AccountContext);
 
     useEffect(() => {
         const checkUserInLocalStorage = async () => {
