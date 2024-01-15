@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from "react"
 import { io, Socket } from 'socket.io-client'
 import { TypeAccountContext } from './AccountContext'
 import { Account } from "./Account"
-
 export const AccountContext = createContext<TypeAccountContext | null>(null)
 
 const AccountProvider = ({ children }: { children: React.ReactNode }) => {
@@ -30,7 +29,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     const context = { account, setAccount, user, setUser, person, setPerson, messages, setMessages, trigger, setTrigger, newMessage, setNewMessage, search, setSearch, socket }
 
     return (
-        <AccountContext.Provider value={context}>
+        <AccountContext.Provider value={context as TypeAccountContext}>
             {children}
         </AccountContext.Provider>
     )
