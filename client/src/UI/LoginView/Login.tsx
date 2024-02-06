@@ -12,8 +12,10 @@ export const Login = () => {
 
     const onLoginSuccess = async (res: CredentialResponse) => {
         const decoded: GoogleUserInfo = jwtDecode(res.credential as string)
-        await addUser(decoded).then(res => setAccount(res))
-        window.localStorage.setItem("user", JSON.stringify(decoded))
+        await addUser(decoded).then(res => {
+            setAccount(res.data)
+            window.localStorage.setItem("user", JSON.stringify(res.data))
+        })
     }
 
     const onLoginError = () => {

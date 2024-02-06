@@ -10,10 +10,9 @@ export const ConversationList = ({ account }: { account: Account }) => {
 
     const { search } = useContext(AccountContext)
 
-    const fetchData = async () => {
+    const getSearchUser = async () => {
         try {
             const response = await getUsers(search);
-            console.log(response)
             setSearchResult(response)
         } catch (error) {
             console.error('Error fetching user data:', error);
@@ -22,9 +21,8 @@ export const ConversationList = ({ account }: { account: Account }) => {
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-            fetchData();
-        }, 600);
-        //new time out
+            getSearchUser();
+        }, 1000);
         return () => clearTimeout(delayDebounceFn);
     }, [search])
 
@@ -32,6 +30,7 @@ export const ConversationList = ({ account }: { account: Account }) => {
     return (
         <>
             <div className="conversation-list">
+                {/* query send after friend */}
                 {!search ? <>
                     {account ? account?.contact_list?.map((item) => {
                         return (
@@ -54,7 +53,7 @@ export const ConversationList = ({ account }: { account: Account }) => {
                             }
                             else {
                                 return (
-                                    <React.Fragment key={item}>
+                                    <React.Fragment key={item.sub as string}>
                                         <Messanger contact={item} />
                                     </React.Fragment>
                                 )

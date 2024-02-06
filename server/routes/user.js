@@ -5,8 +5,8 @@ const { newConversation, getConversation } = require("../controller/conversation
 const { newMessage, getMessages } = require("../controller/messageController")
 
 
-router.post("/add", addUser)
-router.get("/:id", getUser)
+router.post("/add", addUser)  //  add new user to database
+router.get("/get/:id", getUser) // get users with name character
 
 router.post("/conversation", newConversation)
 router.post("/conversation/get", getConversation)

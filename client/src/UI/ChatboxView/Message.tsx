@@ -16,7 +16,6 @@ interface MessageProps {
 }
 
 export const Message: React.FC<MessageProps> = ({ message }) => {
-    console.log(message)
     const { account }: TypeAccountContext = useContext(AccountContext)
 
     const isSender = account.sub === message.senderId;

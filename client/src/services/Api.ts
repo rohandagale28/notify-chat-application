@@ -1,20 +1,22 @@
 import axios from "axios";
 
-const url = import.meta.env.VITE_BASE_URL;
+const url = "http://localhost:5000";
 
+//==========||  actions types user ||===========//
 export const addUser = async (data: object) => {
   try {
-    const res = await axios.post(`${url}/add`, data);
-    return res.data;
-  } catch (err) {
-    console.log("Error", err);
+    const response = await axios.post(`${url}/add`, data);
+    return response;
+  } catch (error) {
+    console.log("Error in adding a new User", error);
   }
 };
 
-export const getUser = async (id: object) => {
+export const getUser = async (id: string) => {
   try {
-    const res = await axios.get(`${url}/${id}`);
-    return res;
+    const response = await axios.get(`${url}/get/${id}`);
+    console.log(response);
+    return response;
   } catch (err) {
     console.log("Error", err);
     return err;

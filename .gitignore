@@ -1,12 +1,11 @@
+# client
 /client/node_modules
 /client/.env
 /client/.eslintrc.cjs
 
-
+#server
 /server/node_modules
 /server/config.env
 
-
-
-
+#socket
 /socket/node_modules

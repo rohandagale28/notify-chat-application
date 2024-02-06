@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { AccountContext } from "../../context/AccountProvider"
 import "../../sass/chatbox.scss"
 import { ChatboxField } from "./ChatboxField"
@@ -16,7 +16,6 @@ interface IncomingMessage {
 interface ConversationIdResponse {
     _id: string;
 }
-
 
 
 export const ChatboxView: React.FC = () => {
@@ -63,7 +62,7 @@ export const ChatboxView: React.FC = () => {
             <div className="chatbox">
                 {Object.keys(person).length ? (
                     <>
-                        <ChatboxHeader person={person as never} />
+                        <ChatboxHeader person={person} />
                         <ChatboxField messages={messages as never} />
                         <ChatboxInput conversationId={conversationId as unknown as string} senderId={''} receiverId={''} type={''} text={''} />
                     </>

@@ -16,7 +16,7 @@ interface Message {
 export const ChatboxInput: React.FC<Message> = ({ conversationId }, { setMessages }: TypeAccountContext) => {
     const { account, person, setTrigger, trigger, socket }: TypeAccountContext = useContext(AccountContext)
     const [text, setText] = useState("")
-    console.log(conversationId)
+
     const sendText = async (e: React.FormEvent) => {
         e.preventDefault()
 
@@ -55,7 +55,7 @@ export const ChatboxInput: React.FC<Message> = ({ conversationId }, { setMessage
                 </div>
                 <div className="chatbox-input-field">
                     <form action="" onSubmit={sendText}>
-                        <input type="text" placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)} />
+                        <input autoFocus type="text" placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)} />
                     </form>
                 </div>
                 <div className="send-icon" onClick={sendText}>

@@ -7,7 +7,6 @@ import { TypeAccountContext } from "../../context/AccountContext"
 export const ConversationView = () => {
     const { account } = useContext(AccountContext) as TypeAccountContext
 
-    console.log(account)
     useEffect(() => {
     }, [account])
 

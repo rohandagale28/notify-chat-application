@@ -4,16 +4,19 @@ import { SearchIcon } from '../../components/svg/SearchIcon'
 import { VideoIcon } from '../../components/svg/VideoIcon'
 import { AccountContext } from '../../context/AccountProvider'
 import { TypeAccountContext } from '../../context/AccountContext'
+import { Person } from '../../context/Person'
+
+// interface Person {
+//     sub?: string,
+//     name?: string,
+//     picture?: string
+// }
 
 
+export const ChatboxHeader: React.FC = ({ person }: { person: Person }) => {
 
-export const ChatboxHeader = ({ person }) => {
-    console.log(person)
     const { socket } = useContext(AccountContext) as TypeAccountContext
     const [activestatus, setActiveStatus] = useState(false)
-
-    console.log(person)
-
 
     useEffect(() => {
         if (socket) {
@@ -32,7 +35,7 @@ export const ChatboxHeader = ({ person }) => {
                     <img src={person?.picture} />
                 </div>
                 <div className="user-name">
-                    {person?.name as string}
+                    {person?.name}
                     {activestatus === true ? <>
                         <div className="user-status">
                             <div className="user-status-dot"></div>

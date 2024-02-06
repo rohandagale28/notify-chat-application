@@ -4,6 +4,7 @@ import { ConversationView } from './ConversationView'
 import { ChatboxView } from './ChatboxView/ChatboxView'
 import { AccountContext } from '../context/AccountProvider'
 
+
 export const UI = () => {
     const { socket, account } = useContext(AccountContext)
 
@@ -15,9 +16,7 @@ export const UI = () => {
         } else {
             console.log("error")
         }
-    }, [sub, socket])
-
-
+    }, [sub])
 
     return (
         <React.Fragment>
