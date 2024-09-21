@@ -4,7 +4,9 @@ const { newRequest, getRequest } = require("../controller/friendRequestControlle
 
 
 router.post("/", newRequest)  //  create a new request
-router.post("/:id", getRequest)  //  get the status of a specific request
+router.get("/:id", getRequest)  //  get the status of a specific request
+
+
 
 
 module.exports = router  

@@ -1,14 +1,19 @@
-const mongoose = require("mongoose")
-
+const mongoose = require("mongoose");
 
 const friendRequestSchema = mongoose.Schema({
-    user1: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
-    user2: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
-    status: { type: String, enum: ['pending', 'accepted', 'rejected'], default: 'pending' },
+    userId: { type: mongoose.Schema.ObjectId, ref: "users" },
+    pendingList: {
+        type: [mongoose.Schema.ObjectId],  // Array of ObjectIds
+        ref: "users",                       // Reference to the users collection
+        default: [],                        // Default to an empty array
+    },
+    contactList: {
+        type: [mongoose.Schema.ObjectId],  // Array of ObjectIds
+        ref: "users",                       // Reference to the users collection
+        default: [],
+    }
 });
 
+const requestModel = mongoose.model("request", friendRequestSchema);
 
-const requestModel = mongoose.model("request", friendRequestSchema)
-
-
-module.exports = requestModel
+module.exports = requestModel;

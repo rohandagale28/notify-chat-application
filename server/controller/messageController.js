@@ -1,8 +1,10 @@
 const message = require("../model/Message")
 
 const newMessage = async (req, res) => {
+    const { senderId, receiverId, conversationId, type, text } = req.body
+    console.log(senderId, receiverId, conversationId, type, text)
     try {
-        const newMessage = new message(req.body)
+        const newMessage = new message({ senderId, receiverId, conversationId, type, text })
         await newMessage.save()
         return res.status(200).send("message send successfully")
     } catch (err) {

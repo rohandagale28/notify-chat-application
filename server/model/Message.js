@@ -2,19 +2,23 @@ const mongoose = require("mongoose")
 
 const messageSchema = mongoose.Schema({
     conversationId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
+        ref: "conversations" 
     },
     senderId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
     },
     receiverId: {
-        type: String
+        type: mongoose.Schema.ObjectId,
     },
     text: {
-        type: String
+        type: String,
+        required:true
     },
     type: {
-        type: String
+        type: String,
+        required:true
+
     },
     createdAt: {
         type: Date,
@@ -23,7 +27,6 @@ const messageSchema = mongoose.Schema({
 }
 )
 
-const message = mongoose.model("message", messageSchema)
-
+const message = mongoose.model("messages", messageSchema)
 
 module.exports = message

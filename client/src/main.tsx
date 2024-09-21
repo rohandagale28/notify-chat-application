@@ -1,8 +1,13 @@
-import ReactDOM from 'react-dom/client'
-import { App } from './App.tsx'
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import { RouterProvider } from 'react-router-dom';
+import router from './router/MainRoutes.tsx';
+import AccountProvider from './context/AccountProvider.tsx';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root')!).render(
   <>
-    <App />
-  </>,
-)
+    <AccountProvider>
+      <RouterProvider router={router} />
+    </AccountProvider>
+  </>
+);

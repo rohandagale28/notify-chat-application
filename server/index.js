@@ -1,44 +1,47 @@
-const express = require("express")
-const dotenv = require("dotenv")
+const express = require("express");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const app = express();
-dotenv.config({ path: './config.env' })
-const cors = require('cors')
-app.use(cors())
-app.use(express.json())
-const user_routes = require("./routes/user")
-const request_routes = require("./routes/request")
+dotenv.config({ path: "./config.env" });
+const cors = require("cors");
+app.use(express.json());
+var cookieParser = require("cookie-parser");
+const user_routes = require("./routes/user");
+const request_routes = require("./routes/request");
+const dashboard_routes = require("./routes/dashboard")
+const { verifyToken } = require("./middleware/VerifyToken");
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // The frontend domain
+    credentials: true, // Allow credentials (cookies)
+  })
+);
 
-
-const PORT = process.env.PORT || 5000
-
+const PORT = process.env.PORT || 5000;
 
 //==========|| MongoDB Connection ||==========//
-require("./db")
+require("./db");
 
-
-//==========|| Error handling Middleware ||==========//
-// app.use((req, res, next) => {
-//     res.status(500).send('Something went wrong!');
-//     next()
-// });
-
+//==========|| JWT Middleware ||==========//
 
 
 //==========|| User Routes ||==========//
-app.use("/", user_routes)
+app.use("/", user_routes);
 
+//==========|| Dashboard || ==========//
+app.use("/dashboard", verifyToken, dashboard_routes)
 
 //==========|| Request Routes ||==========//
-app.use("/friend/request", request_routes)
-
-
+app.use("/friend/request", verifyToken, request_routes);
 
 //==========|| Home Route ||==========//
-app.get('/', (req, res) => {
-    res.status(200).json({ message: "server is running healthy" })
-})
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "server is running healthy" });
+});
 
 //==========|| Server Listening On PORT ||==========//
 app.listen(PORT, () => {
-    console.log("Server is Running Fine")
-})
+  console.log("Server is Running Fine");
+});
