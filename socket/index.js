@@ -1,54 +1,65 @@
-const { Server } = require("socket.io")
+const { Server } = require("socket.io");
 
 const io = new Server(9000, {
     cors: {
         origin: "http://localhost:5173"
     }
 }, (req, res) => {
-    res.send("server is running fine")
-})
+    res.send("server is running fine");
+});
 
-let users = []
+let users = new Map();
 
 const addUser = (userData, socketId) => {
-    console.log(users)
-    const exist = !users.some(user => user.sub === userData.sub)
-    if (exist) {
-        users.push({ ...userData, socketId })
-    }
-}
+    // Add the user to the Map using `sub` (or other unique identifier) as the key
+
+    users.set(userData, socketId);
+};
 
 const getUser = (userId) => {
-    return users.find(user => user.sub === userId)
-}
+    // Retrieve the user from the Map using `sub` as the key
+    const userfound = users.get(userId);
+    console.log(userfound,"yes uesr found")
+    return userfound
+};
 
 const removeUser = (socketId) => {
-    users = users.filter(user => user.socketId !== socketId);
-}
+    // Iterate over the Map to find and remove the user with the given socketId
+    for (let [key, value] of users) {
+        if (value.socketId === socketId) {
+            users.delete(key);
+            break;
+        }
+    }
+};
 
 io.on('connection', (socket) => {
-    console.log("connection detected")
-
-    //connect
+    console.log("connection detected");
+    console.log(users);
+    // connect
     socket.on("addUsers", (userData) => {
-        addUser(userData, socket.id)
-        io.emit("getUsers", users)
-    })
+        addUser(userData, socket.id);
+        console.log(userData, socket.id);
+        // Emit the updated list of users by converting the Map to an array
+        io.emit("getUsers", Array.from(users.values()));
+        console.log(users)
+    });
 
-    //send message
+    // send message
     socket.on("sendMessage", (data) => {
-        const user = getUser(data.receiverId)
+        const user = getUser(data.receiverId);
+        console.log(data);
         if (user) {
-            console.log(user)
-            io.to(user.socketId).emit("getMessage", data)
+            console.log(user, "user found");
+            io.to(user).emit("getMessage", data);
         } else {
-            console.log("user is offline")
+            console.log("user is offline");
         }
-    })
+    });
 
-    //disconnect
+    // disconnect
     socket.on('disconnect', () => {
         removeUser(socket.id);
-        io.emit('getUsers', users);
-    })
-})
+        io.emit('getUsers', Array.from(users.values()));
+    });
+});

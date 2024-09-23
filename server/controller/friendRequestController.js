@@ -91,7 +91,8 @@ const getRequest = async (req, res) => {
         }
 
         console.log(result, "this is the result of the request");
-        return res.status(200).json({ data: result });
+        const [{ pendingUsers, contactUsers }] = result
+        return res.status(200).json({ pendingList: pendingUsers, contactList: contactUsers });
     } catch (error) {
         console.error(error);
         return res.status(500).send({ message: "Internal server error" });

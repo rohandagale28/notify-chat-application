@@ -48,8 +48,8 @@ const getConversation = async (req, res) => {
                 },
             },
         ]);
-        console.log(result)
-        res.status(200).json({ data: result })
+        const [{ _id, messages }] = result
+        res.status(200).json({ data: { _id, messages } })
     } catch (error) {
         console.error('Error fetching conversation with messages:', error);
         throw error;

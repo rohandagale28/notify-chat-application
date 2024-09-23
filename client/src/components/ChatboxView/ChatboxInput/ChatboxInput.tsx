@@ -1,6 +1,4 @@
 import { useState, useContext } from 'react';
-import { DocIcon } from '../../components/svg/DocIcon';
-import { SendIcon } from '../../components/svg/SendIcon';
 import { AccountContext } from '@/context/AccountProvider';
 import axios from 'axios';
 
@@ -12,35 +10,41 @@ interface Message {
   text: string;
 }
 
-export const ChatboxInput: React.FC<Message> = ({ conversationId }) => {
+export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversationId }) => {
   const { account, person, setTrigger, trigger, setMessages, socket } = useContext(AccountContext);
+
   const [text, setText] = useState('');
 
-  const sendText = async (e: React.FormEvent) => {
+  const sendText = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
 
     const message: Message = {
       senderId: account._id,
       receiverId: person._id,
-      conversationId: conversationId,
+      conversationId,
       type: 'text',
-      text: text,
+      text: text.trim(),
     };
-    console.log(message, 'this is message to send');
-    if (text.trim() === '') {
-      console.log('message should be something');
-    } else if (window.navigator.onLine === false) {
-      window.alert('offline');
-    } else {
-      try {
-        socket.emit('sendMessage', message);
-        await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true });
-        setMessages((prev: any) => [message, ...prev]);
-      } catch (err) {
-        console.log('Error while getting user', err);
-        return err;
-      }
+    console.log(message);
+    if (message.text === '') {
+      console.log('Message cannot be empty');
+      return;
     }
+
+    if (!navigator.onLine) {
+      window.alert('You are offline');
+      return;
+    }
+
+    try {
+      socket.emit('sendMessage', message);
+      await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true });
+
+      setMessages((prev: any) => [...prev, message]);
+    } catch (err) {
+      console.log('Error while sending message', err);
+    }
+
     setText('');
     setTrigger(!trigger);
   };
@@ -60,10 +64,10 @@ export const ChatboxInput: React.FC<Message> = ({ conversationId }) => {
           />
         </form>
       </div>
-      <div className="cursor-pointer pr-8" onClick={sendText}>
+      <button type="button" className="cursor-pointer pr-8" onClick={sendText} disabled={text.trim() === ''}>
         {/* <SendIcon /> */}
-        send
-      </div>
+        Send
+      </button>
     </div>
   );
 };

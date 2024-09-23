@@ -14,7 +14,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [search, setSearch] = useState<string>('');
   const [socket, setSocket] = useState<Socket | null>(null);
 
-  useEffect(() => {
+  useEffect(() => { 
     const socketInstance = io('ws://localhost:9000');
     setSocket(socketInstance);
 

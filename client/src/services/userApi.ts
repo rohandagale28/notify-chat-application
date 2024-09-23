@@ -12,14 +12,11 @@ export const getUser = async () => {
 };
 
 export const createConversation = async (data: object) => {
-  console.log(data)
   try {
     const res = await axios.post(`${url}/dashboard/conversation`, data, { withCredentials: true });
-    console.log(res, "conversation id in api")
     return res.data;
-
   } catch (err) {
     console.log("Error", err);
-    return err;
+    return err
   }
 };

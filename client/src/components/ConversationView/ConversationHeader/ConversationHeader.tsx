@@ -3,6 +3,8 @@ import { AccountContext } from '../../../context/AccountProvider';
 import profileIcon from '../../../assets/person.svg';
 import moreIcon from '../../../assets/ellipsis-vertical.svg';
 import ThemeToggle from '@/utils/Themetoggler';
+import { Dialog } from '@/components/ui/dialog';
+import { DialogDemo } from './RequestDialog';
 
 export const ConversationHeader = ({ account }: any) => {
   const { setSearch } = useContext(AccountContext);
@@ -22,6 +24,7 @@ export const ConversationHeader = ({ account }: any) => {
           <img src={moreIcon} className="h-6 w-6 object-cover rounded-full" alt="User" />
         </div> */}
         <ThemeToggle />
+        <DialogDemo />
       </div>
       <div className="w-full h-auto box-border">
         <input

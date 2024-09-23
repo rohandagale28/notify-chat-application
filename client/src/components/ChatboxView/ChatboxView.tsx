@@ -7,42 +7,43 @@ import { ChatboxInput } from './ChatboxInput/ChatboxInput';
 import { ChatboxField } from './ChatboxField/ChatboxField';
 
 export const ChatboxView: React.FC = () => {
-  const { person, account, socket } = useContext(AccountContext);
+  const { person, account, socket, trigger } = useContext(AccountContext);
 
+  //==========|| useStates ||==========\\
   const [conversationId, setConversationId] = useState<any | null>();
   const [messages, setMessages] = useState<object[]>([]);
   const [incomingMessage, setIncomingMessage] = useState<any | null>(null);
-  console.log(person.account);
+
   const getConversationMessages = async () => {
     try {
       await createConversation({ senderId: account._id, receiverId: person._id }).then((data) => {
-        setConversationId(data);
-        setMessages(data.data[0].messages);
+        setConversationId(data.data._id);
+        setMessages(data.data.messages);
       });
     } catch (err) {
       console.log(err);
     }
   };
-  console.log(messages, 'this is message state');
+
+  //==========|| useEffects ||==========\\
   useEffect(() => {
     if (socket) {
       const handleMessage = (data: any) => {
+        console.log(data,"this is message coming from other pary")
         setIncomingMessage({ ...data, createdAt: Date.now() });
       };
       socket.on('getMessage', handleMessage);
     }
   }, []);
-  console.log(messages);
+
   useEffect(() => {
     incomingMessage &&
       incomingMessage.senderId === person._id &&
       setMessages((prev: object[]) => [...prev, incomingMessage]);
-  }, [incomingMessage, person.sub]);
+  }, [incomingMessage, person._id, trigger]);
 
   useEffect(() => {
     getConversationMessages();
-    console.log(conversationId?.data, 'conversation Id adn messages');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [person]);
 
   return (
@@ -52,13 +53,7 @@ export const ChatboxView: React.FC = () => {
           <>
             <ChatboxHeader person={person} />
             <ChatboxField messages={messages} />
-            <ChatboxInput
-              conversationId={conversationId?.data[0]?._id}
-              senderId={''}
-              receiverId={''}
-              type={''}
-              text={''}
-            />
+            <ChatboxInput conversationId={conversationId} />
           </>
         ) : (
           <>

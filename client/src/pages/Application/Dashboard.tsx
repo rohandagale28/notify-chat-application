@@ -13,7 +13,6 @@ const Dashboard = () => {
   const getUserData = async () => {
     try {
       const response = await getUser();
-      console.log(response);
       if (response.status == 200) {
         setAccount(response.data);
       }
@@ -22,11 +21,11 @@ const Dashboard = () => {
       console.log('making erros: ', error, 'catching errors');
     }
   };
-// console.log(account._id, "hehehehehehe")
+
   useEffect(() => {
     getUserData();
-    if (socket) {
-      socket.emit('addUsers', { sub: account._id }); // Assuming you're using user ID from Clerk
+    if (socket && account) {
+      socket.emit('addUsers', account._id);
     } else {
       console.log('Socket connection error or user not loaded');
     }

@@ -1,5 +1,5 @@
 import { AccountContext } from '@/context/AccountProvider';
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useEffect } from 'react';
 import { Message } from './Message';
 
@@ -17,20 +17,18 @@ interface ChatboxFieldProps {
 
 export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
   const { person } = useContext(AccountContext);
+  const chatboxRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {}, [person._id]);
-  console.log(messages, 'this is chatbox fiel area');
-
-  const btn = document.querySelector('.chatbox-field');
-  const el = document.querySelector('.message-container');
-  btn?.addEventListener('focus', function () {
-    el?.scrollIntoView(true);
-  });
+  useEffect(() => {
+    if (chatboxRef.current) {
+      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+    }
+  }, [person._id, messages]);
 
   return (
-    <div className="flex  gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col">
+    <div className="flex  gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col" ref={chatboxRef}>
       {true ? (
-        messages.map((item: string) => {
+        messages.map((item) => {
           return (
             <React.Fragment key={item?._id}>
               <Message message={item} />

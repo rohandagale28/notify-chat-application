@@ -24,11 +24,11 @@ export const ConversationList = ({ account }: { account: any }) => {
   const getUser = async () => {
     try {
       await axios
-        .get(`http://localhost:5000/friend/request/${account._id}`, {
+        .get(`http://localhost:5000/friend/request/${account?._id}`, {
           withCredentials: true,
         })
         .then((response) => {
-          setData(response?.data);
+          setData(response);
         });
     } catch (err) {
       console.error(err);
@@ -37,6 +37,7 @@ export const ConversationList = ({ account }: { account: any }) => {
   console.log(data, 'conversatoinList');
   useEffect(() => {
     getUser();
+    console.log(data, "this is converstaion data and pending list")
   }, [account]);
 
   useEffect(() => {
@@ -51,7 +52,7 @@ export const ConversationList = ({ account }: { account: any }) => {
       <div className="flex flex-col h-full w-full gap-2">
         {!search ? (
           <>
-            {data?.data[0]?.contactUsers?.map((item: any) => (
+            {data?.data?.contactList?.map((item: any) => (
               <React.Fragment key={item._id as string}>
                 <Messanger contact={item} />
               </React.Fragment>
