@@ -22,9 +22,10 @@ const newConversation = async (req, res) => {
 
 const getConversation = async (req, res) => {
     try {
-        const senderId = req.body.senderId
-        const receiverId = req.body.receiverId
-        console.log(senderId, receiverId)
+        const senderId = req.body.senderId;
+        const receiverId = req.body.receiverId;
+
+        // Find existing conversations
         const result = await conversation.aggregate([
             {
                 // Match the conversation where both senderId and receiverId are in the members array
@@ -48,12 +49,24 @@ const getConversation = async (req, res) => {
                 },
             },
         ]);
-        const [{ _id, messages }] = result
-        res.status(200).json({ data: { _id, messages } })
+
+        // If a conversation is found, return it
+        if (result.length > 0) {
+            const [{ _id, messages }] = result;
+            return res.status(200).json({ data: { _id, messages } });
+        }
+
+        // If no conversation is found, create a new one
+        const newConversation = await conversation.create({
+            members: [new mongoose.Types.ObjectId(senderId), new mongoose.Types.ObjectId(receiverId)],
+        });
+
+        // Return the newly created conversation
+        res.status(201).json({ data: newConversation });
     } catch (error) {
-        console.error('Error fetching conversation with messages:', error);
-        throw error;
+        console.error('Error fetching or creating conversation:', error);
+        return res.status(500).send({ message: "Internal server error" });
     }
-}
+};
 
 module.exports = { newConversation, getConversation }

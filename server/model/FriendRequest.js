@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const friendRequestSchema = mongoose.Schema({
+const friendRequestSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.ObjectId, ref: "users" },
     pendingList: {
         type: [mongoose.Schema.ObjectId],  // Array of ObjectIds
@@ -14,6 +14,6 @@ const friendRequestSchema = mongoose.Schema({
     }
 });
 
-const requestModel = mongoose.model("request", friendRequestSchema);
+const request = mongoose.model("request", friendRequestSchema);
 
-module.exports = requestModel;
+module.exports = request;

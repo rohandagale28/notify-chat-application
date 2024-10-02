@@ -4,8 +4,12 @@ import { Label } from '../ui/label';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { validateEmail } from '@/utils/utils';
 import { Button } from '../ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { ToastAction } from '@radix-ui/react-toast';
 
 const RegistrationForm = () => {
+  const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -67,7 +71,26 @@ const RegistrationForm = () => {
         });
         console.log(response);
         if (response.status === 200) {
+          toast({
+            title: 'Login successfull',
+            description: 'Friday, February 10, 2023 at 5:57 PM',
+          });
           navigate('/dashboard');
+        } else if (response.status == 409) {
+          toast({
+            title: 'user already exists',
+            description: 'Friday, February 10, 2023 at 5:57 PM',
+            action: (
+              <ToastAction
+                altText="Goto schedule to undo"
+                onClick={() => {
+                  navigate('/login');
+                }}
+              >
+                Login
+              </ToastAction>
+            ),
+          });
         }
       } catch (error) {
         console.error('Registration error', error);

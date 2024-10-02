@@ -1,23 +1,26 @@
 const userModel = require("../model/User");
 const jwt = require("jsonwebtoken");
 
+//==========|| registration ||==========//
 const addUser = async (req, res) => {
   try {
     const account = req.body;
+
     const userExist = await userModel.findOne({ sub: account.sub });
+
     if (userExist) {
-      return res.status(200).json(userExist);
+      return res.status(409).json({ success: true, message: "user already exist" });
     }
+
     const newUser = new userModel(account);
     await newUser.save();
-    res.status(201).json(newUser);
+    res.status(201).json({ success: true, message: "new user created" });
   } catch (err) {
     return res
       .status(500)
       .send({ message: "Error while creating account", err });
   }
 };
-
 
 //==========|| searching contacts with username ||==========//
 const getUser = async (req, res) => {
@@ -46,15 +49,4 @@ const getUser = async (req, res) => {
   }
 };
 
-const verifyMe = async (req, res) => {
-  try {
-    const token = req.cookies.token;
-    const decoded = jwt.verify(token, "workspace28");
-    const userData = await userModel.findById(decoded.id)
-    const { username, _id, ...rest } = userData
-    console.log(userData)
-    res.status(200).json({ username, _id })
-  } catch (error) { }
-};
-
-module.exports = { addUser, getUser, verifyMe };
+module.exports = { addUser, getUser};

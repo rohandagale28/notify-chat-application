@@ -29,7 +29,6 @@ export const ChatboxView: React.FC = () => {
   useEffect(() => {
     if (socket) {
       const handleMessage = (data: any) => {
-        console.log(data,"this is message coming from other pary")
         setIncomingMessage({ ...data, createdAt: Date.now() });
       };
       socket.on('getMessage', handleMessage);
@@ -40,7 +39,7 @@ export const ChatboxView: React.FC = () => {
     incomingMessage &&
       incomingMessage.senderId === person._id &&
       setMessages((prev: object[]) => [...prev, incomingMessage]);
-  }, [incomingMessage, person._id, trigger]);
+  }, [incomingMessage, person._id]);
 
   useEffect(() => {
     getConversationMessages();
@@ -48,7 +47,7 @@ export const ChatboxView: React.FC = () => {
 
   return (
     <>
-      <div className="h-full w-[calc(100%-20%)] box-border p-5 bg-secondary flex flex-col gap-3">
+      <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
         {Object.keys(person).length ? (
           <>
             <ChatboxHeader person={person} />
@@ -58,7 +57,7 @@ export const ChatboxView: React.FC = () => {
         ) : (
           <>
             {' '}
-            <EmptyChatbox text="select a chat to start conversation" />{' '}
+            <EmptyChatbox text='select a chat to start conversation' />
           </>
         )}
       </div>

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000"
+const url = "http://localhost:5000" //base url  ----> IMP
 
+
+//==========|| verify me request with cookies||==========//
 export const getUser = async () => {
   try {
     const res = await axios.get(`${url}/dashboard`, { withCredentials: true });
@@ -10,6 +12,32 @@ export const getUser = async () => {
     throw error;
   }
 };
+
+//==========|| searching user with parameter ||==========//
+export const searchUser = async (id: string) => {
+  try {
+    const response = await axios.get(`${url}/dashboard/${id}`, {
+      withCredentials: true,
+    });
+    return response.data
+  } catch (error) {
+    console.error('Error making request:', error);
+  }
+};
+
+//==========|| parameter query for contactList using _id ||==========//
+export const getUsers =async()=>{
+  try {
+    const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
+      withCredentials: true,
+    });
+    return response
+  } catch (error) {
+    
+  }
+}
+
+
 
 export const createConversation = async (data: object) => {
   try {

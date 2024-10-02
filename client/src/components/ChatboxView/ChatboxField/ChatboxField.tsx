@@ -15,7 +15,7 @@ interface ChatboxFieldProps {
   }>;
 }
 
-export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
+export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }: ChatboxFieldProps) => {
   const { person } = useContext(AccountContext);
   const chatboxRef = useRef<HTMLDivElement | null>(null);
 

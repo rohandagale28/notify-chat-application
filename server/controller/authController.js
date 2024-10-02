@@ -2,13 +2,15 @@ const userModel = require("../model/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+//==========|| register new user ||==========//
 const registerUser = async (req, res) => {
     try {
         const { username, email, password } = req.body;
+
         const userExist = await userModel.findOne({ email: email });
 
         if (userExist) {
-            return res.status(409).json({ message: "User already exists" });
+            return res.status(409).json({ success: true, message: "User already exists" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,29 +22,31 @@ const registerUser = async (req, res) => {
         });
 
         await newUser.save();
-        res.status(201).json({ message: "User registered successfully" });
+        res.status(201).json({ success: true, message: "User registered successfully" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
-//========== Login ==========//
+//==========|| login user || ==========//
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
         const userExist = await userModel.findOne({ email: email });
+
         if (!userExist) {
             return res.status(404).json({ message: "User does not exist" });
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
+
         if (!isPasswordCorrect) {
-            return res.status(401).json({ message: "Incorrect password" }); 
+            return res.status(401).json({ message: "Incorrect password" });
         }
 
-        // Create JWT token (customize payload as needed)
+        // JWT token
         const payload = { id: userExist._id, email: userExist.email };
         const token = jwt.sign(payload, "workspace28", { expiresIn: "1h" });
 
@@ -53,12 +57,24 @@ const loginUser = async (req, res) => {
             sameSite: "none", // Allows cross-site cookies (for use with different domains)
         });
 
-        // Send success response with user info
-        res.status(200).json({ message: "Login successful"   });
+        res.status(200).json({ success: true, message: "Login successful" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
-module.exports = { registerUser, loginUser };
+//==========|| verify logged in user and send user object ||==========//
+const verifyMe = async (req, res) => {
+    try {
+      const token = req.cookies.token;
+      const decoded = jwt.verify(token, "workspace28");
+      const userData = await userModel.findById(decoded.id)
+      const { username, _id, ...rest } = userData
+      console.log(userData)
+      res.status(200).json({ username, _id })
+    } catch (error) { }
+  };
+  
+
+module.exports = { registerUser, loginUser, verifyMe };

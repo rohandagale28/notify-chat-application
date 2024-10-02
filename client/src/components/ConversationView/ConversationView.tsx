@@ -9,7 +9,7 @@ export const ConversationView = () => {
   useEffect(() => {}, [account]);
 
   return (
-    <div className="flex flex-col h-full w-[clamp(14rem,20%,20%)] bg-primary-foreground p-4 pt-8 box-border relative gap-8">
+    <div className="flex flex-col h-full w-[clamp(16rem,18rem,20rem)] bg-primary-foreground p-4 pt-8 box-border relative gap-8">
       <ConversationHeader account={account} />
       <ConversationList account={account} />
     </div>

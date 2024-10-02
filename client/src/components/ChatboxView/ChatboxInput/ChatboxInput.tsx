@@ -25,7 +25,7 @@ export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversatio
       type: 'text',
       text: text.trim(),
     };
-    console.log(message);
+
     if (message.text === '') {
       console.log('Message cannot be empty');
       return;
@@ -38,9 +38,9 @@ export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversatio
 
     try {
       socket.emit('sendMessage', message);
-      await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true });
-
-      setMessages((prev: any) => [...prev, message]);
+      await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true }).then(() => {
+        setMessages((prev: any) => [...prev, message]);
+      });
     } catch (err) {
       console.log('Error while sending message', err);
     }
@@ -65,7 +65,6 @@ export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversatio
         </form>
       </div>
       <button type="button" className="cursor-pointer pr-8" onClick={sendText} disabled={text.trim() === ''}>
-        {/* <SendIcon /> */}
         Send
       </button>
     </div>

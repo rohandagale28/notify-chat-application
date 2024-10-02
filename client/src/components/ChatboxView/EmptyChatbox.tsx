@@ -1,4 +1,4 @@
-export const EmptyChatbox = ({ text }: string) => {
+export const EmptyChatbox = ({ text }: { text: string }) => {
   return (
     <>
       <div className="chatbox-empty">
@@ -7,4 +7,3 @@ export const EmptyChatbox = ({ text }: string) => {
     </>
   );
 };
-  

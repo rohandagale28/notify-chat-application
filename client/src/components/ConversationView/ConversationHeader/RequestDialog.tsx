@@ -1,35 +1,27 @@
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { DialogTitle, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
 import profileIcon from '../../../assets/person-add.svg';
-import React, { useContext, useEffect, useState } from 'react';
-import { AccountContext } from '@/context/AccountProvider';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Messanger } from '../Messanger/Messanger';
+import { useAccount } from '@/context/AccountProvider';
+import { Accept } from './Accept';
 
 export function DialogDemo() {
-  const { account } = useContext(AccountContext);
+  const { account } = useAccount();
 
   const [data, setData] = useState<any>(null);
-  console.log(account);
+
   const getUser = async () => {
     try {
       await axios
-        .get(`http://localhost:5000/friend/request/${account?._id}`, {
+        .get(`http://localhost:5000/request/contact/${account?._id}`, {
           withCredentials: true,
         })
         .then((data) => {
           setData(data);
-          console.log(data, 'this is the response data');
+          console.log(data, 'this is the response data from dialog');
         });
     } catch (err) {
       console.error(err);
@@ -51,9 +43,9 @@ export function DialogDemo() {
           <DialogTitle>Pending Requests</DialogTitle>
           <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
         </DialogHeader>
-        {data?.data?.contactList?.map((item: any) => (
+        {data?.data?.pendingList?.map((item: any) => (
           <React.Fragment key={item._id as string}>
-            <Messanger contact={item} />
+            <Accept contact={item} />
           </React.Fragment>
         ))}
         <DialogFooter>

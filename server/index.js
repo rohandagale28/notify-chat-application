@@ -34,7 +34,7 @@ app.use("/", user_routes);
 app.use("/dashboard", verifyToken, dashboard_routes)
 
 //==========|| Request Routes ||==========//
-app.use("/friend/request", verifyToken, request_routes);
+app.use("/request", verifyToken, request_routes);
 
 //==========|| Home Route ||==========//
 app.get("/", (req, res) => {

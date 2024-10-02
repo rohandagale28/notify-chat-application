@@ -5,8 +5,12 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { validateEmail } from '@/utils/utils';
 import { Button } from '../ui/button';
 import ThemeToggle from '@/utils/Themetoggler';
+import { useToast } from '@/hooks/use-toast';
+import { ToastAction } from '../ui/toast';
 
 const LoginForm = () => {
+  const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -58,10 +62,26 @@ const LoginForm = () => {
       });
       console.log(response);
       if (response.status == 200) {
+        toast({
+          title: 'Login successfull',
+          description: 'Friday, February 10, 2023 at 5:57 PM',
+        });
         navigate('/dashboard');
-      } else {
-        const errorData = await response.json();
-        console.error('Login failed:', errorData);
+      } else if (response.status == 404) {
+        toast({
+          title: 'User not registered',
+          description: 'Friday, February 10, 2023 at 5:57 PM',
+          action: (
+            <ToastAction
+              altText="Goto schedule to undo"
+              onClick={() => {
+                navigate('/register');
+              }}
+            >
+              Sign up
+            </ToastAction>
+          ),
+        });
       }
     } catch (error) {
       console.error('Login error', error);

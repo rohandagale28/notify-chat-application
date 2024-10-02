@@ -1,53 +1,37 @@
-import { MouseEvent, useContext, useEffect } from 'react';
+import { MouseEvent, useContext } from 'react';
 import axios from 'axios';
 import profileIcon from '../../../assets/person.svg';
-import addUserIcon from '../../../assets/person-add.svg';
-import { AccountContext } from '@/context/AccountProvider';
+import { Button } from '@/components/ui/button';
+import { useAccount } from '@/context/AccountProvider';
 
 export const Messanger = ({ contact }: any) => {
-  const { setPerson, person, account } = useContext(AccountContext);
+  const { setPerson, person, account } = useAccount();
 
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios
-      .post(
-        'http://localhost:5000/friend/request',
-        { user1: contact._id, user2: account.data._id },
+    try {
+      await axios.post(
+        'http://localhost:5000/request/new',
+        { sender: account?._id, receiver: contact._id },
         { withCredentials: true }
-      )
-      .then(() => {
-        console.log('request send successfully');
-      });
+      );
+      console.log('Request sent successfully');
+    } catch (error) {
+      console.error('Error sending request:', error);
+    }
   };
 
-  useEffect(() => {}, []);
-
   return (
-    <>
-      <div
-        className={`flex justify-between items-center gap-4 p-3 rounded-xl relative cursor-pointer ${contact?.sub === person.sub ? 'bg-secondary' : 'bg-[#282828]'}`}
-        onClick={() => setPerson(contact)}
-      >
-        <div className="flex-shrink-0">
-          <img
-            src={profileIcon}
-            alt="Profile"
-            className="h-6 w-6 object-cover rounded-full cursor-pointer text-white"
-          />
-        </div>
-        <div>
-          <div className=" text-secondary-foreground">{contact?.username}</div>
-        </div>
-        <div className="">
-          <button className="" onClick={(e) => handleSubmit(e)}>
-            <img
-              src={addUserIcon}
-              alt="Profile"
-              className="h-4 w-4 object-cover rounded-full cursor-pointer text-white"
-            />
-          </button>
-        </div>
+    <div
+      className={`flex justify-start items-center gap-4 p-3 rounded-xl relative cursor-pointer ${contact?.sub === person.sub ? 'bg-secondary' : 'bg-[#282828]'}`}
+      onClick={() => setPerson(contact)}
+    >
+      <div className="flex-shrink-0">
+        <img src={profileIcon} alt="Profile" className="h-6 w-6 object-cover rounded-full" />
       </div>
-    </>
+      <div>
+        <div className="text-secondary-foreground pl-4 text-sm">{contact?.username}</div>
+      </div>
+    </div>
   );
 };

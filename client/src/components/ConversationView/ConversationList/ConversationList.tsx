@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AccountContext } from '../../../context/AccountProvider';
 import { Messanger } from '../Messanger/Messanger';
-import { getUsers } from '@/services/Api';
 import axios from 'axios';
+import { Request } from '../ConversationHeader/Request';
+import { searchUser } from '@/services/userApi';
 
 export const ConversationList = ({ account }: { account: any }) => {
   const [searchResult, setSearchResult] = useState([]);
@@ -10,10 +11,11 @@ export const ConversationList = ({ account }: { account: any }) => {
 
   const { search } = useContext(AccountContext);
 
+  //===========|| search bar ||==========//
   const getSearchUser = async () => {
     try {
       if (search.length != 0) {
-        const response = await getUsers(search);
+        const response = await searchUser(search);
         setSearchResult(response);
       }
     } catch (error) {
@@ -21,23 +23,24 @@ export const ConversationList = ({ account }: { account: any }) => {
     }
   };
 
+  // getContactList : retrieve all the users belongs to account
   const getUser = async () => {
     try {
-      await axios
-        .get(`http://localhost:5000/friend/request/${account?._id}`, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          setData(response);
-        });
+      const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
+        withCredentials: true,
+      });
+      // Assuming setData expects the response data
+      setData(response.data); // Update this line to set the actual data
+      console.log(response); // Log the full response for debugging
     } catch (err) {
       console.error(err);
     }
   };
+
   console.log(data, 'conversatoinList');
   useEffect(() => {
     getUser();
-    console.log(data, "this is converstaion data and pending list")
+    console.log(data, 'this is converstaion data and pending list');
   }, [account]);
 
   useEffect(() => {
@@ -46,13 +49,13 @@ export const ConversationList = ({ account }: { account: any }) => {
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
-
+  console.log(data, "list of the conversation id")
   return (
     <>
       <div className="flex flex-col h-full w-full gap-2">
         {!search ? (
           <>
-            {data?.data?.contactList?.map((item: any) => (
+            {data?.contactList?.map((item: any) => (
               <React.Fragment key={item._id as string}>
                 <Messanger contact={item} />
               </React.Fragment>
@@ -67,7 +70,7 @@ export const ConversationList = ({ account }: { account: any }) => {
                 } else {
                   return (
                     <React.Fragment key={item._id as string}>
-                      <Messanger contact={item} />
+                      <Request contact={item} />
                     </React.Fragment>
                   );
                 }
