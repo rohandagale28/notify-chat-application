@@ -9,7 +9,7 @@ interface Person {
 
 export const ChatboxHeader = ({ person }: { person: Person }) => {
   // const { socket } = useContext(AccountContext);
-  const [activestatus, setActiveStatus] = useState(false);
+  const [activestatus] = useState(false);
 
   //   useEffect(() => {
   //     if (socket) {

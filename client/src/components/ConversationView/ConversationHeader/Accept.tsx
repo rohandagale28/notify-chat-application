@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 import profileIcon from '../../../assets/person.svg';
 import { Button } from '@/components/ui/button';
 import { useAccount } from '@/context/AccountProvider';
-import { acceptRequest, sendRequest } from '@/services/requestApi';
+import { acceptRequest} from '@/services/requestApi';
 import { useToast } from '@/hooks/use-toast';
 
 export const Accept = ({ contact }: any) => {
