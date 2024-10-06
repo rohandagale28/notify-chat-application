@@ -26,7 +26,7 @@ export const searchUser = async (id: string) => {
 };
 
 //==========|| parameter query for contactList using _id ||==========//
-export const getUsers =async()=>{
+export const getUsers =async(account: any)=>{
   try {
     const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
       withCredentials: true,
