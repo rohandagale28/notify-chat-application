@@ -1,25 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { validateEmail } from '@/utils/utils';
 import { Button } from '../ui/button';
 import ThemeToggle from '@/utils/Themetoggler';
 import { useToast } from '@/hooks/use-toast';
 import { ToastAction } from '../ui/toast';
+import { loginUser } from '@/services/authApi';
+import { validateField, validateFormData } from './formValidation';
+import { getUser } from '@/services/userApi';
 
 const LoginForm = () => {
   const { toast } = useToast();
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
 
-  const [errors, setErrors] = useState({
-    email: '',
-    password: '',
-  });
+  const [errors, setErrors] = useState({ email: '', password: '' });
 
   const navigate = useNavigate();
 
@@ -30,63 +26,61 @@ const LoginForm = () => {
       [name]: value,
     });
 
-    if (name === 'email') {
-      const emailError = !value.trim() || !validateEmail(value) ? 'Please enter a valid email' : '';
-      setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
-    }
-
-    if (name === 'password') {
-      const passwordError =
-        value.length === 0 ? '' : value.trim().length < 6 ? 'Password must be 6 characters long' : '';
-      setErrors((prevErrors) => ({ ...prevErrors, password: passwordError }));
-    }
+    const fieldError = validateField(name, value);
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: fieldError }));
   };
 
   //========== submit form ==========//
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const { email, password } = formData;
-    const emailError = !email.trim() || !validateEmail(email) ? 'Please enter a valid email' : '';
-    const passwordError = password.trim().length < 6 ? 'Password must be 6 characters long' : '';
 
-    setErrors({ email: emailError, password: passwordError });
+    const validationErrors = validateFormData(formData);
+    setErrors(validationErrors);
 
     try {
-      const response = await fetch('http://localhost:5000/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      console.log(response);
-      if (response.status == 200) {
+      const response: any = await loginUser(formData);
+
+      if (response.status === 200) {
         toast({
-          title: 'Login successfull',
-          description: 'Friday, February 10, 2023 at 5:57 PM',
+          title: "Login successfull",
+          description: "Friday, February 10, 2023 at 5:57 PM",
         });
-        navigate('/dashboard');
-      } else if (response.status == 404) {
+        navigate("/dashboard");
+      } else if (response.status === 404) {
         toast({
-          title: 'User not registered',
-          description: 'Friday, February 10, 2023 at 5:57 PM',
+          title: "User not registered",
+          description: "Friday, February 10, 2023 at 5:57 PM",
           action: (
             <ToastAction
               altText="Goto schedule to undo"
               onClick={() => {
-                navigate('/register');
+                navigate("/register");
               }}
             >
               Sign up
             </ToastAction>
           ),
         });
+      } else if (response.status === 401) {
+        toast({
+          title: "Wrong password",
+          description: "Friday, February 10, 2023 at 5:57 PM",
+        });
       }
     } catch (error) {
-      console.error('Login error', error);
+      console.error("Login error", error);
     }
   };
+
+  useEffect(() => {
+    const userExist = async () => {
+      const response = await getUser();
+      if (response.status === 200) {
+        navigate("/dashboard")
+      }
+    }
+    userExist()
+  }, [])
 
   return (
     <div className="flex h-screen w-full items-center justify-center flex-col gap-8">

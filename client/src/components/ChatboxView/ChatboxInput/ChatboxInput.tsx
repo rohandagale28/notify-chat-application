@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { AccountContext } from '@/context/AccountProvider';
 import axios from 'axios';
+import { Button } from '@/components/ui/button';
 
 interface Message {
   senderId: string;
@@ -10,7 +11,7 @@ interface Message {
   text: string;
 }
 
-export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversationId }) => {
+export const ChatboxInput = (conversationId: string) => {
   const { account, person, setTrigger, trigger, setMessages, socket } = useContext(AccountContext);
 
   const [text, setText] = useState('');
@@ -38,11 +39,14 @@ export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversatio
 
     try {
       socket.emit('sendMessage', message);
-      await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true }).then(() => {
-        setMessages((prev: any) => [...prev, message]);
-      });
+      setTrigger(!trigger)
+      if (conversationId) {
+        await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true }).then(() => {
+          setMessages((prev: any) => [...prev, message]);
+        });
+      }
     } catch (err) {
-      console.log('Error while sending message', err);
+      console.log("error")
     }
 
     setText('');
@@ -64,9 +68,9 @@ export const ChatboxInput: React.FC<{ conversationId: string }> = ({ conversatio
           />
         </form>
       </div>
-      <button type="button" className="cursor-pointer pr-8" onClick={sendText} disabled={text.trim() === ''}>
+      <Button type="button" variant="secondary"  className="cursor-pointer pr-8" onClick={sendText} disabled={text.trim() === ''}>
         Send
-      </button>
+      </Button>
     </div>
   );
 };

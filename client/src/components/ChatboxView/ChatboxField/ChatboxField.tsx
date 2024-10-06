@@ -3,19 +3,18 @@ import React, { useContext, useRef } from 'react';
 import { useEffect } from 'react';
 import { Message } from './Message';
 
-interface ChatboxFieldProps {
-  messages: Array<{
-    _id: string;
-    senderId: string;
-    text: string;
-    createdAt: Date;
-    conversationId: string;
-    receiverId: string;
-    type: string;
-  }>;
+interface Messages {
+  _id: string;
+  senderId: string;
+  text: string;
+  createdAt: Date | number;
+  conversationId: string;
+  receiverId: string;
+  type: string;
 }
 
-export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }: ChatboxFieldProps) => {
+
+export const ChatboxField: React.FC<Messages> = ({ messages }:Messages) => {
   const { person } = useContext(AccountContext);
   const chatboxRef = useRef<HTMLDivElement | null>(null);
 

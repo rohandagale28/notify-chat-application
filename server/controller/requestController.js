@@ -2,7 +2,6 @@ const { default: mongoose } = require("mongoose");
 const request = require("../model/FriendRequest");
 const userModel = require("../model/User");
 const conversation = require("../model/Conversation");
-const conversation = require("../model/Conversation");
 
 //==========|| sending new request ||==========//
 const newRequest = async (req, res) => {

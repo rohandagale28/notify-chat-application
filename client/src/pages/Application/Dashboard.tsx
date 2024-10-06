@@ -1,37 +1,20 @@
 import { ConversationView } from '@/components/ConversationView/ConversationView';
 import { useAccount } from '@/context/AccountProvider';
-import { useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUser } from '@/services/userApi';
+import { useEffect } from 'react';
 import { ChatboxView } from '@/components/ChatboxView/ChatboxView';
 
 const Dashboard = () => {
-  const { account, setAccount, socket } = useAccount();
-  const navigate = useNavigate();
+  const { account, socket } = useAccount();
 
-  // Memoize getUserData to prevent re-creation on every render
-  const getUserData = useCallback(async () => {
-    try {
-      const response = await getUser();
-      if (response.status === 200) {
-        setAccount(response.data);
-      }
-    } catch (error) {
-      console.log('Error fetching user:', error);
-      navigate('/login');
-    }
-  }, []);
-
-  useEffect(() => {
-    getUserData();
-  }, []);
-
-  // Only add the user to the socket after account is available
   useEffect(() => {
     if (socket && account) {
       socket.emit('addUsers', account._id);
     }
   }, [account]);
+
+  if (!account || !socket) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main className="flex flex-row h-screen w-full box-border">

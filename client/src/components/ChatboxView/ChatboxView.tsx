@@ -6,29 +6,38 @@ import { createConversation } from '@/services/userApi';
 import { ChatboxInput } from './ChatboxInput/ChatboxInput';
 import { ChatboxField } from './ChatboxField/ChatboxField';
 
+interface Message {
+  _id: string;
+  senderId: string;
+  text: string;
+  createdAt: Date | number;
+  conversationId: string;
+  receiverId: string;
+  type: string;
+}
+
 export const ChatboxView: React.FC = () => {
   const { person, account, socket, trigger } = useContext(AccountContext);
 
   //==========|| useStates ||==========\\
-  const [conversationId, setConversationId] = useState<any | null>();
-  const [messages, setMessages] = useState<object[]>([]);
-  const [incomingMessage, setIncomingMessage] = useState<any | null>(null);
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [incomingMessage, setIncomingMessage] = useState<Message | null>(null);
 
   const getConversationMessages = async () => {
     try {
-      await createConversation({ senderId: account._id, receiverId: person._id }).then((data) => {
-        setConversationId(data.data._id);
-        setMessages(data.data.messages);
-      });
+      const { data } = await createConversation({ senderId: account._id, receiverId: person._id });
+      setConversationId(data._id);
+      setMessages(data.messages);
     } catch (err) {
-      console.log(err);
+      console.error('Error fetching conversation:', err);
     }
   };
 
   //==========|| useEffects ||==========\\
   useEffect(() => {
     if (socket) {
-      const handleMessage = (data: any) => {
+      const handleMessage = (data: Message) => {
         setIncomingMessage({ ...data, createdAt: Date.now() });
       };
       socket.on('getMessage', handleMessage);
@@ -36,31 +45,30 @@ export const ChatboxView: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    incomingMessage &&
-      incomingMessage.senderId === person._id &&
-      setMessages((prev: object[]) => [...prev, incomingMessage]);
-  }, [incomingMessage, person._id]);
+    if (incomingMessage && incomingMessage.senderId === person._id) {
+      setMessages((prevMessages) => [...prevMessages, incomingMessage]);
+    }
+  }, [incomingMessage, person._id, trigger]);
 
   useEffect(() => {
-    getConversationMessages();
+    if (person._id) {
+      getConversationMessages();
+    }
   }, [person]);
 
+  useEffect(() => { }, [trigger])
+
   return (
-    <>
-      <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
-        {Object.keys(person).length ? (
-          <>
-            <ChatboxHeader person={person} />
-            <ChatboxField messages={messages} />
-            <ChatboxInput conversationId={conversationId} />
-          </>
-        ) : (
-          <>
-            {' '}
-            <EmptyChatbox text='select a chat to start conversation' />
-          </>
-        )}
-      </div>
-    </>
+    <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
+      {Object.keys(person).length ? (
+        <>
+          <ChatboxHeader person={person} />
+          <ChatboxField messages={messages} />
+          <ChatboxInput conversationId={conversationId} />
+        </>
+      ) : (
+        <EmptyChatbox text="Select a chat to start conversation" />
+      )}
+    </div>
   );
 };
