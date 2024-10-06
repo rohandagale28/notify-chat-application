@@ -1,14 +1,11 @@
-import { useContext, useEffect, useState } from 'react';
-import { CallIcon } from '../../components/svg/CallIcon';
-import { SearchIcon } from '../../components/svg/SearchIcon';
+import { useState } from 'react';
 import VideoIcon from '../../../assets/videocam.svg';
-import { AccountContext } from '@/context/AccountProvider';
 
-// interface Person {
-//     sub?: string,
-//     name?: string,
-//     picture?: string
-// }
+interface Person {
+  sub?: string,
+  username?: string,
+  picture?: string
+}
 
 export const ChatboxHeader = ({ person }: { person: Person }) => {
   // const { socket } = useContext(AccountContext);
@@ -47,12 +44,6 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
         <div className='text-white'>
           <img src={VideoIcon} className="h-6 w-6 object-cover rounded-full text-primary-foreground" alt="User" />
         </div>
-        {/* <div className="cursor-pointer">
-          <CallIcon />
-        </div>
-        <div className="cursor-pointer">
-          <SearchIcon />
-        </div> */}
       </div>
     </div>
   );

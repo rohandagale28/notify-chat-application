@@ -58,6 +58,8 @@ export const ChatboxView: React.FC = () => {
 
   useEffect(() => { }, [trigger])
 
+  console.warn(messages)
+
   return (
     <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
       {Object.keys(person).length ? (

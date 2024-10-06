@@ -1,9 +1,8 @@
 import { AccountContext } from '@/context/AccountProvider';
-import React, { useContext, useRef } from 'react';
-import { useEffect } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { Message } from './Message';
 
-interface Messages {
+export interface Messages {
   _id: string;
   senderId: string;
   text: string;
@@ -13,8 +12,11 @@ interface Messages {
   type: string;
 }
 
+interface ChatboxFieldProps {
+  messages: Messages[];
+}
 
-export const ChatboxField: React.FC<Messages> = ({ messages }:Messages) => {
+export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
   const { person } = useContext(AccountContext);
   const chatboxRef = useRef<HTMLDivElement | null>(null);
 
@@ -25,11 +27,11 @@ export const ChatboxField: React.FC<Messages> = ({ messages }:Messages) => {
   }, [person._id, messages]);
 
   return (
-    <div className="flex  gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col" ref={chatboxRef}>
-      {true ? (
-        messages.map((item) => {
+    <div className="flex gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col" ref={chatboxRef}>
+      {messages.length > 0 ? (
+        messages.map((item: Messages) => {
           return (
-            <React.Fragment key={item?._id}>
+            <React.Fragment key={item._id}>
               <Message message={item} />
             </React.Fragment>
           );

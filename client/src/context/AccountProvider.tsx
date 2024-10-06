@@ -5,7 +5,7 @@ export const AccountContext = createContext<any | null>(null);
 
 const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [account, setAccount] = useState<Object | null>(null);
-  const [person, setPerson] = useState<object>({});
+  const [person, setPerson] = useState<object | null>({});
   const [user, setUser] = useState<object>({});
   const [messages, setMessages] = useState<object[]>([]);
   const [trigger, setTrigger] = useState(false);
@@ -49,7 +49,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
 // Custom hook to access the AccountContext
 export const useAccount = () => {
   const context = useContext(AccountContext);
-  
+
   if (context === undefined) {
     throw new Error('useAccount must be used within an AccountProvider');
   }
@@ -58,4 +58,3 @@ export const useAccount = () => {
 };
 
 export default AccountProvider;
-  

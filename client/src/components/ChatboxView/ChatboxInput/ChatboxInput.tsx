@@ -6,31 +6,35 @@ import { Button } from '@/components/ui/button';
 interface Message {
   senderId: string;
   receiverId: string;
-  conversationId: string;
+  conversationId: string | null;
   type: string;
   text: string;
+};
+
+interface ChatboxInputProps {
+  conversationId: string | null;
 }
 
-export const ChatboxInput = (conversationId: string) => {
+export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) => {
   const { account, person, setTrigger, trigger, setMessages, socket } = useContext(AccountContext);
-
   const [text, setText] = useState('');
 
   const sendText = async (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault();
+
+    const trimmedText = text.trim();
+    if (trimmedText === '') {
+      console.log('Message cannot be empty');
+      return;
+    }
 
     const message: Message = {
       senderId: account._id,
       receiverId: person._id,
       conversationId,
       type: 'text',
-      text: text.trim(),
+      text: trimmedText,
     };
-
-    if (message.text === '') {
-      console.log('Message cannot be empty');
-      return;
-    }
 
     if (!navigator.onLine) {
       window.alert('You are offline');
@@ -39,23 +43,23 @@ export const ChatboxInput = (conversationId: string) => {
 
     try {
       socket.emit('sendMessage', message);
-      setTrigger(!trigger)
+      setTrigger(!trigger); // Toggle trigger to refresh messages
+
       if (conversationId) {
-        await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true }).then(() => {
-          setMessages((prev: any) => [...prev, message]);
-        });
+        await axios.post('http://localhost:5000/dashboard/message/add', message, { withCredentials: true });
+        setMessages((prev: any) => [...prev, message]); // Append new message to messages
       }
     } catch (err) {
-      console.log("error")
+      console.log('Error sending message:', err);
     }
 
-    setText('');
+    setText(''); // Clear the input after sending
     setTrigger(!trigger);
   };
 
   return (
     <div className="flex w-full h-[4.6rem] items-center justify-between rounded-xl bg-[#1c1c1c]">
-      <div className="pl-8">{/* <DocIcon /> */}</div>
+      <div className="pl-8">{/* Optional Icon can go here */}</div>
       <div className="w-[80%]">
         <form onSubmit={sendText}>
           <input
@@ -68,7 +72,13 @@ export const ChatboxInput = (conversationId: string) => {
           />
         </form>
       </div>
-      <Button type="button" variant="secondary"  className="cursor-pointer pr-8" onClick={sendText} disabled={text.trim() === ''}>
+      <Button
+        type="button"
+        variant="secondary"
+        className="cursor-pointer pr-8"
+        onClick={sendText}
+        disabled={text.trim() === ''}
+      >
         Send
       </Button>
     </div>
