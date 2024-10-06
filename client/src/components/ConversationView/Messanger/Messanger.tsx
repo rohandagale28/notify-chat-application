@@ -1,25 +1,25 @@
-import { MouseEvent, useContext } from 'react';
-import axios from 'axios';
+// import { MouseEvent } from 'react';
+// import axios from 'axios';
 import profileIcon from '../../../assets/person.svg';
-import { Button } from '@/components/ui/button';
+// import { Button } from '@/components/ui/button';
 import { useAccount } from '@/context/AccountProvider';
 
 export const Messanger = ({ contact }: any) => {
-  const { setPerson, person, account } = useAccount();
+  const { setPerson, person   } = useAccount();
 
-  const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    try {
-      await axios.post(
-        'http://localhost:5000/request/new',
-        { sender: account?._id, receiver: contact._id },
-        { withCredentials: true }
-      );
-      console.log('Request sent successfully');
-    } catch (error) {
-      console.error('Error sending request:', error);
-    }
-  };
+  // const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  //   try {
+  //     await axios.post(
+  //       'http://localhost:5000/request/new',
+  //       { sender: account?._id, receiver: contact._id },
+  //       { withCredentials: true }
+  //     );
+  //     console.log('Request sent successfully');
+  //   } catch (error) {
+  //     console.error('Error sending request:', error);
+  //   }
+  // };
 
   return (
     <div

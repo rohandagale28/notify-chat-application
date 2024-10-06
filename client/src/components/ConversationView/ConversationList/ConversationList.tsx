@@ -5,16 +5,30 @@ import axios from 'axios';
 import { Request } from '../ConversationHeader/Request';
 import { searchUser } from '@/services/userApi';
 
-export const ConversationList = ({ account }: { account: any }) => {
-  const [searchResult, setSearchResult] = useState([]);
-  const [data, setData] = useState<[{}]>();
+interface User {
+  _id: string;
+  // Add other properties of a user as needed
+  // e.g., name: string;
+}
+
+interface ConversationListProps {
+  account: User | null; // Change this type based on your account structure
+}
+
+interface SearchResult {
+  data: User[];
+}
+
+export const ConversationList: React.FC<ConversationListProps> = ({ account }) => {
+  const [searchResult, setSearchResult] = useState<SearchResult>({ data: [] });
+  const [data, setData] = useState<{ contactList: User[] } | null>(null);
 
   const { search } = useContext(AccountContext);
 
   //===========|| search bar ||==========//
   const getSearchUser = async () => {
     try {
-      if (search.length != 0) {
+      if (search.length !== 0) {
         const response = await searchUser(search);
         setSearchResult(response);
       }
@@ -23,13 +37,12 @@ export const ConversationList = ({ account }: { account: any }) => {
     }
   };
 
-  // getContactList : retrieve all the users belongs to account
+  // getContactList: retrieve all the users belongs to account
   const getUser = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
+      const response = await axios.get<{ contactList: User[] }>(`http://localhost:5000/request/contact/${account?._id}`, {
         withCredentials: true,
       });
-      // Assuming setData expects the response data
       setData(response.data); // Update this line to set the actual data
       console.log(response); // Log the full response for debugging
     } catch (err) {
@@ -37,10 +50,10 @@ export const ConversationList = ({ account }: { account: any }) => {
     }
   };
 
-  console.log(data, 'conversatoinList');
+  console.log(data, 'conversationList');
   useEffect(() => {
     getUser();
-    console.log(data, 'this is converstaion data and pending list');
+    console.log(data, 'this is conversation data and pending list');
   }, [account]);
 
   useEffect(() => {
@@ -49,35 +62,36 @@ export const ConversationList = ({ account }: { account: any }) => {
     }, 1000);
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
-  console.log(data, "list of the conversation id")
+
+  console.log(data, 'list of the conversation id');
+
   return (
-    <>
-      <div className="flex flex-col h-full w-full gap-2">
-        {!search ? (
-          <>
-            {data?.contactList?.map((item: any) => (
-              <React.Fragment key={item._id as string}>
-                <Messanger contact={item} />
-              </React.Fragment>
-            ))}
-          </>
-        ) : (
-          <>
-            {searchResult?.data?.length > 0 &&
-              searchResult?.data?.map((item) => {
-                if (item?._id === account?._id) {
-                  return false;
-                } else {
-                  return (
-                    <React.Fragment key={item._id as string}>
-                      <Request contact={item} />
-                    </React.Fragment>
-                  );
-                }
-              })}
-          </>
-        )}
-      </div>
-    </>
+    <div className="flex flex-col h-full w-full gap-2">
+      {!search ? (
+        <>
+          {data?.contactList?.map((item) => (
+            <React.Fragment key={item._id}>
+              <Messanger contact={item} />
+            </React.Fragment>
+          ))}
+        </>
+      ) : (
+        <>
+          {searchResult.data.length > 0 &&
+            searchResult.data.map((item) => {
+              if (item._id === account?._id) {
+                return null; // Return null instead of false
+              } else {
+                return (
+                  <React.Fragment key={item._id}>
+                    <Request contact={item} />
+                  </React.Fragment>
+                );
+              }
+            })}
+        </>
+      )}
+    </div>
   );
 };
+  

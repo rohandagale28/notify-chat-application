@@ -9,7 +9,7 @@ interface RequestProps {
 export const Request: React.FC<RequestProps> = () => {
   const { account } = useContext(AccountContext);
 
-  const [data, setData] = useState<any>(null);
+  const [ setData] = useState<any>(null);
   console.log(account)
   const getUser = async () => {
     try {

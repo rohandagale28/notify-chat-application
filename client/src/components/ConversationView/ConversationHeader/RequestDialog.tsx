@@ -4,7 +4,6 @@ import { DialogTitle, DialogHeader, DialogTrigger } from '@/components/ui/dialog
 import profileIcon from '../../../assets/person-add.svg';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Messanger } from '../Messanger/Messanger';
 import { useAccount } from '@/context/AccountProvider';
 import { Accept } from './Accept';
 

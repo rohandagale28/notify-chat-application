@@ -1,9 +1,7 @@
 import { useContext } from 'react';
 import { AccountContext } from '../../../context/AccountProvider';
 import profileIcon from '../../../assets/person.svg';
-import moreIcon from '../../../assets/ellipsis-vertical.svg';
 import ThemeToggle from '@/utils/Themetoggler';
-import { Dialog } from '@/components/ui/dialog';
 import { DialogDemo } from './RequestDialog';
 
 export const ConversationHeader = ({ account }: any) => {
