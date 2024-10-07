@@ -9,19 +9,20 @@ app.use(express.json());
 var cookieParser = require("cookie-parser");
 const user_routes = require("./routes/user");
 const request_routes = require("./routes/request");
-const dashboard_routes = require("./routes/dashboard")
+const dashboard_routes = require("./routes/dashboard");
 const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
 
 const corsOptions = {
-  origin: 'https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app',
+  origin:
+    "https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app",
   credentials: true,
+  methods: ["POST", "GET"],
 };
 
-app.use(cors(corsOptions)); 
+app.use(cors(corsOptions));
 
-app.options('/login', cors(corsOptions)); // Change '/api/data' to your actual route
-
+app.options("/login", cors(corsOptions)); // Change '/api/data' to your actual route
 
 const PORT = process.env.PORT || 5000;
 
@@ -30,12 +31,11 @@ require("./db");
 
 //==========|| JWT Middleware ||==========//
 
-
 //==========|| User Routes ||==========//
 app.use("/", user_routes);
 
 //==========|| Dashboard || ==========//
-app.use("/dashboard", verifyToken, dashboard_routes)
+app.use("/dashboard", verifyToken, dashboard_routes);
 
 //==========|| Request Routes ||==========//
 app.use("/request", verifyToken, request_routes);
