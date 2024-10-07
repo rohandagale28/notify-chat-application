@@ -14,8 +14,7 @@ const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
 
 const corsOptions = {
-  origin:
-    "https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app",
+  origin:"https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app",
   credentials: true,
 };
 

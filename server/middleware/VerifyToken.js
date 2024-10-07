@@ -13,6 +13,7 @@ const verifyToken = (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).json({ error: "Invalid token." });
+    res.setHeader("Access-Control-Allow-Origin","https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app")
   }
 };
 
