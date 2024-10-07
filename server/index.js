@@ -41,6 +41,8 @@ app.use("/request", verifyToken, request_routes);
 //==========|| Home Route ||==========//
 app.get("/", (req, res) => {
   res.status(200).json({ message: "server is running healthy" });
+  res.set('Access-Control-Allow-Origin', 'https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app');
+
 });
 
 //==========|| Server Listening On PORT ||==========//
