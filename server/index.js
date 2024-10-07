@@ -14,7 +14,7 @@ const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // The frontend domain
+    origin: "https://notify-chat-application-server.vercel.app", // The frontend domain
     credentials: true, // Allow credentials (cookies)
   })
 );
