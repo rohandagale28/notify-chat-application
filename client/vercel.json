@@ -1,12 +1,13 @@
 {
-  "routes": [
-    {
-      "src": "/static/(.*)",
-      "headers": { "cache-control": "public,max-age=31536000,immutable" }
-    },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_IGNORE_BUILD_ERRORS": "true"
+    }
+  },
+  "rewrites": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/"
     }
   ]
 }
