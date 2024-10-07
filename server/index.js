@@ -12,12 +12,16 @@ const request_routes = require("./routes/request");
 const dashboard_routes = require("./routes/dashboard")
 const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: "https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app", // The frontend domain
-    credentials: true, // Allow credentials (cookies)
-  })
-);
+
+const corsOptions = {
+  origin: 'https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app',
+  credentials: true,
+};
+
+app.use(cors(corsOptions)); 
+
+app.options('/login', cors(corsOptions)); // Change '/api/data' to your actual route
+
 
 const PORT = process.env.PORT || 5000;
 
