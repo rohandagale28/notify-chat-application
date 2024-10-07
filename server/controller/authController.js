@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
     // Set the token as a cookie
     res.cookie("token", token, {
       httpOnly: true, // Prevents client-side JavaScript from accessing the token
-      secure: true, // Ensures the cookie is sent over HTTPS
+      secure: false , // Ensures the cookie is sent over HTTPS
       sameSite: "none", // Allows cross-site cookies (for use with different domains)
     });
 
