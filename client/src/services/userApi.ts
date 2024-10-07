@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000" //base url  ----> IMP
+const url = "https://notify-chat-application-server.vercel.app" //base url  ----> IMP
 
 
 //==========|| verify me request with cookies||==========//
@@ -28,7 +28,7 @@ export const searchUser = async (id: string) => {
 //==========|| parameter query for contactList using _id ||==========//
 export const getUsers =async(account: any)=>{
   try {
-    const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
+    const response = await axios.get(`${url}/request/contact/${account?._id}`, {
       withCredentials: true,
     });
     return response

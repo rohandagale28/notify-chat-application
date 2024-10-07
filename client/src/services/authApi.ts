@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000" //base url  ----> IMP
+const url = "https://notify-chat-application-server.vercel.app" //base url  ----> IMP
 
 
 //==========|| login function ||==========//

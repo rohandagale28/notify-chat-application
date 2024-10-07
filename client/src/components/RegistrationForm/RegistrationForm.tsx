@@ -61,7 +61,7 @@ const RegistrationForm = () => {
 
     if (!usernameError && !emailError && !passwordError) {
       try {
-        const response = await fetch('http://localhost:5000/register', {
+        const response = await fetch('https://notify-chat-application-server.vercel.app/register', {
           method: 'POST',
           credentials: 'include',
           headers: {
