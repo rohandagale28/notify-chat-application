@@ -17,12 +17,11 @@ const corsOptions = {
   origin:
     "https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app",
   credentials: true,
-  methods: ["POST", "GET"],
 };
 
 app.use(cors(corsOptions));
 
-app.options("/login", cors(corsOptions)); // Change '/api/data' to your actual route
+app.options("/", cors(corsOptions)); // Change '/api/data' to your actual route
 
 const PORT = process.env.PORT || 5000;
 
