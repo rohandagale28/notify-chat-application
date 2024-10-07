@@ -1,10 +1,9 @@
 {
-  "build": {
-    "env": {
-      "NEXT_PUBLIC_IGNORE_BUILD_ERRORS": "true"
-    }
-  },
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "public,max-age=31536000,immutable" }
+    },
     {
       "src": "/(.*)",
       "dest": "/index.html"
