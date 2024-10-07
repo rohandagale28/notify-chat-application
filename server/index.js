@@ -18,6 +18,15 @@ const corsOptions = {
   credentials: true,
 };
 
+function setCorsHeaders(req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+}
+
+app.use(setCorsHeaders)
+
 app.use(cors(corsOptions));
 
 app.options("/", cors(corsOptions)); // Change '/api/data' to your actual route
