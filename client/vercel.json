@@ -1,7 +1,9 @@
 {
-    "build": {
-      "env": {
-        "NEXT_PUBLIC_IGNORE_BUILD_ERRORS": "true"
-      }
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  }
+  ],
+  "errorPage": "/404.html"
+}
