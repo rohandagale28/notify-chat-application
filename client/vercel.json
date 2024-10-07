@@ -4,6 +4,5 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "errorPage": "/404.html"
+  ]
 }
