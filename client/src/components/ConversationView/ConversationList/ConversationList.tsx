@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { AccountContext } from '../../../context/AccountProvider';
 import { Messanger } from '../Messanger/Messanger';
 import axios from 'axios';
@@ -50,10 +50,8 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
     }
   };
 
-  console.log(data, 'conversationList');
   useEffect(() => {
     getUser();
-    console.log(data, 'this is conversation data and pending list');
   }, [account]);
 
   useEffect(() => {
@@ -63,35 +61,37 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
     return () => clearTimeout(delayDebounceFn);
   }, [search]);
 
-  console.log(data, 'list of the conversation id');
+  // Memoize the mapped contact list for conversation
+  const contactList = useMemo(() => {
+    return data?.contactList?.map((item) => (
+      <React.Fragment key={item._id}>
+        <Messanger contact={item} />
+      </React.Fragment>
+    ));
+  }, [data]);
+
+  // Memoize the mapped search result
+  const searchList = useMemo(() => {
+    return searchResult.data
+      .filter((item) => item._id !== account?._id)
+      .map((item) => (
+        <React.Fragment key={item._id}>
+          <Request contact={item} />
+        </React.Fragment>
+      ));
+  }, [searchResult, account]);
 
   return (
     <div className="flex flex-col h-full w-full gap-2">
       {!search ? (
         <>
-          {data?.contactList?.map((item) => (
-            <React.Fragment key={item._id}>
-              <Messanger contact={item} />
-            </React.Fragment>
-          ))}
+          {contactList}
         </>
       ) : (
         <>
-          {searchResult.data.length > 0 &&
-            searchResult.data.map((item) => {
-              if (item._id === account?._id) {
-                return null; // Return null instead of false
-              } else {
-                return (
-                  <React.Fragment key={item._id}>
-                    <Request contact={item} />
-                  </React.Fragment>
-                );
-              }
-            })}
+          {searchList}
         </>
       )}
     </div>
   );
 };
-  

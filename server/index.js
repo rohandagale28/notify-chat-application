@@ -13,23 +13,15 @@ const dashboard_routes = require("./routes/dashboard");
 const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
 
-const corsOptions = {
-  origin:"https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app",
-  credentials: true,
-};
-
-function setCorsHeaders(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-}
-
-app.use(setCorsHeaders)
-
-app.use(cors(corsOptions));
-
-app.options("/", cors(corsOptions)); // Change '/api/data' to your actual route
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+    credentials: true, // Allow credentials
+    optionsSuccessStatus: 204, // Response status for preflight requests
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 
@@ -49,9 +41,8 @@ app.use("/request", verifyToken, request_routes);
 
 //==========|| Home Route ||==========//
 app.get("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).json({ message: "server is running healthy" });
-  res.set('Access-Control-Allow-Origin', 'https://notify-chat-application-clie-git-489a45-rohandagale28s-projects.vercel.app');
-
 });
 
 //==========|| Server Listening On PORT ||==========//

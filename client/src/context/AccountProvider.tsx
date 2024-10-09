@@ -14,7 +14,12 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketInstance = io('ws://localhost:9000');
+    const socketInstance = io('wss://rohan-dagale-server.glitch.me/', {
+      extraHeaders: {
+        "User-Agent": "Mozilla"
+      }
+    });
+    
     setSocket(socketInstance);
 
     // Clean up the socket connection when the component unmounts

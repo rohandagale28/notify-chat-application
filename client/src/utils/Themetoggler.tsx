@@ -21,7 +21,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="p-2  rounded">
+    <button onClick={toggleTheme} className="p-2  rounded-lg hover:bg-accent   bg-secondary">
       {theme === 'dark' ? (
         <div>
           <img src={darkIcon} className="h-4 w-4 object-cover rounded-full" alt="User" />
