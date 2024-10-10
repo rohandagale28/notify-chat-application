@@ -3,7 +3,6 @@
 // import { ReactComponent as ProfileIcon } from '../../../assets/person.svg';
 // import { Button } from '@/components/ui/button';
 import { useAccount } from '@/context/AccountProvider';
-import MyIcon from '../../../assets/person.svg'
 export const Messanger = ({ contact }: any) => {
   const { setPerson, person } = useAccount();
 

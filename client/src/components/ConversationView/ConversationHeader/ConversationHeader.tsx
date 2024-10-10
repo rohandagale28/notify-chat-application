@@ -21,7 +21,7 @@ export const ConversationHeader = ({ account }: any) => {
         {/* <div>
           <img src={moreIcon} className="h-6 w-6 object-cover rounded-full" alt="User" />
         </div> */}
-        {/* <ThemeToggle /> */}
+        {/* <ThemeToggle />p */}
         <DialogDemo />
       </div>
       <div className="w-full h-auto box-border">

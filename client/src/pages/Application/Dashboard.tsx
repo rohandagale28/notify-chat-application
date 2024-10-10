@@ -1,18 +1,20 @@
 import { ConversationView } from '@/components/ConversationView/ConversationView';
-import { useAccount } from '@/context/AccountProvider';
-import { useEffect } from 'react';
 import { ChatboxView } from '@/components/ChatboxView/ChatboxView';
+import { useAccount } from '@/context/AccountProvider';
+import { useEffect, useState } from 'react';
 
 const Dashboard = () => {
   const { account, socket } = useAccount();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (socket && account) {
       socket.emit('addUsers', account._id);
+      setIsLoading(false);
     }
-  }, [account]);
+  }, [account, socket]);
 
-  if (!account || !socket) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
