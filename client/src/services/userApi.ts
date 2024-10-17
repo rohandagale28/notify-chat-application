@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000" //base url  ----> IMP
+const url = import.meta.env.VITE_REST_URL  //base url  ----> IMP
 
 
 //==========|| verify me request with cookies||==========//
@@ -26,14 +26,14 @@ export const searchUser = async (id: string) => {
 };
 
 //==========|| parameter query for contactList using _id ||==========//
-export const getUsers =async()=>{
+export const getUsers = async () => {
   try {
     const response = await axios.get(`http://localhost:5000/request/contact/${account?._id}`, {
       withCredentials: true,
     });
     return response
   } catch (error) {
-    
+
   }
 }
 

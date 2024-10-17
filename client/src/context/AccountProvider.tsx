@@ -14,7 +14,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketInstance = io('ws://localhost:9000');
+    const socketInstance = io('https://saddam-qualifying-observed-waiting.trycloudflare.com');
     setSocket(socketInstance);
 
     // Clean up the socket connection when the component unmounts

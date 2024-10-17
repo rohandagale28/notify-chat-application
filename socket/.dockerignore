@@ -1,0 +1,15 @@
+# Ignore node_modules directory
+node_modules
+
+# Ignore npm and yarn lock files (if not needed for build)
+npm-debug.log
+yarn-error.log
+
+# Ignore local environment configuration files
+.env
+.env.local
+.DS_Store
+
+# Ignore logs
+logs
+*.log

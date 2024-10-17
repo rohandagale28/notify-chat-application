@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "http://localhost:5000" //base url  ----> IMP
+const url = import.meta.env.VITE_REST_URL   //base url  ----> IMP
 
 export const sendRequest = async (senderId: string, receiverId: string) => {
     try {

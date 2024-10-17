@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const url = "http://localhost:5000" //base url  ----> IMP
-
+// base url  ----> IMP
+const url = import.meta.env.VITE_REST_URL
 
 //==========|| login function ||==========//
 export const loginUser = async (formData: Object) => {
