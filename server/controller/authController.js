@@ -1,11 +1,23 @@
 const userModel = require("../model/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const cloudinary = require("cloudinary").v2;
 
-//==========|| register new user ||==========//
+cloudinary.config({
+  cloud_name: "dgh263nmt",
+  api_key: "641842339472793",
+  api_secret: "6PxsxCmGoEaquDgAyiU37Gg9FlE",
+});
+
+//====================|| register new user ||====================//
 const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, image } = req.body;
+
+    const result = await cloudinary.uploader.upload(image, {
+      folder: "profiles",
+    });
+    console.log(result.secure_url);
 
     const userExist = await userModel.findOne({ email: email });
 
@@ -21,6 +33,7 @@ const registerUser = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      image: result.secure_url,
     });
 
     await newUser.save();
@@ -33,7 +46,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-//==========|| login user || ==========//
+//====================|| login user || ====================//
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,16 +84,27 @@ const loginUser = async (req, res) => {
   }
 };
 
-//==========|| verify logged in user and send user object ||==========//
+//====================|| verify logged in user and send user object ||====================//
 const verifyMe = async (req, res) => {
   try {
     const token = req.cookies.token;
     const decoded = jwt.verify(token, "workspace28");
     const userData = await userModel.findById(decoded.id);
-    const { username, _id, ...rest } = userData;
+    const { username, _id, image, ...rest } = userData;
     console.log(userData);
-    res.status(200).json({ username, _id });
+    res.status(200).json({ username, _id, image });
   } catch (error) {}
 };
 
-module.exports = { registerUser, loginUser, verifyMe };
+const logOut = async (req, res) => {
+  try {
+    res.clearCookie("token", { httpOnly: true });
+    res.status(200).send("Logged out and cookie removed");
+    console.log("Cookies removed");
+  } catch (error) {
+    console.error("Error while logging out:", error);
+    res.status(500).send("Error logging out");
+  }
+};
+
+module.exports = { registerUser, loginUser, verifyMe, logOut };

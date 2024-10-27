@@ -3,16 +3,15 @@ const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const app = express();
+app.use(express.json({ limit: "10mb" }));
 dotenv.config({ path: "./config.env" });
 const cors = require("cors");
-app.use(express.json());
 var cookieParser = require("cookie-parser");
 const user_routes = require("./routes/user");
 const request_routes = require("./routes/request");
 const dashboard_routes = require("./routes/dashboard");
 const { verifyToken } = require("./middleware/VerifyToken");
 app.use(cookieParser());
-
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -41,7 +40,6 @@ app.use("/request", verifyToken, request_routes);
 
 //==========|| Home Route ||==========//
 app.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
   res.status(200).json({ message: "server is running healthy" });
 });
 

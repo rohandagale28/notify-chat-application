@@ -1,31 +1,32 @@
-import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
-import App from '@/App';
-import LoginForm from '@/components/LoginForm/LoginForm';
-import RegistrationForm from '@/components/RegistrationForm/RegistrationForm';
-import ProtectedRoutes from '@/utils/ProtectedRoutes';
+import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
+import App from "@/App";
+import ProtectedRoutes from "@/utils/ProtectedRoutes";
+import RegistrationForm from "@/components/Forms/RegistrationForm/RegistrationForm";
+import LoginForm from "@/components/Forms/LoginForm/LoginForm";
 
 //==========|| lazy loading ||==========//
-const Dashboard = lazy(() => import('@/pages/Application/Dashboard'));
+const Dashboard = lazy(() => import("@/pages/App/Dashboard"));
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
   },
   {
-    path: '/dashboard',
-    element:
+    path: "/dashboard",
+    element: (
       <ProtectedRoutes>
         <Dashboard />
-      </ProtectedRoutes>,
+      </ProtectedRoutes>
+    ),
   },
   {
-    path: '/register',
+    path: "/register",
     element: <RegistrationForm />,
   },
   {
-    path: '/login',
+    path: "/login",
     element: <LoginForm />,
   },
 ]);

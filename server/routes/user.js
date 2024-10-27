@@ -3,10 +3,11 @@ const   router = express.Router();
 const { addUser, getUser } = require("../controller/userController");
 const { newConversation, getConversation } = require("../controller/conversationController");
 const { newMessage, getMessages } = require("../controller/messageController");
-const { registerUser, loginUser } = require("../controller/authController")
+const { registerUser, loginUser, logOut } = require("../controller/authController")
 
-router.post("/login", loginUser); // add new user to database
-router.post("/register", registerUser); // 
+router.post("/login", loginUser); 
+router.post("/logout", logOut)
+router.post("/register", registerUser); 
 
 router.post("/add", addUser); //  add new user to database
 router.get("/get/:id", getUser); // get users with name character

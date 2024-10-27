@@ -1,5 +1,5 @@
-import { Socket, io } from 'socket.io-client';
-import { createContext, useState, useEffect, useContext } from 'react';
+import { Socket, io } from "socket.io-client";
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const AccountContext = createContext<any | null>(null);
 
@@ -10,16 +10,12 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [messages, setMessages] = useState<object[]>([]);
   const [trigger, setTrigger] = useState(false);
   const [newMessage, setNewMessage] = useState({});
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const socketInstance = io('wss://rohan-dagale-server.glitch.me/', {
-      extraHeaders: {
-        "User-Agent": "Mozilla"
-      }
-    });
-    
+    const socketInstance = io("http://localhost:9000/");
+
     setSocket(socketInstance);
 
     // Clean up the socket connection when the component unmounts
@@ -56,7 +52,7 @@ export const useAccount = () => {
   const context = useContext(AccountContext);
 
   if (context === undefined) {
-    throw new Error('useAccount must be used within an AccountProvider');
+    throw new Error("useAccount must be used within an AccountProvider");
   }
 
   return context;

@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react';
-import { AccountContext } from '@/context/AccountProvider';
-import { FormatDate } from '@/utils/utils';
-import { Messages } from './ChatboxField';
+import { useContext } from "react";
+import { AccountContext } from "@/context/AccountProvider";
+import { FormatDate } from "@/utils/utils";
+import { Messages } from "./ChatboxField";
 
 // Define the correct type for the props of the Message component
 interface MessageProps {
@@ -11,19 +11,16 @@ interface MessageProps {
 export const Message: React.FC<MessageProps> = ({ message }) => {
   const { account } = useContext(AccountContext);
 
-  // Determine if the current user is the sender
-  const isSender = account._id === message.senderId;
-
-  useEffect(() => {}, []);
-
+  const isSender = account?._id == message?.senderId; // Determine if the current user is the sender
+  console.log(message);
   return (
-    <div className={`h-auto flex justify-start items-center ${isSender ? 'flex-start' : 'flex-row-reverse'}`}>
+    <div className={`flex   ${isSender ? "items-start " : "items-end"}`}>
       <div
-        className={`h-auto flex relative flex-row justify-start items-center w-auto box-border pl-4 pr-10 py-4 rounded-xl bg-primary-foreground ${isSender ? 'flex-start' : 'flex-end'}`}
+        className={`flex relative items-center w-auto p-4 rounded-xl bg-primary-foreground ${isSender ? "items-start " : "items-end"}`}
       >
-        <div className="flex self-start">{message.text}</div>
+        <div className="flex">{message.text}</div>
         <div className="absolute right-2 bottom-1 text-[12px] text-muted-foreground">
-          {FormatDate(message.createdAt as Date )}
+          {FormatDate(message.createdAt as Date)}
         </div>
       </div>
     </div>

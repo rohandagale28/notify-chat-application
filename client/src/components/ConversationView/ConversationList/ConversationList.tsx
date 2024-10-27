@@ -1,18 +1,17 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { AccountContext } from '../../../context/AccountProvider';
-import { Messanger } from '../Messanger/Messanger';
-import axios from 'axios';
-import { Request } from '../ConversationHeader/Request';
-import { searchUser } from '@/services/userApi';
+import React, { useContext, useEffect, useState, useMemo } from "react";
+import { AccountContext } from "../../../context/AccountProvider";
+import { Messanger } from "../Messanger/Messanger";
+import axios from "axios";
+import { Request } from "../ConversationHeader/Request";
+import { searchUser } from "@/services/userService";
+import { getConverstionList } from "@/services/appService";
 
 interface User {
   _id: string;
-  // Add other properties of a user as needed
-  // e.g., name: string;
 }
 
 interface ConversationListProps {
-  account: User | null; // Change this type based on your account structure
+  account: User | null;
 }
 
 interface SearchResult {
@@ -25,7 +24,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
 
   const { search } = useContext(AccountContext);
 
-  //===========|| search bar ||==========//
+  // Search bar
   const getSearchUser = async () => {
     try {
       if (search.length !== 0) {
@@ -33,18 +32,15 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
         setSearchResult(response);
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error("Error fetching user data:", error);
     }
   };
 
-  // getContactList: retrieve all the users belongs to account
+  // Get contact list using account._id
   const getUser = async () => {
     try {
-      const response = await axios.get<{ contactList: User[] }>(`http://localhost:5000/request/contact/${account?._id}`, {
-        withCredentials: true,
-      });
+      const response = await getConverstionList(account?._id);
       setData(response.data); // Update this line to set the actual data
-      console.log(response); // Log the full response for debugging
     } catch (err) {
       console.error(err);
     }
@@ -83,15 +79,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
 
   return (
     <div className="flex flex-col h-full w-full gap-2">
-      {!search ? (
-        <>
-          {contactList}
-        </>
-      ) : (
-        <>
-          {searchList}
-        </>
-      )}
+      {!search ? <>{contactList}</> : <>{searchList}</>}
     </div>
   );
 };

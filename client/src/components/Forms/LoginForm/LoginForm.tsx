@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Button } from '../ui/button';
-import ThemeToggle from '@/utils/Themetoggler';
-import { useToast } from '@/hooks/use-toast';
-import { ToastAction } from '../ui/toast';
-import { loginUser } from '@/services/authApi';
-import { validateField, validateFormData } from './formValidation';
-import { getUser } from '@/services/userApi';
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import ThemeToggle from "@/utils/Themetoggler";
+import { useToast } from "@/hooks/use-toast";
+import { loginUser } from "@/services/authService";
+import { validateField, validateFormData } from "./formValidation";
+import { getUser } from "@/services/userService";
+import { ToastAction } from "@/components/ui/toast";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
   const { toast } = useToast();
 
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
 
@@ -76,11 +76,11 @@ const LoginForm = () => {
     const userExist = async () => {
       const response = await getUser();
       if (response.status === 200) {
-        navigate("/dashboard")
+        navigate("/dashboard");
       }
-    }
-    userExist()
-  }, [])
+    };
+    userExist();
+  }, []);
 
   return (
     <div className="flex h-screen w-full items-center justify-center flex-col gap-8">
@@ -116,7 +116,7 @@ const LoginForm = () => {
       </form>
       <div className="flex flex-row text-sm">
         <p>not a user</p>
-        {'   '}
+        {"   "}
         <p>
           <NavLink to="/register">sign up</NavLink>
         </p>

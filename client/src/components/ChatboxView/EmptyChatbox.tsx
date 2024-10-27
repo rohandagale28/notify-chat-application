@@ -1,3 +1,4 @@
+
 export const EmptyChatbox = ({ text }: { text: string }) => {
   return (
     <>

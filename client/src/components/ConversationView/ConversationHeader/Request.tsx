@@ -2,7 +2,7 @@ import { MouseEvent } from 'react';
 import profileIcon from '../../../assets/person.svg';
 import { Button } from '@/components/ui/button';
 import { useAccount } from '@/context/AccountProvider';
-import { sendRequest } from '@/services/requestApi';
+import { sendRequest } from '@/services/requestService';
 import { useToast } from '@/hooks/use-toast';
 
 export const Request = ({ contact }: any) => {

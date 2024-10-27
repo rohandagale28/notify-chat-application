@@ -1,6 +1,6 @@
-import { AccountContext } from '@/context/AccountProvider';
-import React, { useContext, useRef, useEffect } from 'react';
-import { Message } from './Message';
+import { AccountContext } from "@/context/AccountProvider";
+import React, { useContext, useRef, useEffect } from "react";
+import { Message } from "./Message";
 
 export interface Messages {
   _id: string;
@@ -27,7 +27,10 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
   }, [person._id, messages]);
 
   return (
-    <div className="flex gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col" ref={chatboxRef}>
+    <div
+      className="flex gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col"
+      ref={chatboxRef}
+    >
       {messages.length > 0 ? (
         messages.map((item: Messages) => {
           return (
@@ -37,7 +40,7 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
           );
         })
       ) : (
-        <div className="flex justify-center items-center h-full w-full box-border">
+        <div className="flex  h-full w-full box-border">
           <div className="bg-gray-700 px-3 py-2.5 rounded-full text-sm">No Messages</div>
         </div>
       )}
