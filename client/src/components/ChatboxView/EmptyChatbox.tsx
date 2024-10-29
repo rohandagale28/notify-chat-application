@@ -5,5 +5,5 @@ export const EmptyChatbox = ({ text }: { text: string }) => {
         <div className="chatbox-empty-title">{text}</div>
       </div>
     </>
-  );
-};
+  )
+}

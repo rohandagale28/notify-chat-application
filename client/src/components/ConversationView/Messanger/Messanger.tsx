@@ -2,9 +2,9 @@
 // import axios from 'axios';
 // import { ReactComponent as ProfileIcon } from '../../../assets/person.svg';
 // import { Button } from '@/components/ui/button';
-import { useAccount } from "@/context/AccountProvider";
+import { useAccount } from "@/context/AccountProvider"
 export const Messanger = ({ contact }: any) => {
-  const { setPerson, person } = useAccount();
+  const { setPerson, person } = useAccount()
 
   // const handleSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
   //   e.preventDefault();
@@ -32,5 +32,5 @@ export const Messanger = ({ contact }: any) => {
         <div className="text-secondary-foreground pl-4 text-sm">{contact?.username}</div>
       </div>
     </div>
-  );
-};
+  )
+}

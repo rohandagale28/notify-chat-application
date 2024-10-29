@@ -1,12 +1,12 @@
-import { lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
-import App from "@/App";
-import ProtectedRoutes from "@/utils/ProtectedRoutes";
-import RegistrationForm from "@/components/Forms/RegistrationForm/RegistrationForm";
-import LoginForm from "@/components/Forms/LoginForm/LoginForm";
+import { lazy } from "react"
+import { createBrowserRouter } from "react-router-dom"
+import App from "@/App"
+import ProtectedRoutes from "@/utils/ProtectedRoutes"
+import RegistrationForm from "@/components/Forms/RegistrationForm/RegistrationForm"
+import LoginForm from "@/components/Forms/LoginForm/LoginForm"
 
 //==========|| lazy loading ||==========//
-const Dashboard = lazy(() => import("@/pages/App/Dashboard"));
+const Dashboard = lazy(() => import("@/pages/App/Dashboard"))
 // const ProtectedRoutes = lazy(() => import("@/utils/ProtectedRoutes"))
 
 const router = createBrowserRouter([
@@ -30,6 +30,6 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginForm />,
   },
-]);
+])
 
-export default router;
+export default router

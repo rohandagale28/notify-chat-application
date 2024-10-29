@@ -1,15 +1,15 @@
-import { useState } from "react";
-import VideoIcon from "../../../assets/videocam.svg";
+import { useState } from "react"
+import VideoIcon from "../../../assets/videocam.svg"
 
 interface Person {
-  sub?: string;
-  username?: string;
-  picture?: string;
+  sub?: string
+  username?: string
+  picture?: string
 }
 
 export const ChatboxHeader = ({ person }: { person: Person }) => {
   // const { socket } = useContext(AccountContext);
-  const [activestatus] = useState(false);
+  const [activestatus] = useState(false)
 
   //   useEffect(() => {
   //     if (socket) {
@@ -54,5 +54,5 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,67 +1,67 @@
-import React, { useContext, useEffect, useState, useMemo } from "react";
-import { AccountContext } from "../../../context/AccountProvider";
-import { Messanger } from "../Messanger/Messanger";
-import { Request } from "../ConversationHeader/Request";
-import { searchUser } from "@/services/userService";
-import { getConverstionList } from "@/services/appService";
+import React, { useContext, useEffect, useState, useMemo } from "react"
+import { AccountContext } from "../../../context/AccountProvider"
+import { Messanger } from "../Messanger/Messanger"
+import { Request } from "../ConversationHeader/Request"
+import { searchUser } from "@/services/userService"
+import { getConverstionList } from "@/services/appService"
 
 interface User {
-  _id: string;
-  username: string;
-  image: string;
+  _id: string
+  username: string
+  image: string
 }
 
 interface ConversationListProps {
-  account: User;
+  account: User
 }
 
 interface SearchResult {
-  data: User[];
+  data: User[]
 }
 
 interface ContactListResponse {
-  contactList: User[];
+  contactList: User[]
 }
 
 export const ConversationList: React.FC<ConversationListProps> = ({ account }) => {
-  const [searchResult, setSearchResult] = useState<SearchResult>({ data: [] });
-  const [data, setData] = useState<ContactListResponse | null>(null);
+  const [searchResult, setSearchResult] = useState<SearchResult>({ data: [] })
+  const [data, setData] = useState<ContactListResponse | null>(null)
 
-  const { search } = useContext(AccountContext);
+  const { search } = useContext(AccountContext)
 
   // SEARCH BAR
   const getSearchUser = async () => {
     try {
       if (search.length !== 0) {
-        const response: SearchResult = await searchUser(search);
-        setSearchResult(response);
+        const response: SearchResult = await searchUser(search)
+        setSearchResult(response)
       }
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      console.error("Error fetching user data:", error)
     }
-  };
+  }
 
   // GET CONTACT LIST USING ID
   const getUser = async () => {
     try {
-      const response = await getConverstionList(account._id);
-      setData(response);
+      const response = await getConverstionList(account._id)
+      setData(response)
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   // USE EFFECTS
   useEffect(() => {
-    getUser();
-  }, [account._id]);
+    getUser()
+  }, [account._id])
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      getSearchUser();
-    }, 1000);
-    return () => clearTimeout(delayDebounceFn);
-  }, [search]);
+      getSearchUser()
+    }, 1000)
+    return () => clearTimeout(delayDebounceFn)
+  }, [search])
 
   // Memoize the mapped contact list for conversation
   const contactList = useMemo(() => {
@@ -69,8 +69,8 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
       <React.Fragment key={item._id}>
         <Messanger contact={item} />
       </React.Fragment>
-    ));
-  }, [data, account._id]);
+    ))
+  }, [data, account._id])
 
   // Memoize the mapped search result
   const searchList = useMemo(() => {
@@ -80,12 +80,12 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
         <React.Fragment key={item._id}>
           <Request contact={item} />
         </React.Fragment>
-      ));
-  }, [searchResult, account._id]);
+      ))
+  }, [searchResult, account._id])
 
   return (
     <div className="flex flex-col h-full w-full gap-2">
       {!search ? <>{contactList}</> : <>{searchList}</>}
     </div>
-  );
-};
+  )
+}

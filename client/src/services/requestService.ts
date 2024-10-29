@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from "axios"
 
-const url = "http://localhost:5000"; //base url  ----> IMP
+const url = "http://localhost:5000" //base url  ----> IMP
 
 export const sendRequest = async (senderId: string, receiverId: string) => {
   try {
@@ -8,12 +8,12 @@ export const sendRequest = async (senderId: string, receiverId: string) => {
       `${url}/request/new`,
       { sender: senderId, receiver: receiverId },
       { withCredentials: true }
-    );
-    return res;
+    )
+    return res
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}
 
 export const acceptRequest = async (senderId: string, receiverId: string) => {
   try {
@@ -21,9 +21,9 @@ export const acceptRequest = async (senderId: string, receiverId: string) => {
       `${url}/request/update`,
       { sender: senderId, receiver: receiverId },
       { withCredentials: true }
-    );
-    return res;
+    )
+    return res
   } catch (error) {
-    throw error;
+    throw error
   }
-};
+}

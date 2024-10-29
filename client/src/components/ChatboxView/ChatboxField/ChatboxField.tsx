@@ -28,7 +28,7 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
 
   return (
     <div
-      className="flex gap-4 h-full w-full overflow-y-scroll p-4 box-border flex-col"
+      className="flex gap-4 h-full w-full p-8 box-border flex-col  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300"
       ref={chatboxRef}
     >
       {messages.length > 0 ? (

@@ -1,16 +1,16 @@
-import { AccountContext } from "@/context/AccountProvider";
-import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import { AccountContext } from "@/context/AccountProvider"
+import axios from "axios"
+import React, { useContext, useEffect, useState } from "react"
 
 interface RequestProps {
-  id: string;
+  id: string
 }
 
 export const Request: React.FC<RequestProps> = () => {
-  const { account } = useContext(AccountContext);
+  const { account } = useContext(AccountContext)
 
-  const [setData] = useState<any>(null);
-  console.log(account);
+  const [setData] = useState<any>(null)
+  console.log(account)
   const getUser = async () => {
     try {
       const response = await axios
@@ -18,17 +18,17 @@ export const Request: React.FC<RequestProps> = () => {
           withCredentials: true,
         })
         .then((data) => {
-          setData(data);
-          console.log(response, "this is the response data");
-        });
+          setData(data)
+          console.log(response, "this is the response data")
+        })
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-  };
+  }
 
   useEffect(() => {
-    getUser();
-  }, [account?._id]); // Dependency array to re-fetch when id changes
+    getUser()
+  }, [account?._id]) // Dependency array to re-fetch when id changes
 
-  return <div>hi</div>;
-};
+  return <div>hi</div>
+}

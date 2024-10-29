@@ -1,45 +1,45 @@
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { validateEmail } from "@/utils/utils";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@radix-ui/react-toast";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
+import { validateEmail } from "@/utils/utils"
+import { useToast } from "@/hooks/use-toast"
+import { ToastAction } from "@radix-ui/react-toast"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 const RegistrationForm = () => {
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     image: "",
-  });
+  })
 
   const [errors, setErrors] = useState({
     username: "",
     email: "",
     password: "",
-  });
+  })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleInputChange = (e: { target: { name: string; value: string } }) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
+    })
 
     if (name === "username") {
-      const usernameError = value.trim().length === 0 ? "Username is required" : "";
-      setErrors((prevErrors) => ({ ...prevErrors, username: usernameError }));
+      const usernameError = value.trim().length === 0 ? "Username is required" : ""
+      setErrors((prevErrors) => ({ ...prevErrors, username: usernameError }))
     }
 
     if (name === "email") {
-      const emailError = !value.trim() || !validateEmail(value) ? "Please enter a valid email" : "";
-      setErrors((prevErrors) => ({ ...prevErrors, email: emailError }));
+      const emailError = !value.trim() || !validateEmail(value) ? "Please enter a valid email" : ""
+      setErrors((prevErrors) => ({ ...prevErrors, email: emailError }))
     }
 
     if (name === "password") {
@@ -48,45 +48,44 @@ const RegistrationForm = () => {
           ? ""
           : value.trim().length < 6
             ? "Password must be at least 6 characters"
-            : "";
-      setErrors((prevErrors) => ({ ...prevErrors, password: passwordError }));
+            : ""
+      setErrors((prevErrors) => ({ ...prevErrors, password: passwordError }))
     }
-  };
+  }
 
   // handle and convert image to base64
   const handleImage = (e: { target: { files: any[] } }) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      setFileToBase(file);
+      setFileToBase(file)
     }
-  };
+  }
 
   const setFileToBase = (file: Blob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
     reader.onloadend = () => {
       setFormData((prevData) => ({
         ...prevData,
         image: reader.result as string,
-      }));
-    };
-  };
+      }))
+    }
+  }
 
   // submit form
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    const { username, email, password } = formData;
+    e.preventDefault()
+    const { username, email, password } = formData
 
-    const usernameError = username.trim().length === 0 ? "Username is required" : "";
-    const emailError = !email.trim() || !validateEmail(email) ? "Please enter a valid email" : "";
-    const passwordError =
-      password.trim().length < 6 ? "Password must be at least 6 characters" : "";
+    const usernameError = username.trim().length === 0 ? "Username is required" : ""
+    const emailError = !email.trim() || !validateEmail(email) ? "Please enter a valid email" : ""
+    const passwordError = password.trim().length < 6 ? "Password must be at least 6 characters" : ""
 
     setErrors({
       username: usernameError,
       email: emailError,
       password: passwordError,
-    });
+    })
 
     if (!usernameError && !emailError && !passwordError) {
       try {
@@ -97,14 +96,14 @@ const RegistrationForm = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-        });
-        console.log(response);
+        })
+        console.log(response)
         if (response.status === 200) {
           toast({
             title: "Registration successful",
             description: "Welcome! You have successfully registered.",
-          });
-          navigate("/dashboard");
+          })
+          navigate("/dashboard")
         } else if (response.status === 409) {
           toast({
             title: "User already exists",
@@ -113,19 +112,19 @@ const RegistrationForm = () => {
               <ToastAction
                 altText="Go to login"
                 onClick={() => {
-                  navigate("/login");
+                  navigate("/login")
                 }}
               >
                 Login
               </ToastAction>
             ),
-          });
+          })
         }
       } catch (error) {
-        console.error("Registration error", error);
+        console.error("Registration error", error)
       }
     }
-  };
+  }
 
   return (
     <div className="flex h-screen w-full items-center justify-center flex-col gap-8">
@@ -189,7 +188,7 @@ const RegistrationForm = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RegistrationForm;
+export default RegistrationForm

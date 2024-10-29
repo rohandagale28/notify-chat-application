@@ -13,8 +13,10 @@ export const Message: React.FC<MessageProps> = ({ message }) => {
   const isSender = account?._id == message?.senderId // Determine if the current user is the sender
 
   return (
-    <div className={`flex   ${!isSender ? "justify-start" : "justify-end"}`}>
-      <div className={`flex relative items-center w-auto p-4 rounded-xl bg-primary-foreground `}>
+    <div className={`flex   ${!isSender ? "justify-start" : "justify-end"} `}>
+      <div
+        className={`flex relative items-center w-auto pl-4  pt-4 pb-6  pr-8 rounded-xl bg-primary `}
+      >
         <div className="flex">{message?.text}</div>
         <div className="absolute right-2 bottom-1 text-[12px] text-muted-foreground">
           {FormatDate(message?.createdAt as Date)}

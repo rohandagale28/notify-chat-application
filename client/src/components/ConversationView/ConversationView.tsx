@@ -1,19 +1,19 @@
-import { useContext, useEffect } from "react";
-import { AccountContext } from "../../context/AccountProvider";
-import { ConversationHeader } from "./ConversationHeader/ConversationHeader";
-import { ConversationList } from "./ConversationList/ConversationList";
-import ConversationBottomBar from "./ConversationBottomBar/ConversationBottomBar";
+import { useContext, useEffect } from "react"
+import { AccountContext } from "../../context/AccountProvider"
+import { ConversationHeader } from "./ConversationHeader/ConversationHeader"
+import { ConversationList } from "./ConversationList/ConversationList"
+import ConversationBottomBar from "./ConversationBottomBar/ConversationBottomBar"
 
 export const ConversationView = () => {
-  const { account } = useContext(AccountContext);
+  const { account } = useContext(AccountContext)
 
-  useEffect(() => {}, [account]);
+  useEffect(() => {}, [account])
 
   return (
-    <div className="flex flex-col h-full w-[clamp(16rem,18rem,20rem)]  p-4 pt-8 box-border relative gap-8">
+    <div className="flex flex-col h-full w-[clamp(16rem,18rem,20rem)]  p-4 pt-8 box-border relative gap-8 bg-primary">
       <ConversationHeader account={account} />
       <ConversationList account={account} />
       <ConversationBottomBar />
     </div>
-  );
-};
+  )
+}

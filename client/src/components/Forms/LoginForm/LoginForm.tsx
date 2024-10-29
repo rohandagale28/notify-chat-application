@@ -1,51 +1,51 @@
-import { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import ThemeToggle from "@/utils/Themetoggler";
-import { useToast } from "@/hooks/use-toast";
-import { loginUser } from "@/services/authService";
-import { validateField, validateFormData } from "./formValidation";
-import { getUser } from "@/services/userService";
-import { ToastAction } from "@/components/ui/toast";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
+import ThemeToggle from "@/utils/Themetoggler"
+import { useToast } from "@/hooks/use-toast"
+import { loginUser } from "@/services/authService"
+import { validateField, validateFormData } from "./formValidation"
+import { getUser } from "@/services/userService"
+import { ToastAction } from "@/components/ui/toast"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 const LoginForm = () => {
-  const { toast } = useToast();
+  const { toast } = useToast()
 
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" })
 
-  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [errors, setErrors] = useState({ email: "", password: "" })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleInputChange = (e: { target: { name: string; value: string } }) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
+    })
 
-    const fieldError = validateField(name, value);
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: fieldError }));
-  };
+    const fieldError = validateField(name, value)
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: fieldError }))
+  }
 
   //========== submit form ==========//
   const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const validationErrors = validateFormData(formData);
-    setErrors(validationErrors);
+    const validationErrors = validateFormData(formData)
+    setErrors(validationErrors)
 
     try {
-      const response: any = await loginUser(formData);
+      const response: any = await loginUser(formData)
 
       if (response.status === 200) {
         toast({
           title: "Login successfull",
           description: "Friday, February 10, 2023 at 5:57 PM",
-        });
-        navigate("/dashboard");
+        })
+        navigate("/dashboard")
       } else if (response.status === 404) {
         toast({
           title: "User not registered",
@@ -54,33 +54,33 @@ const LoginForm = () => {
             <ToastAction
               altText="Goto schedule to undo"
               onClick={() => {
-                navigate("/register");
+                navigate("/register")
               }}
             >
               Sign up
             </ToastAction>
           ),
-        });
+        })
       } else if (response.status === 401) {
         toast({
           title: "Wrong password",
           description: "Friday, February 10, 2023 at 5:57 PM",
-        });
+        })
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Login error", error)
     }
-  };
+  }
 
   useEffect(() => {
     const userExist = async () => {
-      const response = await getUser();
+      const response = await getUser()
       if (response.status === 200) {
-        navigate("/dashboard");
+        navigate("/dashboard")
       }
-    };
-    userExist();
-  }, []);
+    }
+    userExist()
+  }, [])
 
   return (
     <div className="flex h-screen w-full items-center justify-center flex-col gap-8">
@@ -122,7 +122,7 @@ const LoginForm = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm

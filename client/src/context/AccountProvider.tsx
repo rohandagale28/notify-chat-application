@@ -1,31 +1,31 @@
-import { Socket, io } from "socket.io-client";
-import { createContext, useState, useEffect, useContext } from "react";
+import { Socket, io } from "socket.io-client"
+import { createContext, useState, useEffect, useContext } from "react"
 
-export const AccountContext = createContext<any | null>(null);
+export const AccountContext = createContext<any | null>(null)
 
 const AccountProvider = ({ children }: { children: React.ReactNode }) => {
-  const [account, setAccount] = useState<Object | null>(null);
-  const [person, setPerson] = useState<object | null>({});
-  const [user, setUser] = useState<object>({});
-  const [messages, setMessages] = useState<object[]>([]);
-  const [trigger, setTrigger] = useState(false);
-  const [newMessage, setNewMessage] = useState({});
-  const [search, setSearch] = useState<string>("");
-  const [socket, setSocket] = useState<Socket | null>(null);
-  const [incomingMessage, setIncomingMessage] = useState<Message | null>(null);
+  const [account, setAccount] = useState<Object | null>(null)
+  const [person, setPerson] = useState<object | null>({})
+  const [user, setUser] = useState<object>({})
+  const [messages, setMessages] = useState<object[]>([])
+  const [trigger, setTrigger] = useState(false)
+  const [newMessage, setNewMessage] = useState({})
+  const [search, setSearch] = useState<string>("")
+  const [socket, setSocket] = useState<Socket | null>(null)
+  const [incomingMessage, setIncomingMessage] = useState<Message | null>(null)
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:9000/");
+    const socketInstance = io("http://localhost:9000/")
 
-    setSocket(socketInstance);
+    setSocket(socketInstance)
 
     // Clean up the socket connection when the component unmounts
     return () => {
       if (socketInstance) {
-        socketInstance.disconnect();
+        socketInstance.disconnect()
       }
-    };
-  }, []);
+    }
+  }, [])
 
   const context = {
     account,
@@ -43,20 +43,20 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     search,
     setSearch,
     socket,
-  };
+  }
 
-  return <AccountContext.Provider value={context}>{children}</AccountContext.Provider>;
-};
+  return <AccountContext.Provider value={context}>{children}</AccountContext.Provider>
+}
 
 // Custom hook to access the AccountContext
 export const useAccount = () => {
-  const context = useContext(AccountContext);
+  const context = useContext(AccountContext)
 
   if (context === undefined) {
-    throw new Error("useAccount must be used within an AccountProvider");
+    throw new Error("useAccount must be used within an AccountProvider")
   }
 
-  return context;
-};
+  return context
+}
 
-export default AccountProvider;
+export default AccountProvider

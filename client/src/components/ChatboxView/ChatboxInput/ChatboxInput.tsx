@@ -1,30 +1,30 @@
-import { useState, useContext } from "react";
-import { AccountContext } from "@/context/AccountProvider";
-import axios from "axios";
-import { DocumentIcon, SendIcon } from "@/components/svg/Index";
+import { useState, useContext } from "react"
+import { AccountContext } from "@/context/AccountProvider"
+import axios from "axios"
+import { DocumentIcon, SendIcon } from "@/components/svg/Index"
 
 interface Message {
-  senderId: string;
-  receiverId: string;
-  conversationId: string | null;
-  type: string;
-  text: string;
+  senderId: string
+  receiverId: string
+  conversationId: string | null
+  type: string
+  text: string
 }
 
 interface ChatboxInputProps {
-  conversationId: string | null;
+  conversationId: string | null
 }
 
 export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) => {
-  const { account, person, setIncomingMessage, socket } = useContext(AccountContext);
-  const [text, setText] = useState("");
+  const { account, person, setIncomingMessage, socket } = useContext(AccountContext)
+  const [text, setText] = useState("")
 
   const sendText = async (e: React.FormEvent | React.MouseEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (text.trim() === "") {
-      console.log("Message cannot be empty");
-      return;
+      console.log("Message cannot be empty")
+      return
     }
 
     const message: Message = {
@@ -33,27 +33,27 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
       conversationId,
       type: "text",
       text: text.trim(),
-    };
+    }
 
     if (!navigator.onLine) {
-      window.alert("You are offline");
-      return;
+      window.alert("You are offline")
+      return
     }
 
     try {
-      socket.emit("sendMessage", message);
+      socket.emit("sendMessage", message)
 
       if (conversationId) {
         await axios.post("http://localhost:5000/dashboard/message/add", message, {
           withCredentials: true,
-        });
-        setIncomingMessage({ ...message, createdAt: Date.now() });
-        setText("");
+        })
+        setIncomingMessage({ ...message, createdAt: Date.now() })
+        setText("")
       }
     } catch (err) {
-      console.log("Error sending message:", err);
+      console.log("Error sending message:", err)
     }
-  };
+  }
 
   return (
     <div className="flex w-full h-[4.6rem] items-center justify-between rounded-xl  px-16 gap-16">
@@ -84,5 +84,5 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
         </div>
       </button>
     </div>
-  );
-};
+  )
+}
