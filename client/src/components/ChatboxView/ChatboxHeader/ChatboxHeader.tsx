@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import VideoIcon from '../../../assets/videocam.svg';
+import { useState } from "react";
+import VideoIcon from "../../../assets/videocam.svg";
 
 interface Person {
-  sub?: string,
-  username?: string,
-  picture?: string
+  sub?: string;
+  username?: string;
+  picture?: string;
 }
 
 export const ChatboxHeader = ({ person }: { person: Person }) => {
@@ -24,7 +24,11 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
   return (
     <div className="w-full h-[4.6rem] flex text-secondary-foreground justify-between items-center rounded-xl">
       <div className="pl-4">
-        <img src={person?.picture} alt="Profile" className="h-10 w-10 object-cover rounded-full cursor-pointer" />
+        <img
+          src={person?.image}
+          alt="Profile"
+          className="h-10 w-10 object-cover rounded-full cursor-pointer"
+        />
       </div>
       <div className=" text-sm font-medium flex flex-row items-center justify-center gap-2">
         {person?.username}
@@ -41,8 +45,12 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
         )}
       </div>
       <div className="flex gap-8 pr-8">
-        <div className='text-white'>
-          <img src={VideoIcon} className="h-6 w-6 object-cover rounded-full text-primary-foreground" alt="User" />
+        <div className="text-white">
+          <img
+            src={VideoIcon}
+            className="h-6 w-6 object-cover rounded-full text-primary-foreground"
+            alt="User"
+          />
         </div>
       </div>
     </div>

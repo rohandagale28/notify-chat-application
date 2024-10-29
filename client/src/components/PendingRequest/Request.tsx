@@ -1,6 +1,6 @@
-import { AccountContext } from '@/context/AccountProvider';
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import { AccountContext } from "@/context/AccountProvider";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 
 interface RequestProps {
   id: string;
@@ -9,8 +9,8 @@ interface RequestProps {
 export const Request: React.FC<RequestProps> = () => {
   const { account } = useContext(AccountContext);
 
-  const [ setData] = useState<any>(null);
-  console.log(account)
+  const [setData] = useState<any>(null);
+  console.log(account);
   const getUser = async () => {
     try {
       const response = await axios
@@ -19,7 +19,7 @@ export const Request: React.FC<RequestProps> = () => {
         })
         .then((data) => {
           setData(data);
-          console.log(response, 'this is the response data');
+          console.log(response, "this is the response data");
         });
     } catch (err) {
       console.error(err);

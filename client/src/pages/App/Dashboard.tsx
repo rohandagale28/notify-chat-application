@@ -13,6 +13,7 @@ const Dashboard = () => {
       socket.emit("addUsers", account._id);
       setIsLoading(false);
     }
+    console.log(account);
   }, [account, socket]);
 
   if (isLoading) {

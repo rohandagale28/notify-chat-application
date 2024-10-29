@@ -1,34 +1,39 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import { AccountContext } from "../../../context/AccountProvider";
 import { Messanger } from "../Messanger/Messanger";
-import axios from "axios";
 import { Request } from "../ConversationHeader/Request";
 import { searchUser } from "@/services/userService";
 import { getConverstionList } from "@/services/appService";
 
 interface User {
   _id: string;
+  username: string;
+  image: string;
 }
 
 interface ConversationListProps {
-  account: User | null;
+  account: User;
 }
 
 interface SearchResult {
   data: User[];
 }
 
+interface ContactListResponse {
+  contactList: User[];
+}
+
 export const ConversationList: React.FC<ConversationListProps> = ({ account }) => {
   const [searchResult, setSearchResult] = useState<SearchResult>({ data: [] });
-  const [data, setData] = useState<{ contactList: User[] } | null>(null);
+  const [data, setData] = useState<ContactListResponse | null>(null);
 
   const { search } = useContext(AccountContext);
 
-  // Search bar
+  // SEARCH BAR
   const getSearchUser = async () => {
     try {
       if (search.length !== 0) {
-        const response = await searchUser(search);
+        const response: SearchResult = await searchUser(search);
         setSearchResult(response);
       }
     } catch (error) {
@@ -36,19 +41,20 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
     }
   };
 
-  // Get contact list using account._id
+  // GET CONTACT LIST USING ID
   const getUser = async () => {
     try {
-      const response = await getConverstionList(account?._id);
-      setData(response.data); // Update this line to set the actual data
+      const response = await getConverstionList(account._id);
+      setData(response);
     } catch (err) {
       console.error(err);
     }
   };
 
+  // USE EFFECTS
   useEffect(() => {
     getUser();
-  }, [account]);
+  }, [account._id]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -64,18 +70,18 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
         <Messanger contact={item} />
       </React.Fragment>
     ));
-  }, [data]);
+  }, [data, account._id]);
 
   // Memoize the mapped search result
   const searchList = useMemo(() => {
     return searchResult.data
-      .filter((item) => item._id !== account?._id)
+      .filter((item) => item._id !== account._id)
       .map((item) => (
         <React.Fragment key={item._id}>
           <Request contact={item} />
         </React.Fragment>
       ));
-  }, [searchResult, account]);
+  }, [searchResult, account._id]);
 
   return (
     <div className="flex flex-col h-full w-full gap-2">

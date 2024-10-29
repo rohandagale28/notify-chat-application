@@ -7,6 +7,7 @@ import LoginForm from "@/components/Forms/LoginForm/LoginForm";
 
 //==========|| lazy loading ||==========//
 const Dashboard = lazy(() => import("@/pages/App/Dashboard"));
+// const ProtectedRoutes = lazy(() => import("@/utils/ProtectedRoutes"))
 
 const router = createBrowserRouter([
   {

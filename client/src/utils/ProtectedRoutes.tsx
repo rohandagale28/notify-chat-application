@@ -12,6 +12,7 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
       const response = await getUser();
       if (response.status === 200) {
         setAccount(response.data);
+        console.log(response.data, "this is protected routes");
       }
       console.log(response);
     } catch (error) {

@@ -1,11 +1,11 @@
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { DialogTitle, DialogHeader, DialogTrigger } from '@/components/ui/dialog';
-import profileIcon from '../../../assets/person-add.svg';
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useAccount } from '@/context/AccountProvider';
-import { Accept } from './Accept';
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { DialogTitle, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
+import profileIcon from "../../../assets/person-add.svg";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAccount } from "@/context/AccountProvider";
+import { Accept } from "./Accept";
 
 export function DialogDemo() {
   const { account } = useAccount();
@@ -20,7 +20,7 @@ export function DialogDemo() {
         })
         .then((data) => {
           setData(data);
-          console.log(data, 'this is the response data from dialog');
+          console.log(data, "this is the response data from dialog");
         });
     } catch (err) {
       console.error(err);
@@ -40,7 +40,9 @@ export function DialogDemo() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Pending Requests</DialogTitle>
-          <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+          <DialogDescription>
+            Make changes to your profile here. Click save when you're done.
+          </DialogDescription>
         </DialogHeader>
         {data?.data?.pendingList?.map((item: any) => (
           <React.Fragment key={item._id as string}>

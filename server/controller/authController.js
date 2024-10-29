@@ -1,6 +1,7 @@
 const userModel = require("../model/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const request = require("../model/FriendRequest");
 const cloudinary = require("cloudinary").v2;
 
 cloudinary.config({
@@ -22,9 +23,7 @@ const registerUser = async (req, res) => {
     const userExist = await userModel.findOne({ email: email });
 
     if (userExist) {
-      return res
-        .status(409)
-        .json({ success: true, message: "User already exists" });
+      return res.status(409).json({ success: true, message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,10 +35,12 @@ const registerUser = async (req, res) => {
       image: result.secure_url,
     });
 
-    await newUser.save();
-    res
-      .status(201)
-      .json({ success: true, message: "User registered successfully" });
+    const data = await newUser.save();
+
+    // const request = new request({ userId: data._id });
+    // await request.save();
+
+    return res.status(201).json({ success: true, message: "User registered successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal server error" });
@@ -57,10 +58,7 @@ const loginUser = async (req, res) => {
       return res.status(404).json({ message: "User does not exist" });
     }
 
-    const isPasswordCorrect = await bcrypt.compare(
-      password,
-      userExist.password
-    );
+    const isPasswordCorrect = await bcrypt.compare(password, userExist.password);
 
     if (!isPasswordCorrect) {
       return res.status(401).json({ message: "Incorrect password" });
@@ -90,7 +88,8 @@ const verifyMe = async (req, res) => {
     const token = req.cookies.token;
     const decoded = jwt.verify(token, "workspace28");
     const userData = await userModel.findById(decoded.id);
-    const { username, _id, image, ...rest } = userData;
+    console.log(userData);
+    const { username, _id, image } = userData;
     console.log(userData);
     res.status(200).json({ username, _id, image });
   } catch (error) {}

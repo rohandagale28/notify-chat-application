@@ -1,30 +1,30 @@
-import { AccountContext } from "@/context/AccountProvider";
-import React, { useContext, useRef, useEffect } from "react";
-import { Message } from "./Message";
+import { AccountContext } from "@/context/AccountProvider"
+import React, { useContext, useRef, useEffect } from "react"
+import { Message } from "./Message"
 
 export interface Messages {
-  _id: string;
-  senderId: string;
-  text: string;
-  createdAt: Date | number;
-  conversationId: string;
-  receiverId: string;
-  type: string;
+  _id: string
+  senderId: string
+  text: string
+  createdAt: Date | number
+  conversationId: string
+  receiverId: string
+  type: string
 }
 
 interface ChatboxFieldProps {
-  messages: Messages[];
+  messages: Messages[]
 }
 
 export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
-  const { person } = useContext(AccountContext);
-  const chatboxRef = useRef<HTMLDivElement | null>(null);
+  const { person } = useContext(AccountContext)
+  const chatboxRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (chatboxRef.current) {
-      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
+      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight
     }
-  }, [person._id, messages]);
+  }, [person?._id, messages])
 
   return (
     <div
@@ -32,12 +32,12 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
       ref={chatboxRef}
     >
       {messages.length > 0 ? (
-        messages.map((item: Messages) => {
+        messages?.map((item: Messages) => {
           return (
-            <React.Fragment key={item._id}>
+            <React.Fragment key={item?._id}>
               <Message message={item} />
             </React.Fragment>
-          );
+          )
         })
       ) : (
         <div className="flex  h-full w-full box-border">
@@ -45,5 +45,5 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}

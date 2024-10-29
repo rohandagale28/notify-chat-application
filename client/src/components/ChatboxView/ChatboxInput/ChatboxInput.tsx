@@ -16,7 +16,7 @@ interface ChatboxInputProps {
 }
 
 export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) => {
-  const { account, person, setTrigger, trigger, setMessages, socket } = useContext(AccountContext);
+  const { account, person, setIncomingMessage, socket } = useContext(AccountContext);
   const [text, setText] = useState("");
 
   const sendText = async (e: React.FormEvent | React.MouseEvent) => {
@@ -47,14 +47,12 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
         await axios.post("http://localhost:5000/dashboard/message/add", message, {
           withCredentials: true,
         });
-        setMessages((prev: any) => [...prev, message]); // Append new message to messages
+        setIncomingMessage({ ...message, createdAt: Date.now() });
+        setText("");
       }
     } catch (err) {
       console.log("Error sending message:", err);
     }
-
-    setText(""); // Clear the input after sending
-    // setTrigger(!trigger);
   };
 
   return (

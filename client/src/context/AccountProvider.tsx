@@ -12,6 +12,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [newMessage, setNewMessage] = useState({});
   const [search, setSearch] = useState<string>("");
   const [socket, setSocket] = useState<Socket | null>(null);
+  const [incomingMessage, setIncomingMessage] = useState<Message | null>(null);
 
   useEffect(() => {
     const socketInstance = io("http://localhost:9000/");
@@ -37,8 +38,8 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
     setMessages,
     trigger,
     setTrigger,
-    newMessage,
-    setNewMessage,
+    incomingMessage,
+    setIncomingMessage,
     search,
     setSearch,
     socket,

@@ -1,7 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const url = "http://localhost:5000" //base url  ----> IMP
-
+const url = "http://localhost:5000"; //base url  ----> IMP
 
 //==========|| verify me request with cookies||==========//
 export const getUser = async () => {
@@ -19,25 +18,22 @@ export const searchUser = async (id: string) => {
     const response = await axios.get(`${url}/dashboard/${id}`, {
       withCredentials: true,
     });
-    return response.data
+    console.log(response);
+    return response.data;
   } catch (error) {
-    console.error('Error making request:', error);
+    console.error("Error making request:", error);
   }
 };
 
 //==========|| parameter query for contactList using _id ||==========//
-export const getUsers =async(account: any)=>{
+export const getUsers = async (account: any) => {
   try {
     const response = await axios.get(`${url}/request/contact/${account?._id}`, {
       withCredentials: true,
     });
-    return response
-  } catch (error) {
-    
-  }
-}
-
-
+    return response;
+  } catch (error) {}
+};
 
 export const createConversation = async (data: object) => {
   try {
@@ -45,6 +41,6 @@ export const createConversation = async (data: object) => {
     return res.data;
   } catch (err) {
     console.log("Error", err);
-    return err
+    return err;
   }
 };
