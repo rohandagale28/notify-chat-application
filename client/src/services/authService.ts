@@ -6,7 +6,7 @@ const url = import.meta.env.VITE_REST_URL
 export const loginUser = async (formData: Object) => {
   try {
     const res = await axios.post(`${url}/login`, formData, {
-      withCredentials: true,
+      withCredentials: false,
     })
     if (res.status == 200) return res
   } catch (error) {
