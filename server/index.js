@@ -16,7 +16,15 @@ app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
 // CORS Configuration
-app.use(cors())
+app.options('/', cors())
+const CORS = process.env.VITE_ALLOW_ORIGIN
+const corsOptions = {
+  origin: `${CORS}`,
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+// Apply CORS middleware
+app.use(cors(corsOptions))
 
 // Set up MongoDB connection
 require('./db')
