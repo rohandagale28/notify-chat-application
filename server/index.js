@@ -12,9 +12,12 @@ const request_routes = require('./routes/request')
 const dashboard_routes = require('./routes/dashboard')
 const { verifyToken } = require('./middleware/VerifyToken')
 app.use(cookieParser())
+
+const CORS = process.env.VITE_ALLOW_ORIGIN
+
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: `${CORS}`,
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true, // Allow credentials
