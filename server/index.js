@@ -17,7 +17,7 @@ const CORS = process.env.VITE_ALLOW_ORIGIN
 
 app.use(
   cors({
-    origin: ['https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app/'],
+    origin: ['https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
     credentials: true, // Allow credentials
