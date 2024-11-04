@@ -15,6 +15,24 @@ app.use(cookieParser())
 
 const CORS = process.env.VITE_ALLOW_ORIGIN
 
+const corsOptions = {
+  origin: 'https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app',
+  credentials: true,
+  allowedHeaders: [
+    'X-CSRF-Token', 
+    'X-Requested-With', 
+    'Accept', 
+    'Accept-Version', 
+    'Content-Length', 
+    'Content-MD5', 
+    'Content-Type', 
+    'Date', 
+    'X-Api-Version'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+};
+
+
 app.use(
   cors({
     origin: [`${CORS}`],
@@ -25,8 +43,11 @@ app.use(
   })
 )
 
+
+
 const PORT = process.env.PORT || 5000
 
+app.options('*', cors(corsOptions)); // Handle preflight requests
 //==========|| MongoDB Connection ||==========//
 require('./db')
 
