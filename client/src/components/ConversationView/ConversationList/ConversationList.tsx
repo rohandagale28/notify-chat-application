@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState, useMemo } from "react"
-import { AccountContext } from "../../../context/AccountProvider"
-import { Messanger } from "../Messanger/Messanger"
-import { Request } from "../ConversationHeader/Request"
-import { searchUser } from "@/services/userService"
-import { getConverstionList } from "@/services/appService"
+import React, { useContext, useEffect, useState, useMemo } from 'react'
+import { AccountContext } from '../../../context/AccountProvider'
+import { Messanger } from '../Messanger/Messanger'
+import { Request } from '../ConversationHeader/Request'
+import { searchUser } from '@/services/userService'
+import { getConverstionList } from '@/services/appService'
 
 interface User {
   _id: string
@@ -37,7 +37,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
         setSearchResult(response)
       }
     } catch (error) {
-      console.error("Error fetching user data:", error)
+      console.error('Error fetching user data:', error)
     }
   }
 

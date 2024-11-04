@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
-import ThemeToggle from "@/utils/Themetoggler"
-import { useToast } from "@/hooks/use-toast"
-import { loginUser } from "@/services/authService"
-import { validateField, validateFormData } from "./formValidation"
-import { getUser } from "@/services/userService"
-import { ToastAction } from "@/components/ui/toast"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import ThemeToggle from '@/utils/Themetoggler'
+import { useToast } from '@/hooks/use-toast'
+import { loginUser } from '@/services/authService'
+import { validateField, validateFormData } from './formValidation'
+import { getUser } from '@/services/userService'
+import { ToastAction } from '@/components/ui/toast'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const LoginForm = () => {
   const { toast } = useToast()
 
-  const [formData, setFormData] = useState({ email: "", password: "" })
+  const [formData, setFormData] = useState({ email: '', password: '' })
 
-  const [errors, setErrors] = useState({ email: "", password: "" })
+  const [errors, setErrors] = useState({ email: '', password: '' })
 
   const navigate = useNavigate()
 
@@ -42,19 +42,19 @@ const LoginForm = () => {
 
       if (response.status === 200) {
         toast({
-          title: "Login successfull",
-          description: "Friday, February 10, 2023 at 5:57 PM",
+          title: 'Login successfull',
+          description: 'Friday, February 10, 2023 at 5:57 PM',
         })
-        navigate("/dashboard")
+        navigate('/dashboard')
       } else if (response.status === 404) {
         toast({
-          title: "User not registered",
-          description: "Friday, February 10, 2023 at 5:57 PM",
+          title: 'User not registered',
+          description: 'Friday, February 10, 2023 at 5:57 PM',
           action: (
             <ToastAction
               altText="Goto schedule to undo"
               onClick={() => {
-                navigate("/register")
+                navigate('/register')
               }}
             >
               Sign up
@@ -63,12 +63,12 @@ const LoginForm = () => {
         })
       } else if (response.status === 401) {
         toast({
-          title: "Wrong password",
-          description: "Friday, February 10, 2023 at 5:57 PM",
+          title: 'Wrong password',
+          description: 'Friday, February 10, 2023 at 5:57 PM',
         })
       }
     } catch (error) {
-      console.error("Login error", error)
+      console.error('Login error', error)
     }
   }
 
@@ -76,7 +76,7 @@ const LoginForm = () => {
     const userExist = async () => {
       const response = await getUser()
       if (response.status === 200) {
-        navigate("/dashboard")
+        navigate('/dashboard')
       }
     }
     userExist()
@@ -116,7 +116,7 @@ const LoginForm = () => {
       </form>
       <div className="flex flex-row text-sm">
         <p>not a user</p>
-        {"   "}
+        {'   '}
         <p>
           <NavLink to="/register">sign up</NavLink>
         </p>

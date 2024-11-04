@@ -1,15 +1,27 @@
-const message = require("../model/Message")
+const message = require('../model/Message')
 
 const newMessage = async (req, res) => {
-    const { senderId, receiverId, conversationId, type, text } = req.body
-    console.log(senderId, receiverId, conversationId, type, text)
-    try {
-        const newMessage = new message({ senderId, receiverId, conversationId, type, text })
-        await newMessage.save()
-        return res.status(200).send("message send successfully")
-    } catch (err) {
-        res.status(500).send("not found")
-    }
+  const { senderId, receiverId, conversationId, type, text } = req.body
+
+  try {
+    const newMessage = new message({ senderId, receiverId, conversationId, type, text })
+    await newMessage.save()
+    return res.status(200).send('message send successfully')
+  } catch (err) {
+    return res.status(500).send('not found')
+  }
+}
+
+const DeleteMessage = async (req, res) => {
+  const id = req.params.id
+
+  try {
+    const newMessage = await message.findOneAndUpate({ _id: id }, { text: 'message deleted' })
+
+    return res.status(200).send('message send successfully')
+  } catch (err) {
+    return res.status(500).send('not found')
+  }
 }
 
 // const currentDate = new Date();
@@ -22,12 +34,12 @@ const newMessage = async (req, res) => {
 // endOfDay.setHours(23, 59, 59, 999);
 
 const getMessages = async (req, res) => {
-    try {
-        const messages = await message.find({ conversationId: req.params.id })
-        return res.status(200).json({ data: messages.reverse() })
-    } catch (err) {
-        return res.status(500).json(err)
-    }
+  try {
+    const messages = await message.find({ conversationId: req.params.id })
+    return res.status(200).json({ data: messages.reverse() })
+  } catch (err) {
+    return res.status(500).json(err)
+  }
 }
 
-module.exports = { newMessage, getMessages }
+module.exports = { newMessage, getMessages, DeleteMessage }

@@ -1,6 +1,6 @@
-import { AccountContext } from "@/context/AccountProvider"
-import axios from "axios"
-import React, { useContext, useEffect, useState } from "react"
+import { AccountContext } from '@/context/AccountProvider'
+import axios from 'axios'
+import React, { useContext, useEffect, useState } from 'react'
 
 interface RequestProps {
   id: string
@@ -19,7 +19,7 @@ export const Request: React.FC<RequestProps> = () => {
         })
         .then((data) => {
           setData(data)
-          console.log(response, "this is the response data")
+          console.log(response, 'this is the response data')
         })
     } catch (err) {
       console.error(err)

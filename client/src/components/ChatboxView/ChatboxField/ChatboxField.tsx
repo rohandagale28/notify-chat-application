@@ -1,6 +1,6 @@
-import { AccountContext } from "@/context/AccountProvider"
-import React, { useContext, useRef, useEffect } from "react"
-import { Message } from "./Message"
+import { AccountContext } from '@/context/AccountProvider'
+import React, { useContext, useRef, useEffect } from 'react'
+import { Message } from './Message'
 
 export interface Messages {
   _id: string

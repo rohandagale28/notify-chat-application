@@ -1,6 +1,7 @@
-import { useContext, useCallback } from "react"
-import { AccountContext } from "../../../context/AccountProvider"
-import { Menu } from "@/components/svg/Index"
+import { useContext, useCallback } from 'react'
+import { AccountContext } from '../../../context/AccountProvider'
+import { MenuIcon } from '@/components/svg/Index'
+import { DropdownMenuDemo } from './DropdownMenu'
 
 interface Account {
   _id: string
@@ -29,12 +30,8 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({ account 
         <div className="cursor-pointer ">
           <img src={account?.image} className="h-8 w-8 object-cover rounded-full" alt="User" />
         </div>
-        <div className="more cursor-pointer text-sm pl-4">{account?.username}</div>
-        <div className="flex ml-auto   h-6 w-6">
-          <button className="rounded-lg hover:bg-muted h-4 w-4">
-            <Menu />
-          </button>
-        </div>
+        <div className="more cursor-pointer text-sm pl-6 capitalize">{account?.username}</div>
+        <DropdownMenuDemo />
       </div>
       <div className="w-full h-auto box-border">
         <input

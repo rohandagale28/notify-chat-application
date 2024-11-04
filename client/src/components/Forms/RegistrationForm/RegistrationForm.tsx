@@ -1,26 +1,26 @@
-import { useState } from "react"
-import { NavLink, useNavigate } from "react-router-dom"
-import { validateEmail } from "@/utils/utils"
-import { useToast } from "@/hooks/use-toast"
-import { ToastAction } from "@radix-ui/react-toast"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { validateEmail } from '@/utils/utils'
+import { useToast } from '@/hooks/use-toast'
+import { ToastAction } from '@radix-ui/react-toast'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 const RegistrationForm = () => {
   const { toast } = useToast()
 
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    image: "",
+    username: '',
+    email: '',
+    password: '',
+    image: '',
   })
 
   const [errors, setErrors] = useState({
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   })
 
   const navigate = useNavigate()
@@ -32,23 +32,23 @@ const RegistrationForm = () => {
       [name]: value,
     })
 
-    if (name === "username") {
-      const usernameError = value.trim().length === 0 ? "Username is required" : ""
+    if (name === 'username') {
+      const usernameError = value.trim().length === 0 ? 'Username is required' : ''
       setErrors((prevErrors) => ({ ...prevErrors, username: usernameError }))
     }
 
-    if (name === "email") {
-      const emailError = !value.trim() || !validateEmail(value) ? "Please enter a valid email" : ""
+    if (name === 'email') {
+      const emailError = !value.trim() || !validateEmail(value) ? 'Please enter a valid email' : ''
       setErrors((prevErrors) => ({ ...prevErrors, email: emailError }))
     }
 
-    if (name === "password") {
+    if (name === 'password') {
       const passwordError =
         value.length === 0
-          ? ""
+          ? ''
           : value.trim().length < 6
-            ? "Password must be at least 6 characters"
-            : ""
+            ? 'Password must be at least 6 characters'
+            : ''
       setErrors((prevErrors) => ({ ...prevErrors, password: passwordError }))
     }
   }
@@ -77,9 +77,9 @@ const RegistrationForm = () => {
     e.preventDefault()
     const { username, email, password } = formData
 
-    const usernameError = username.trim().length === 0 ? "Username is required" : ""
-    const emailError = !email.trim() || !validateEmail(email) ? "Please enter a valid email" : ""
-    const passwordError = password.trim().length < 6 ? "Password must be at least 6 characters" : ""
+    const usernameError = username.trim().length === 0 ? 'Username is required' : ''
+    const emailError = !email.trim() || !validateEmail(email) ? 'Please enter a valid email' : ''
+    const passwordError = password.trim().length < 6 ? 'Password must be at least 6 characters' : ''
 
     setErrors({
       username: usernameError,
@@ -89,30 +89,30 @@ const RegistrationForm = () => {
 
     if (!usernameError && !emailError && !passwordError) {
       try {
-        const response = await fetch("http://localhost:5000/register", {
-          method: "POST",
-          credentials: "include",
+        const response = await fetch('http://localhost:5000/register', {
+          method: 'POST',
+          credentials: 'include',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(formData),
         })
         console.log(response)
         if (response.status === 200) {
           toast({
-            title: "Registration successful",
-            description: "Welcome! You have successfully registered.",
+            title: 'Registration successful',
+            description: 'Welcome! You have successfully registered.',
           })
-          navigate("/dashboard")
+          navigate('/dashboard')
         } else if (response.status === 409) {
           toast({
-            title: "User already exists",
-            description: "It seems you already have an account.",
+            title: 'User already exists',
+            description: 'It seems you already have an account.',
             action: (
               <ToastAction
                 altText="Go to login"
                 onClick={() => {
-                  navigate("/login")
+                  navigate('/login')
                 }}
               >
                 Login
@@ -121,7 +121,7 @@ const RegistrationForm = () => {
           })
         }
       } catch (error) {
-        console.error("Registration error", error)
+        console.error('Registration error', error)
       }
     }
   }

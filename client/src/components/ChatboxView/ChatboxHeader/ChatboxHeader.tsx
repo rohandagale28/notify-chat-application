@@ -1,5 +1,5 @@
-import { useState } from "react"
-import VideoIcon from "../../../assets/videocam.svg"
+import { useState } from 'react'
+import VideoIcon from '../../../assets/videocam.svg'
 
 interface Person {
   sub?: string

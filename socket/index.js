@@ -1,10 +1,16 @@
 const { Server } = require("socket.io");
+const dotenv = require("dotenv");
+require("dotenv").config();
+
+const PORT = process.env.PORT || 9000;
+
+const CORS = process.env.FRONT_END_CORS;
 
 const io = new Server(
-  9000,
+  PORT,
   {
     cors: {
-      origin: "http://localhost:5173",
+      origin: "*",
     },
   },
   (req, res) => {

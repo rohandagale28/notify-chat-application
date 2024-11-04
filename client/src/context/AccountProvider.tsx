@@ -1,5 +1,5 @@
-import { Socket, io } from "socket.io-client"
-import { createContext, useState, useEffect, useContext } from "react"
+import { Socket, io } from 'socket.io-client'
+import { createContext, useState, useEffect, useContext } from 'react'
 
 export const AccountContext = createContext<any | null>(null)
 
@@ -10,12 +10,14 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const [messages, setMessages] = useState<object[]>([])
   const [trigger, setTrigger] = useState(false)
   const [newMessage, setNewMessage] = useState({})
-  const [search, setSearch] = useState<string>("")
+  const [search, setSearch] = useState<string>('')
   const [socket, setSocket] = useState<Socket | null>(null)
-  const [incomingMessage, setIncomingMessage] = useState<Message | null>(null)
+  const [incomingMessage, setIncomingMessage] = useState<Object | null>(null)
+
+  const socketURI = import.meta.env.VITE_SOCKET_API
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:9000/")
+    const socketInstance = io('https://circles-fellow-sweet-era.trycloudflare.com')
 
     setSocket(socketInstance)
 
@@ -53,7 +55,7 @@ export const useAccount = () => {
   const context = useContext(AccountContext)
 
   if (context === undefined) {
-    throw new Error("useAccount must be used within an AccountProvider")
+    throw new Error('useAccount must be used within an AccountProvider')
   }
 
   return context

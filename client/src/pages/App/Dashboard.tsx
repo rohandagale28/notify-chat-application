@@ -1,7 +1,7 @@
-import { ConversationView } from "@/components/ConversationView/ConversationView"
-import { ChatboxView } from "@/components/ChatboxView/ChatboxView"
-import { useAccount } from "@/context/AccountProvider"
-import { useEffect, useState } from "react"
+import { ConversationView } from '@/components/ConversationView/ConversationView'
+import { ChatboxView } from '@/components/ChatboxView/ChatboxView'
+import { useAccount } from '@/context/AccountProvider'
+import { useEffect, useState } from 'react'
 
 const Dashboard = () => {
   const { account, socket } = useAccount()
@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (socket && account) {
-      socket.emit("addUsers", account._id)
+      socket.emit('addUsers', account._id)
       setIsLoading(false)
     }
     console.log(account)

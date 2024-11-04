@@ -1,6 +1,6 @@
-import axios from "axios"
+import axios from 'axios'
 
-const url = "http://localhost:5000" //base url  ----> IMP
+const url = import.meta.env.VITE_REST_URL
 
 //==========|| verify me request with cookies||==========//
 export const getUser = async () => {
@@ -21,7 +21,7 @@ export const searchUser = async (id: string) => {
     console.log(response)
     return response.data
   } catch (error) {
-    console.error("Error making request:", error)
+    console.error('Error making request:', error)
   }
 }
 
@@ -40,7 +40,7 @@ export const createConversation = async (data: object) => {
     const res = await axios.post(`${url}/dashboard/conversation`, data, { withCredentials: true })
     return res.data
   } catch (err) {
-    console.log("Error", err)
+    console.log('Error', err)
     return err
   }
 }

@@ -1,10 +1,10 @@
-import { useCallback, useContext, useEffect, useState } from "react"
-import { AccountContext } from "../../context/AccountProvider"
-import { EmptyChatbox } from "./EmptyChatbox"
-import { ChatboxHeader } from "./ChatboxHeader/ChatboxHeader"
-import { createConversation } from "@/services/userService"
-import { ChatboxInput } from "./ChatboxInput/ChatboxInput"
-import { ChatboxField } from "./ChatboxField/ChatboxField"
+import { useCallback, useContext, useEffect, useState } from 'react'
+import { AccountContext } from '../../context/AccountProvider'
+import { EmptyChatbox } from './EmptyChatbox'
+import { ChatboxHeader } from './ChatboxHeader/ChatboxHeader'
+import { createConversation } from '@/services/userService'
+import { ChatboxInput } from './ChatboxInput/ChatboxInput'
+import { ChatboxField } from './ChatboxField/ChatboxField'
 
 interface Message {
   _id: string
@@ -33,7 +33,7 @@ export const ChatboxView: React.FC = () => {
       setConversationId(data._id)
       setMessages(data.messages)
     } catch (err) {
-      console.warn("Get conversation messages error : ", err)
+      console.warn('Get conversation messages error : ', err)
     }
   }, [account._id, person._id])
 
@@ -45,7 +45,7 @@ export const ChatboxView: React.FC = () => {
       setIncomingMessage({ ...data, createdAt: Date.now() })
     }
 
-    socket.on("getMessage", handleMessage)
+    socket.on('getMessage', handleMessage)
   }, [socket])
 
   // Update messages for new incoming message
@@ -55,7 +55,7 @@ export const ChatboxView: React.FC = () => {
       incomingMessage?.receiverId === person._id
     ) {
       setMessages((prevMessages) => [...prevMessages, incomingMessage])
-      console.warn("this is called")
+      console.warn('this is called')
     }
   }, [incomingMessage])
 
@@ -67,7 +67,7 @@ export const ChatboxView: React.FC = () => {
   }, [person._id])
 
   useEffect(() => {}, [])
-  console.log(messages, "thse are the messages")
+  console.log(messages, 'thse are the messages')
   return (
     <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
       {Object.keys(person).length ? (
