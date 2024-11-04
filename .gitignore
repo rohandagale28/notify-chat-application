@@ -5,7 +5,7 @@
 
 #server
 /server/node_modules
-/server/config.env
+/server/.env
 
 #socket
 /socket/node_modules
