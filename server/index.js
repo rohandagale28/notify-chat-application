@@ -15,15 +15,27 @@ app.use(cookieParser())
 
 const CORS = process.env.VITE_ALLOW_ORIGIN
 
-app.use(
-  cors({
-    origin: "https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app/",
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
-    allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
-    credentials: true, // Allow credentials
-    optionsSuccessStatus: 204, // Response status for preflight requests
-  })
-)
+// app.use(
+//   cors({
+//     origin: "https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app/",
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+//     allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+//     credentials: true, // Allow credentials
+//     optionsSuccessStatus: 204, // Response status for preflight requests
+//   })
+// )
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://notify-chat-application-git-development-rohandagale28s-projects.vercel.app");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+  } else {
+    next();
+  }
+});
 
 const PORT = process.env.PORT || 5000
 
