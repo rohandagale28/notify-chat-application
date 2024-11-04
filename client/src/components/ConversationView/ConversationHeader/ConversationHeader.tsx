@@ -1,6 +1,5 @@
 import { useContext, useCallback } from 'react'
 import { AccountContext } from '../../../context/AccountProvider'
-import { MenuIcon } from '@/components/svg/Index'
 import { DropdownMenuDemo } from './DropdownMenu'
 
 interface Account {

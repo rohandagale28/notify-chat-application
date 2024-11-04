@@ -1,5 +1,4 @@
 import { MouseEvent } from 'react'
-import { Button } from '@/components/ui/button'
 import { useAccount } from '@/context/AccountProvider'
 import { sendRequest } from '@/services/requestService'
 import { useToast } from '@/hooks/use-toast'

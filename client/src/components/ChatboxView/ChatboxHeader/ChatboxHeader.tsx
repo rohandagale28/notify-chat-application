@@ -2,6 +2,7 @@ import { useState } from 'react'
 import VideoIcon from '../../../assets/videocam.svg'
 
 interface Person {
+  image: string
   sub?: string
   username?: string
   picture?: string
