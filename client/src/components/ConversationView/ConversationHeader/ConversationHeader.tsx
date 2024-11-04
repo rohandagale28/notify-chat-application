@@ -31,7 +31,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({ account 
           <img src={account?.image} className="h-8 w-8 object-cover rounded-full" alt="User" />
         </div>
         <div className="more cursor-pointer text-sm pl-6 capitalize">{account?.username}</div>
-        <DropdownMenuDemo />
+        <DropdownMenuDemo id={undefined} />
       </div>
       <div className="w-full h-auto box-border">
         <input

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { validateEmail } from '@/utils/utils'
 import { useToast } from '@/hooks/use-toast'
@@ -54,8 +54,8 @@ const RegistrationForm = () => {
   }
 
   // handle and convert image to base64
-  const handleImage = (e: { target: { files: any[] } }) => {
-    const file = e.target.files[0]
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
     if (file) {
       setFileToBase(file)
     }
