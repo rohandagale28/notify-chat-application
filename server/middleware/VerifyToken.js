@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 const verifyToken = (req, res, next) => {
-  const token = req.cookies.token // Assuming the token is stored in a cookie named "token"
+  const token = req.cookies.token // the token is stored in a cookie named "token"
 
   if (!token) {
     return res.status(401).json({
@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, 'workspace28')
+    const decoded = jwt.verify(token, process.env.SECRET_KEY)
     req.user = decoded
     next()
   } catch (err) {

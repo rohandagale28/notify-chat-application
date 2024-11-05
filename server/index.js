@@ -1,6 +1,5 @@
 const express = require('express')
 const dotenv = require('dotenv')
-const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
 const user_routes = require('./routes/user')
@@ -8,44 +7,51 @@ const request_routes = require('./routes/request')
 const dashboard_routes = require('./routes/dashboard')
 const { verifyToken } = require('./middleware/VerifyToken')
 
-// Load environment variables from .env file
-dotenv.config({ path: './config.env' })
-
 const app = express()
 app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
-// CORS Configuration
-const CORS = process.env.VITE_ALLOW_ORIGIN
-const corsOptions = {
-  origin: `${CORS}`,
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  preflightContinue: false,
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+
+/*------------------ ENVIRONMENT VARIABLES --------------------*/
+dotenv.config()
+if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
+  console.error('Missing necessary environment variables in .env')
+  process.exit(1)
 }
 
-// Apply CORS middleware
-app.use(cors(corsOptions))
-app.options('/', cors())
 
-// Set up MongoDB connection
+/*------------------ CORS CONFIGURATION ------------------------*/
+const allowedOrigin = process.env.ALLOW_ORIGIN
+const corsOptions = {
+  origin: allowedOrigin,
+  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+  preflightContinue: true,
+  optionsSuccessStatus: 200, // Support for legacy browsers
+}
+app.use(cors(corsOptions))
+
+
+/*------------------ MONGODB CONNECTION ---------------------*/
 require('./db')
 
+
+/*------------------ ROUTES -----------------------------------------*/
 // User Routes
 app.use('/', user_routes)
 
-// Dashboard Routes
+// Dashboard Routes (protected)
 app.use('/dashboard', verifyToken, dashboard_routes)
 
-// Request Routes
+// Request Routes (protected)
 app.use('/request', verifyToken, request_routes)
 
 // Home Route
-app.get('/', (req, res) => {
+app.get('/', (_, res) => {
   res.status(200).json({ message: 'Server is running healthy' })
 })
 
-// Start the server
+
+/*------------------ SERVER CONFIGURATION ----------------------*/
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)

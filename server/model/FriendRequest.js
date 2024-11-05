@@ -3,13 +3,13 @@ const mongoose = require('mongoose')
 const friendRequestSchema = mongoose.Schema({
   userId: { type: mongoose.Schema.ObjectId, ref: 'users' },
   pendingList: {
-    type: [mongoose.Schema.ObjectId], // Array of ObjectIds
-    ref: 'users', // Reference to the users collection
-    default: [], // Default to an empty array
+    type: [mongoose.Schema.ObjectId], 
+    ref: 'users',
+    default: [], 
   },
   contactList: {
-    type: [mongoose.Schema.ObjectId], // Array of ObjectIds
-    ref: 'users', // Reference to the users collection
+    type: [mongoose.Schema.ObjectId], 
+    ref: 'users', 
     default: [],
   },
 })

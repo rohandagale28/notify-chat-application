@@ -9,8 +9,8 @@ router.post('/login', loginUser)
 router.post('/logout', logOut)
 router.post('/register', registerUser)
 
-router.post('/add', addUser) //  add new user to database
-router.get('/get/:id', getUser) // get users with name character
+router.post('/add', addUser)
+router.get('/get/:id', getUser) 
 
 router.post('/conversation', newConversation)
 router.post('/conversation/get', getConversation)
