@@ -22,9 +22,16 @@ if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
 const allowedOrigins = [process.env.ALLOW_ORIGIN, 'https://notify-chat-application.vercel.app']
 
 const corsOptionsNoCredentials = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or CURL)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
+  preflightContinue: true,
   optionsSuccessStatus: 200,
 }
 
@@ -36,7 +43,7 @@ const corsOptionsWithCredentials = {
 // Apply CORS without credentials for public routes like login
 app.use('/login', cors(corsOptionsNoCredentials))
 
-// app.options('*', cors(corsOptions)) // Enable CORS pre-flight for all routes
+// Apply CORS with credentials for protected routes and other routes requiring credentials
 app.use(cors(corsOptionsWithCredentials))
 
 /*------------------ MONGODB CONNECTION ---------------------*/
