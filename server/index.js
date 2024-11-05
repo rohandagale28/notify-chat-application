@@ -30,6 +30,7 @@ const corsOptions = {
   },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: true,
+  credentials: true,
   optionsSuccessStatus: 200,
 }
 
