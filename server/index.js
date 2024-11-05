@@ -20,22 +20,24 @@ if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const allowedOrigins = [process.env.ALLOW_ORIGIN, 'https://notify-chat-application.vercel.app']
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+
+const corsOptionsNoCredentials = {
+  origin: allowedOrigins,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: true,
-  credentials: false,
+  preflightContinue: false,
   optionsSuccessStatus: 200,
 }
 
-app.options('*', cors(corsOptions)) // Enable CORS pre-flight for all routes
-app.use(cors(corsOptions))
+const corsOptionsWithCredentials = {
+  ...corsOptionsNoCredentials,
+  credentials: true, // Required for requests that need credentials
+}
+
+// Apply CORS without credentials for public routes like login
+app.use('/login', cors(corsOptionsNoCredentials))
+
+// app.options('*', cors(corsOptions)) // Enable CORS pre-flight for all routes
+app.use(cors(corsOptionsWithCredentials))
 
 /*------------------ MONGODB CONNECTION ---------------------*/
 require('./db')
