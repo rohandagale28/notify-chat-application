@@ -19,7 +19,7 @@ if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
 }
 
 /*------------------ CORS CONFIGURATION ------------------------*/
-const allowedOrigins = [process.env.ALLOW_ORIGIN, 'http://another-allowed-origin.com']
+const allowedOrigins = [process.env.ALLOW_ORIGIN, 'https://notify-chat-application.vercel.app']
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
