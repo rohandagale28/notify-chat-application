@@ -2,8 +2,6 @@ import axios from 'axios'
 
 const url = import.meta.env.VITE_REST_URL
 
-axios.defaults.withCredentials = true
-
 // Login user
 export const loginUser = async (formData: Object) => {
   try {
