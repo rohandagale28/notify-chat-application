@@ -30,11 +30,11 @@ const corsOptions = {
   },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: true,
-  credentials: true,
+  credentials: false,
   optionsSuccessStatus: 200,
 }
 
-app.options('*', cors(corsOptions));  // Enable CORS pre-flight for all routes
+app.options('*', cors(corsOptions)) // Enable CORS pre-flight for all routes
 app.use(cors(corsOptions))
 
 /*------------------ MONGODB CONNECTION ---------------------*/
