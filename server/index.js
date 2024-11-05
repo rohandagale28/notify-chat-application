@@ -34,6 +34,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 }
 
+app.options('*', cors(corsOptions));  // Enable CORS pre-flight for all routes
 app.use(cors(corsOptions))
 
 /*------------------ MONGODB CONNECTION ---------------------*/
