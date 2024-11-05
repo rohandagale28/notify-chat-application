@@ -11,7 +11,6 @@ const app = express()
 app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
-
 /*------------------ ENVIRONMENT VARIABLES --------------------*/
 dotenv.config()
 if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
@@ -19,21 +18,25 @@ if (!process.env.PORT || !process.env.ALLOW_ORIGIN) {
   process.exit(1)
 }
 
-
 /*------------------ CORS CONFIGURATION ------------------------*/
-const allowedOrigin = process.env.ALLOW_ORIGIN
+const allowedOrigins = [process.env.ALLOW_ORIGIN, 'http://another-allowed-origin.com']
 const corsOptions = {
-  origin: allowedOrigin,
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: true,
-  optionsSuccessStatus: 200, // Support for legacy browsers
+  optionsSuccessStatus: 200,
 }
-app.use(cors(corsOptions))
 
+app.use(cors(corsOptions))
 
 /*------------------ MONGODB CONNECTION ---------------------*/
 require('./db')
-
 
 /*------------------ ROUTES -----------------------------------------*/
 // User Routes
@@ -49,7 +52,6 @@ app.use('/request', verifyToken, request_routes)
 app.get('/', (_, res) => {
   res.status(200).json({ message: 'Server is running healthy' })
 })
-
 
 /*------------------ SERVER CONFIGURATION ----------------------*/
 const PORT = process.env.PORT || 5000
