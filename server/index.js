@@ -17,26 +17,35 @@ app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
 /*------------------ ENVIRONMENT VARIABLES --------------------*/
-const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN
+const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app'
 
-if (!ALLOWED_ORIGIN) {
-  console.error('Missing ALLOW_ORIGIN environment variable in .env')
-  process.exit(1)
+if (!process.env.ALLOW_ORIGIN) {
+  console.warn(
+    'ALLOW_ORIGIN environment variable is missing. Using default origin:',
+    ALLOWED_ORIGIN
+  )
 }
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app',
-  credentials: true, // Allows cookies to be sent
+  origin: (origin, callback) => {
+    // Allow requests from the specified origin only
+    if (origin === ALLOWED_ORIGIN || !origin) {
+      // `!origin` allows server-to-server or same-origin requests without origin header
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+  credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
 }
 
-app.use(cors(corsOptions))
-
 /*------------------ MONGODB CONNECTION ---------------------*/
 require('./db')
 
+app.use(cors(corsOptions))
 /*------------------ ROUTES -----------------------------------------*/
 //Auth Routes
 app.use('/auth', authentication__routes)
@@ -45,7 +54,7 @@ app.use('/auth', authentication__routes)
 app.use('/', user_routes)
 
 // Dashboard Routes (protected)
-app.use('/dashboard', dashboard_routes)
+app.use('/dashboard', verifyToken, dashboard_routes)
 
 // Message Routes (protected)
 app.use('/message', verifyToken, message_routes)
@@ -55,11 +64,7 @@ app.use('/request', verifyToken, request_routes)
 
 // Home Route
 app.get('/', (_, res) => {
-  return new Response('server', {
-    headers: {
-      'Access-Control-Allow-Origin': 'https://notify-chat-application.vercel.app',
-    },
-  })
+  res.status(200).json({ message: 'Server is running healthy' })
 })
 
 /*------------------ SERVER CONFIGURATION ----------------------*/
