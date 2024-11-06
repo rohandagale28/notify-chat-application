@@ -26,7 +26,7 @@ if (!ALLOWED_ORIGIN) {
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: 'http://localhost:5173',
+  origin: 'https://notify-chat-application.vercel.app',
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200, // Support for legacy browsers
