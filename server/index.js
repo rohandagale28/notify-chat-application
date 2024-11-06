@@ -26,10 +26,10 @@ if (!ALLOWED_ORIGIN) {
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: 'https://notify-chat-application.vercel.app',
-  credentials: true,
+  origin: process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app/auth/login',
+  credentials: true, // Allows cookies to be sent
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  optionsSuccessStatus: 200, // Support for legacy browsers
+  optionsSuccessStatus: 200,
 }
 
 app.use(cors(corsOptions))
