@@ -1,56 +1,52 @@
 const { default: mongoose } = require('mongoose')
-const request = require('../model/FriendRequest')
-const userModel = require('../model/User')
-const conversation = require('../model/Conversation')
+const FriendRequest = require('../model/FriendRequest')
+const User = require('../model/User')
+const Conversation = require('../model/Conversation')
 
-//==========|| sending new request ||==========//
+/*------------------ SENDING NEW REQUEST ------------------*/
 const newRequest = async (req, res) => {
   const { sender, receiver } = req.body
 
-  console.log(sender, receiver, 'these are the users coming from the frontend')
-
-  // Validate input
   if (!sender || !receiver) {
-    return res.status(400).send({ message: 'Both sender and receiver are required' })
+    return res.status(400).json({ message: 'Both sender and receiver are required' })
   }
 
   try {
-    await request.findOneAndUpdate(
+    const updateOptions = { new: true, upsert: true }
+
+    await FriendRequest.findOneAndUpdate(
       { userId: receiver },
       { $addToSet: { pendingList: sender } },
-      { new: true, upsert: true }
+      updateOptions
     )
 
-    await request.findOneAndUpdate(
+    await FriendRequest.findOneAndUpdate(
       { userId: sender },
       { $addToSet: { pendingList: receiver } },
-      { new: true, upsert: true }
+      updateOptions
     )
 
-    return res.status(201).send({ message: 'request send successfully' })
+    return res.status(201).json({ message: 'Request sent successfully' })
   } catch (error) {
     console.error('Error updating pendingList:', error)
-    return res.status(500).send({ message: 'Internal server error' })
+    return res.status(500).json({ message: 'Internal server error' })
   }
 }
 
-//==========|| getting request and contact array ||=========//
-const getRequest = async (req, res) => {
-  const id = req.params.id
-  console.log(id, 'this is id coming from frontend')
+/*------------------ GETTING CONVERSATION LIST ------------------*/
+const getConversationList = async (req, res) => {
+  const { id } = req.params
 
   if (!id) {
-    return res.status(400).send({ message: 'User ID is required' })
+    return res.status(400).json({ message: 'User ID is required' })
   }
 
   try {
-    const result = await request.aggregate([
-      {
-        $match: { userId: new mongoose.Types.ObjectId(id) }, // Match the userId
-      },
+    const result = await FriendRequest.aggregate([
+      { $match: { userId: new mongoose.Types.ObjectId(id) } },
       {
         $lookup: {
-          from: 'users', // The collection name
+          from: 'users',
           localField: 'pendingList',
           foreignField: '_id',
           as: 'pendingUsers',
@@ -58,7 +54,7 @@ const getRequest = async (req, res) => {
       },
       {
         $lookup: {
-          from: 'users', // The collection name
+          from: 'users',
           localField: 'contactList',
           foreignField: '_id',
           as: 'contactUsers',
@@ -72,10 +68,9 @@ const getRequest = async (req, res) => {
               input: '$pendingUsers',
               as: 'user',
               in: {
-                _id: '$$user._id', // Include the user ID
-                username: '$$user.username', // Include specific fields
+                _id: '$$user._id',
+                username: '$$user.username',
                 image: '$$user.image',
-                // Exclude other fields or modify as needed
               },
             },
           },
@@ -84,67 +79,53 @@ const getRequest = async (req, res) => {
               input: '$contactUsers',
               as: 'user',
               in: {
-                _id: '$$user._id', // Include the user ID
-                username: '$$user.username', // Include specific fields
+                _id: '$$user._id',
+                username: '$$user.username',
                 image: '$$user.image',
-                // Exclude other fields or modify as needed
               },
             },
           },
         },
       },
     ])
-    if (!result) {
-      return res.status(404).send({ message: 'No requests found for this user' })
+
+    if (!result || !result.length) {
+      return res.status(404).json({ message: 'No requests found for this user' })
     }
 
-    console.log(result, 'this is the result of the request')
-    const [{ pendingUsers, contactUsers, _id }] = result
-    return res.status(200).json({ id: _id, pendingList: pendingUsers, contactList: contactUsers })
+    const [{ pendingUsers, contactUsers, userId }] = result
+    return res
+      .status(200)
+      .json({ id: userId, pendingList: pendingUsers, contactList: contactUsers })
   } catch (error) {
-    console.error(error)
-    return res.status(500).send({ message: 'Internal server error' })
+    console.error('Error fetching conversation list:', error)
+    return res.status(500).json({ message: 'Internal server error' })
   }
 }
 
-//==========|| updating contactList and pendingList ||==========//
+/*------------------ UPDATING CONTACT AND PENDING LIST ------------------*/
 const updateRequest = async (req, res) => {
+  const { sender, receiver } = req.body
+
+  if (!sender || !receiver) {
+    return res.status(400).json({ message: 'Both sender and receiver are required' })
+  }
+
   try {
-    const { sender, receiver } = req.body
+    await FriendRequest.updateOne({ userId: sender }, { $pull: { pendingList: receiver } })
+    await FriendRequest.updateOne({ userId: receiver }, { $pull: { pendingList: sender } })
 
-    console.log(sender, receiver, 'what the fuck is this') //as object id's
+    await FriendRequest.updateOne({ userId: sender }, { $addToSet: { contactList: receiver } })
+    await FriendRequest.updateOne({ userId: receiver }, { $addToSet: { contactList: sender } })
 
-    if (!sender || !receiver) {
-      return res.status(400).send({ message: 'Both user1 and user2 are required' })
-    }
+    const newConversation = new Conversation({ members: [sender, receiver] })
+    await newConversation.save()
 
-    // First, pull from pendingList
-    await request.updateOne({ userId: sender }, { $pull: { pendingList: receiver } })
-
-    await request.updateOne({ userId: receiver }, { $pull: { pendingList: sender } })
-
-    // Then, add to contactList without duplicates
-    const user = await request.updateOne(
-      { userId: sender },
-      { $addToSet: { contactList: receiver } }
-    )
-
-    const user2 = await request.updateOne(
-      { userId: receiver },
-      { $addToSet: { contactList: sender } }
-    )
-
-    const conversation = new conversation({
-      members: { $all: [sender, receiver] },
-    })
-    await conversation.save()
-
-    console.log(user, 'this is updated user from pending array to contactList')
-    return res.status(200).send('Request created successfully')
+    return res.status(200).json({ message: 'Request updated successfully' })
   } catch (error) {
-    console.error(error)
-    return res.status(500).send({ message: 'Internal server error' })
+    console.error('Error updating contact and pending list:', error)
+    return res.status(500).json({ message: 'Internal server error' })
   }
 }
 
-module.exports = { newRequest, getRequest, updateRequest }
+module.exports = { newRequest, getConversationList, updateRequest }

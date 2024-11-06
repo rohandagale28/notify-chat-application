@@ -52,6 +52,8 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body
 
+    console.log(email, password)
+
     const userExist = await userModel.findOne({ email: email })
 
     if (!userExist) {
@@ -82,7 +84,7 @@ const loginUser = async (req, res) => {
   }
 }
 
-//====================|| verify logged in user and send user object ||====================//
+/*-------------------- verify logged in user and send user object --------------------*/
 const verifyMe = async (req, res) => {
   try {
     const token = req.cookies.token

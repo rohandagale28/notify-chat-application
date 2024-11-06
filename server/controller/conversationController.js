@@ -20,6 +20,7 @@ const newConversation = async (req, res) => {
   }
 }
 
+/*-------------------- GET CONVERSATION ID & MESSAGES --------*/
 const getConversation = async (req, res) => {
   try {
     const senderId = req.body.senderId
@@ -64,7 +65,7 @@ const getConversation = async (req, res) => {
     })
 
     // Return the newly created conversation
-    res.status(201).json({ data: newConversation })
+    res.status(201).json({ data: newConversation, _id })
   } catch (error) {
     console.error('Error fetching or creating conversation:', error)
     return res.status(500).send({ message: 'Internal server error' })

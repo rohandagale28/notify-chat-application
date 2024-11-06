@@ -1,18 +1,12 @@
 const express = require('express')
-const { getUser } = require('../controller/userController')
-const { newConversation, getConversation } = require('../controller/conversationController')
-const { newMessage, DeleteMessage } = require('../controller/messageController')
-const { verifyMe } = require('../controller/authController')
+const { getConversation } = require('../controller/conversationController')
+const { getConversationList } = require('../controller/requestController')
 const router = express.Router()
 
-router.get('/', verifyMe) // verify token and send user object
+/*-------------------- GET CONVERSATION LIST -----------------*/
+router.get('/conversation/:id', getConversationList)
 
-router.get('/:id', getUser) // search user parameter
-
-router.post('/conversation', getConversation)
-
-router.post('/message/add', newMessage)
-
-router.get('/message/delete/:id', DeleteMessage)
+/*-------------------- CREATE NEW CONVERSATION ---------------*/
+router.post('/conversation/add', getConversation)
 
 module.exports = router
