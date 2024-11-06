@@ -31,7 +31,7 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
       className="flex gap-4 h-full w-full p-8 box-border flex-col  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300"
       ref={chatboxRef}
     >
-      {messages.length > 0 ? (
+      {messages?.length > 0 ? (
         messages?.map((item: Messages) => {
           return (
             <React.Fragment key={item?._id}>

@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const url = import.meta.env.VITE_REST_URL
 
+/*-------------------- Handle Sending Request ----------------*/
 export const sendRequest = async (senderId: string, receiverId: string) => {
   try {
     const res = await axios.post(
@@ -15,6 +16,7 @@ export const sendRequest = async (senderId: string, receiverId: string) => {
   }
 }
 
+/*-------------------- Handle Accepting Request --------------*/
 export const acceptRequest = async (senderId: string, receiverId: string) => {
   try {
     const res = await axios.post(

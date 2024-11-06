@@ -1,5 +1,5 @@
 import { useAccount } from '@/context/AccountProvider'
-import { getUser } from '@/services/userService'
+import { getUser } from '@/services/authService'
 import { memo, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -12,9 +12,7 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
       const response = await getUser()
       if (response.status === 200) {
         setAccount(response.data)
-        console.log(response.data, 'this is protected routes')
       }
-      console.log(response)
     } catch (error) {
       console.log('Error fetching user:', error)
       navigate('/login')
@@ -24,6 +22,7 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
   useEffect(() => {
     getUserData()
   }, [])
+
   console.log('dashboard re-rendered')
 
   return <>{children}</>

@@ -2,6 +2,7 @@ import { useState, useContext } from 'react'
 import { AccountContext } from '@/context/AccountProvider'
 import axios from 'axios'
 import { DocumentIcon, SendIcon } from '@/components/svg/Index'
+import { addMessage } from '@/services/messageService'
 
 interface Message {
   senderId: string
@@ -44,9 +45,7 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
       socket.emit('sendMessage', message)
 
       if (conversationId) {
-        await axios.post('http://localhost:5000/dashboard/message/add', message, {
-          withCredentials: true,
-        })
+        await addMessage(message)
         setIncomingMessage({ ...message, createdAt: Date.now() })
         setText('')
       }

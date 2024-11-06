@@ -2,9 +2,9 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import { AccountContext } from '../../context/AccountProvider'
 import { EmptyChatbox } from './EmptyChatbox'
 import { ChatboxHeader } from './ChatboxHeader/ChatboxHeader'
-import { createConversation } from '@/services/userService'
 import { ChatboxInput } from './ChatboxInput/ChatboxInput'
 import { ChatboxField } from './ChatboxField/ChatboxField'
+import { createConversation } from '@/services/appService'
 
 interface Message {
   _id: string
@@ -20,11 +20,10 @@ export const ChatboxView: React.FC = () => {
   const { person, account, socket, setIncomingMessage, incomingMessage } =
     useContext(AccountContext)
 
-  // Use state
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
 
-  // Function to fetch data from database
+  /*-------------------- Fetch Data from Database ------------*/
   const getConversationMessages = useCallback(async () => {
     if (!account || !person._id) return
 
@@ -32,12 +31,13 @@ export const ChatboxView: React.FC = () => {
       const { data } = await createConversation({ senderId: account._id, receiverId: person._id })
       setConversationId(data._id)
       setMessages(data.messages)
+      console.log(data, 'conversation Data')
     } catch (err) {
-      console.warn('Get conversation messages error : ', err)
+      console.log('Get conversation messages error : ', err)
     }
   }, [account._id, person._id])
 
-  // Handle incoming socket message
+  /*------------------ Handle Upcoming Message ---------------*/
   useEffect(() => {
     if (!socket) return
 
@@ -48,18 +48,17 @@ export const ChatboxView: React.FC = () => {
     socket.on('getMessage', handleMessage)
   }, [socket])
 
-  // Update messages for new incoming message
+  /*-------------------- New Upcoming Message ----------------*/
   useEffect(() => {
     if (
       (incomingMessage && incomingMessage?.senderId === person._id) ||
       incomingMessage?.receiverId === person._id
     ) {
       setMessages((prevMessages) => [...prevMessages, incomingMessage])
-      console.warn('this is called')
     }
   }, [incomingMessage])
 
-  // Fetch message when person changes
+  /*------------------- Fetch Message When Person Changes ---- */
   useEffect(() => {
     if (person._id) {
       getConversationMessages()
@@ -67,7 +66,7 @@ export const ChatboxView: React.FC = () => {
   }, [person._id])
 
   useEffect(() => {}, [])
-  console.log(messages, 'thse are the messages')
+
   return (
     <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
       {Object.keys(person).length ? (

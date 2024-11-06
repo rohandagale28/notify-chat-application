@@ -2,7 +2,6 @@ import { useAccount } from '@/context/AccountProvider'
 
 export const Messanger = ({ contact }: any) => {
   const { setPerson, person } = useAccount()
-  console.log(contact)
 
   return (
     <div

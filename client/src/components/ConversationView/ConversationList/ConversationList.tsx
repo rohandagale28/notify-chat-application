@@ -4,6 +4,7 @@ import { Messanger } from '../Messanger/Messanger'
 import { Request } from '../ConversationHeader/Request'
 import { searchUser } from '@/services/userService'
 import { getConverstionList } from '@/services/appService'
+import axios from 'axios'
 
 interface User {
   _id: string
@@ -29,7 +30,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
 
   const { search } = useContext(AccountContext)
 
-  // SEARCH BAR
+  /*-------------------- Search Results ----------------------*/
   const getSearchUser = async () => {
     try {
       if (search.length !== 0) {
@@ -41,19 +42,22 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
     }
   }
 
-  // GET CONTACT LIST USING ID
-  const getUser = async () => {
+  /*-------------------- Get Conversation List ---------------*/
+  const getConversationUsers = async () => {
     try {
-      const response = await getConverstionList(account._id)
-      setData(response)
+      const response = await axios.get(
+        `http://localhost:5000/dashboard/conversation/671f6b8a05492ecd77f15ff6`,
+        { withCredentials: true }
+      )
+      setData(response.data)
     } catch (err) {
       console.error(err)
     }
   }
 
-  // USE EFFECTS
+  /*-------------------- User Effects ------------------------*/
   useEffect(() => {
-    getUser()
+    getConversationUsers()
   }, [account._id])
 
   useEffect(() => {

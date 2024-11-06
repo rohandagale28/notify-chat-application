@@ -5,6 +5,7 @@ import axios from 'axios'
 import { useAccount } from '@/context/AccountProvider'
 import { Accept } from '../ConversationHeader/Accept'
 import { AcceptPersonIcon } from '@/components/svg/Index'
+import { getConverstionList } from '@/services/appService'
 
 export default function DialogDemo() {
   const { account } = useAccount()
@@ -13,14 +14,10 @@ export default function DialogDemo() {
 
   const getUser = async () => {
     try {
-      await axios
-        .get(`http://localhost:5000/request/contact/${account?._id}`, {
-          withCredentials: true,
-        })
-        .then((data) => {
-          setData(data)
-          console.log(data, 'this is the response data from dialog')
-        })
+      await getConverstionList(account?._id).then((data) => {
+        setData(data)
+        console.log(data, 'this is the response data from dialog')
+      })
     } catch (err) {
       console.error(err)
     }
