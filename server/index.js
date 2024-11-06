@@ -55,7 +55,11 @@ app.use('/request', verifyToken, request_routes)
 
 // Home Route
 app.get('/', (_, res) => {
-  res.status(200).json({ message: 'Server is running healthy' })
+  return new Response('server', {
+    headers: {
+      'Access-Control-Allow-Origin': 'https://notify-chat-application.vercel.app',
+    },
+  })
 })
 
 /*------------------ SERVER CONFIGURATION ----------------------*/
