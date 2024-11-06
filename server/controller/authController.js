@@ -74,7 +74,7 @@ const loginUser = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // Prevents client-side JavaScript from accessing the token
       secure: true, // Ensures the cookie is sent over HTTPS
-      sameSite: 'none', // Allows cross-site cookies (for use with different domains)
+      sameSite: 'None', // Allows cross-site cookies (for use with different domains)
     })
 
     res.status(200).json({ success: true, message: 'Login successful' })
