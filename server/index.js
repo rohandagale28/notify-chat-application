@@ -17,7 +17,7 @@ app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
 /*------------------ ENVIRONMENT VARIABLES --------------------*/
-// const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app'
+const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN
 
 // if (!process.env.ALLOW_ORIGIN) {
 //   console.warn(
@@ -28,7 +28,7 @@ app.use(cookieParser())
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: 'https://notify-chat-application.vercel.app',
+  origin: `${ALLOWED_ORIGIN}`,
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,

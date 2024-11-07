@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
 /*-------------------- VERIFY LOGGEDIN USER -------------------*/
 const verifyMe = async (req, res) => {
   try {
-    const token = req.cookies._vercel_jwt
+    const token = req.cookies?._vercel_jwt
     const decoded = jwt.verify(token, 'workspacex28')
     const userData = await userModel.findById(decoded.id)
     const { username, _id, image } = userData
