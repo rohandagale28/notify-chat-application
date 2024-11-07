@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken')
 
 const verifyToken = (req, res, next) => {
-  const token = req.cookies?.token // the token is stored in a cookie named "token" // ensure i doesn't crash if cookies not provided
+  const token = req.cookies?._vercel_jwt // the token is stored in a cookie named "token" // ensure i doesn't crash if cookies not provided
   console.log(token)
   if (!token) {
     return res.status(401).json({
