@@ -17,18 +17,18 @@ app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
 
 /*------------------ ENVIRONMENT VARIABLES --------------------*/
-const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app'
+// const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN || 'https://notify-chat-application.vercel.app'
 
-if (!process.env.ALLOW_ORIGIN) {
-  console.warn(
-    'ALLOW_ORIGIN environment variable is missing. Using default origin:',
-    ALLOWED_ORIGIN
-  )
-}
+// if (!process.env.ALLOW_ORIGIN) {
+//   console.warn(
+//     'ALLOW_ORIGIN environment variable is missing. Using default origin:',
+//     ALLOWED_ORIGIN
+//   )
+// }
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: ALLOWED_ORIGIN,
+  origin: 'https://notify-chat-application.vercel.app',
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
