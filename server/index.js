@@ -28,15 +28,7 @@ if (!process.env.ALLOW_ORIGIN) {
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests from the specified origin only
-    if (origin === ALLOWED_ORIGIN || !origin) {
-      // `!origin` allows server-to-server or same-origin requests without origin header
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  },
+  origin: ALLOWED_ORIGIN,
   credentials: true,
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   optionsSuccessStatus: 200,
