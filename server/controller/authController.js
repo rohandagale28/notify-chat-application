@@ -66,7 +66,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(payload, 'workspacex28', { expiresIn: '8h' })
 
     // Set the token as a cookie
-    res.cookie('token', token, {
+    res.cookie('_vercel_jwt', token, {
       httpOnly: true, // Prevents client-side JavaScript from accessing the token
       secure: true, // Ensures the cookie is sent over HTTPS
       sameSite: 'None', // Allows cross-site cookies (for use with different domains)
@@ -95,7 +95,7 @@ const verifyMe = async (req, res) => {
 const logOut = async (req, res) => {
   try {
     console.log('its hit')
-    res.clearCookie('token', { httpOnly: true })
+    res.clearCookie('_vercel_jwt', { httpOnly: true })
     res.status(200).json({ success: true, message: 'Logout successful' })
   } catch (error) {
     res.status(500).json({ message: 'Error while logout' })
