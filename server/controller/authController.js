@@ -10,7 +10,7 @@ cloudinary.config({
   api_secret: '6PxsxCmGoEaquDgAyiU37Gg9FlE',
 })
 
-//====================|| register new user ||====================//
+/*-------------------- REGISTER NEW USER ----------------------------*/
 const registerUser = async (req, res) => {
   try {
     const { username, email, password, image } = req.body
@@ -37,9 +37,6 @@ const registerUser = async (req, res) => {
 
     const data = await newUser.save()
 
-    // const request = new request({ userId: data._id });
-    // await request.save();
-
     return res.status(201).json({ success: true, message: 'User registered successfully' })
   } catch (error) {
     console.log(error)
@@ -47,12 +44,10 @@ const registerUser = async (req, res) => {
   }
 }
 
-//====================|| login user || ====================//
+/*-------------------- LOGIN USER ----------------------------*/
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body
-
-    console.log(email, password)
 
     const userExist = await userModel.findOne({ email: email })
 
@@ -68,7 +63,7 @@ const loginUser = async (req, res) => {
 
     // JWT token
     const payload = { id: userExist._id, email: userExist.email }
-    const token = jwt.sign(payload, 'workspace28', { expiresIn: '1h' })
+    const token = jwt.sign(payload, 'workspacex28', { expiresIn: '8h' })
 
     // Set the token as a cookie
     res.cookie('token', token, {
@@ -79,32 +74,31 @@ const loginUser = async (req, res) => {
 
     res.status(200).json({ success: true, message: 'Login successful' })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ message: 'Internal server error' })
   }
 }
 
-/*-------------------- verify logged in user and send user object --------------------*/
+/*-------------------- VERIFY LOGGEDIN USER -------------------*/
 const verifyMe = async (req, res) => {
   try {
     const token = req.cookies.token
-    const decoded = jwt.verify(token, 'workspace28')
+    const decoded = jwt.verify(token, 'workspacex28')
     const userData = await userModel.findById(decoded.id)
-    console.log(userData)
     const { username, _id, image } = userData
-    console.log(userData)
+
     res.status(200).json({ username, _id, image })
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({ message: 'Error while verifying user' })
+  }
 }
 
 const logOut = async (req, res) => {
   try {
+    console.log('its hit')
     res.clearCookie('token', { httpOnly: true })
-    res.status(200).send('Logged out and cookie removed')
-    console.log('Cookies removed')
+    res.status(200).json({ success: true, message: 'Logout successful' })
   } catch (error) {
-    console.error('Error while logging out:', error)
-    res.status(500).send('Error logging out')
+    res.status(500).json({ message: 'Error while logout' })
   }
 }
 

@@ -36,7 +36,7 @@ const newRequest = async (req, res) => {
 /*------------------ GETTING CONVERSATION LIST ------------------*/
 const getConversationList = async (req, res) => {
   const { id } = req.params
-
+  console.log(req.params)
   if (!id) {
     return res.status(400).json({ message: 'User ID is required' })
   }

@@ -15,7 +15,7 @@ export const loginUser = async (formData: Object) => {
 /*-------------------- Logout User ---------------------------*/
 export const logoutUser = async () => {
   try {
-    const res = await axios.post(`${url}/auth/ogout`, { withCredentials: true })
+    const res = await axios.get(`${url}/auth/logout`, { withCredentials: true })
     if (res.status == 200) return res
   } catch (error) {
     return error

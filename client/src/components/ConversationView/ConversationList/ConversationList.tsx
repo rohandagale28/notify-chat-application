@@ -3,7 +3,6 @@ import { AccountContext } from '../../../context/AccountProvider'
 import { Messanger } from '../Messanger/Messanger'
 import { Request } from '../ConversationHeader/Request'
 import { searchUser } from '@/services/userService'
-import { getConverstionList } from '@/services/appService'
 import axios from 'axios'
 
 interface User {
@@ -45,11 +44,13 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   /*-------------------- Get Conversation List ---------------*/
   const getConversationUsers = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:5000/dashboard/conversation/671f6b8a05492ecd77f15ff6`,
-        { withCredentials: true }
-      )
-      setData(response.data)
+      if (account?._id) {
+        const response = await axios.get(
+          `http://localhost:5000/dashboard/conversation/${account?._id}`,
+          { withCredentials: true }
+        )
+        setData(response.data)
+      }
     } catch (err) {
       console.error(err)
     }
