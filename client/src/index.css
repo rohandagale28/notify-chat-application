@@ -69,13 +69,13 @@
     --radius: 0.5rem
   }
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
+    --background: 0 0% 7.1%;
+    --foreground: 0, 0%, 90%;
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
-    --popover: 224 71.4% 4.1%;
+    --popover: 224 0% 10.4%;
     --popover-foreground: 210 20% 98%;
-    --primary: 0 0 7.1%;
+    --primary: 0 0% 12%;
     --primary-foreground: 220.9 39.3% 11%;
     --secondary: 0 0 11%;
     --secondary-foreground: 210 20% 98%;
@@ -98,6 +98,7 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial, sans-serif;
   }
   body {
     @apply bg-background text-foreground;

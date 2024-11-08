@@ -21,20 +21,16 @@ const io = new Server(
 let users = new Map();
 
 const addUser = (userData, socketId) => {
-  // Add the user to the Map using `sub` (or other unique identifier) as the key
-
   users.set(userData, socketId);
 };
 
 const getUser = (userId) => {
-  // Retrieve the user from the Map using `sub` as the key
   const userfound = users.get(userId);
   console.log(userfound, "yes uesr found");
   return userfound;
 };
 
 const removeUser = (socketId) => {
-  // Iterate over the Map to find and remove the user with the given socketId
   for (let [key, value] of users) {
     if (value.socketId === socketId) {
       users.delete(key);
@@ -46,11 +42,10 @@ const removeUser = (socketId) => {
 io.on("connection", (socket) => {
   console.log("connection detected");
   console.log(users);
-  // connect
   socket.on("addUsers", (userData) => {
     addUser(userData, socket.id);
     console.log(userData, socket.id);
-    // Emit the updated list of users by converting the Map to an array
+
     io.emit("getUsers", Array.from(users.values()));
     console.log(users);
   });

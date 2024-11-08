@@ -35,14 +35,12 @@ export default function DialogDemo() {
           </div>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-popover border-popover">
         <DialogHeader>
           <DialogTitle>Requests</DialogTitle>
-          <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
-          </DialogDescription>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
-        {data?.data?.pendingList ? (
+        {data?.data?.pendingList?.length < 0 ? (
           <div className="text-center w-full font-semibold">No Pending Request</div>
         ) : (
           <>

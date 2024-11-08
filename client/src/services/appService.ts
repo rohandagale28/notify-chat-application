@@ -23,3 +23,20 @@ export const createConversation = async (data: object) => {
     return err
   }
 }
+
+/*-------------------- Delete Message ------------------------*/
+export const deleteMessage = async (id: string) => {
+  try {
+    const res = await axios.patch(
+      `${url}/message/delete`,
+      { id: id },
+      {
+        withCredentials: true,
+      }
+    )
+    console.log(res)
+    return res.data
+  } catch (err) {
+    return err
+  }
+}

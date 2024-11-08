@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button'
+import { Toast } from '@/components/ui/toast'
+import { toast } from '@/hooks/use-toast'
 import { logoutUser } from '@/services/authService'
 import ThemeToggle from '@/utils/Themetoggler'
 import { lazy, Suspense } from 'react'
@@ -13,7 +15,13 @@ const ConversationBottomBar = () => {
 
   const Logout = async () => {
     const res = await logoutUser()
-    if (res.status == 200) navigate('/login')
+    if (res.status == 200) {
+      navigate('/login')
+      toast({
+        title: 'You have been logged out',
+        description: 'Please sign up.',
+      })
+    }
   }
 
   return (

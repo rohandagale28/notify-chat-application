@@ -65,10 +65,12 @@ export const ChatboxView: React.FC = () => {
     }
   }, [person._id])
 
-  useEffect(() => {}, [])
+  useEffect(() => {
+    
+  }, [])
 
   return (
-    <div className="h-full w-full box-border p-5 bg-secondary flex flex-col gap-3">
+    <div className="h-full w-full box-border p-5 bg-primary flex flex-col gap-3">
       {Object.keys(person).length ? (
         <>
           <ChatboxHeader person={person} />

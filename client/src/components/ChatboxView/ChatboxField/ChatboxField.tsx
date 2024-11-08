@@ -40,8 +40,8 @@ export const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
           )
         })
       ) : (
-        <div className="flex  h-full w-full box-border">
-          <div className="bg-gray-700 px-3 py-2.5 rounded-full text-sm">No Messages</div>
+        <div className="flex  justify-center items-center h-full w-full box-border">
+          <div className=" px-4 py-2 rounded-full text-sm bg-primary">No Messages</div>
         </div>
       )}
     </div>

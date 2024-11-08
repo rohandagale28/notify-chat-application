@@ -18,13 +18,7 @@ app.use(cookieParser())
 
 /*------------------ ENVIRONMENT VARIABLES --------------------*/
 const ALLOWED_ORIGIN = process.env.ALLOW_ORIGIN
-
-// if (!process.env.ALLOW_ORIGIN) {
-//   console.warn(
-//     'ALLOW_ORIGIN environment variable is missing. Using default origin:',
-//     ALLOWED_ORIGIN
-//   )
-// }
+const PORT = process.env.PORT || 5000
 
 /*------------------ CORS CONFIGURATION ------------------------*/
 const corsOptions = {
@@ -37,7 +31,7 @@ const corsOptions = {
 /*------------------ MONGODB CONNECTION ---------------------*/
 require('./db')
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions)) 
 /*------------------ ROUTES -----------------------------------------*/
 //Auth Routes
 app.use('/auth', authentication__routes)
@@ -60,7 +54,6 @@ app.get('/', (_, res) => {
 })
 
 /*------------------ SERVER CONFIGURATION ----------------------*/
-const PORT = process.env.PORT || 5000
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)
 })

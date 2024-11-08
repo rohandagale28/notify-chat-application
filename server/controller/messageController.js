@@ -12,15 +12,24 @@ const newMessage = async (req, res) => {
   }
 }
 
-const DeleteMessage = async (req, res) => {
-  const id = req.params.id
-
+/*-------------------- DELETE MESSAGE ------------------------*/
+const deleteMessage = async (req, res) => {
+  const { id } = req.body
+  console.log(id)
   try {
-    const newMessage = await message.findOneAndUpate({ _id: id }, { text: 'message deleted' })
+    const updatedMessage = await message.findByIdAndUpdate(
+      id,
+      { text: 'Message Deleted' },
+      { new: true } // This option returns the updated document
+    )
 
-    return res.status(200).send('message send successfully')
+    if (!updatedMessage) {
+      return res.status(404).send('Message not found')
+    }
+    console.log('successfull')
+    return res.status(200).send('Message deleted successfully')
   } catch (err) {
-    return res.status(500).send('not found')
+    return res.status(500).send('Internal server error')
   }
 }
 
@@ -42,4 +51,4 @@ const getMessages = async (req, res) => {
   }
 }
 
-module.exports = { newMessage, getMessages, DeleteMessage }
+module.exports = { newMessage, getMessages, deleteMessage }

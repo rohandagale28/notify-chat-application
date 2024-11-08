@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import VideoIcon from '../../../assets/videocam.svg'
+import { useEffect, useState } from 'react'
+import { VideoCameraIcon } from '@/components/svg/Index'
+import { useAccount } from '@/context/AccountProvider'
 
 interface Person {
   image: string
@@ -9,18 +10,16 @@ interface Person {
 }
 
 export const ChatboxHeader = ({ person }: { person: Person }) => {
-  // const { socket } = useContext(AccountContext);
-  const [activestatus] = useState(false)
+  const [status, setStatus] = useState(false)
 
-  //   useEffect(() => {
-  //     if (socket) {
-  //       socket.on('getUsers', (res) => {
-  //         console.log(res);
-  //         const userFound = res.some((item: { sub: string }) => item.sub === person.sub);
-  //         setActiveStatus(userFound);
-  //       });
-  //     }
-  //   }, [socket, person.sub]);
+  const { socket } = useAccount()
+
+  console.warn(person)
+  useEffect(() => {
+    if (socket) {
+      socket.emit('getOnlineUser', person?._id)
+    }
+  }, [socket, person.sub])
 
   return (
     <div className="w-full h-[4.6rem] flex text-secondary-foreground justify-between items-center rounded-xl">
@@ -33,25 +32,16 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
       </div>
       <div className=" text-sm font-medium flex flex-row items-center justify-center gap-2">
         {person?.username}
-        {activestatus === true ? (
-          <div className="flex items-center gap-2 text-xs">
-            <div className="h-1.5 w-1.5 bg-green-500 rounded-full"></div>
-            <span>Online</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-xs">
-            <div className="h-1.5 w-1.5 bg-red-500 rounded-full"></div>
-            <span>Offline</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2 text-xs">
+          <div
+            className={`h-1.5 w-1.5 ${status ? 'bg-green-500' : 'bg-red-500'} rounded-full`}
+          ></div>
+          <div className='tracking-wider'> {status === true ? <span>Online</span> : <span>Offline</span>}</div>
+        </div>
       </div>
       <div className="flex gap-8 pr-8">
-        <div className="text-white">
-          <img
-            src={VideoIcon}
-            className="h-6 w-6 object-cover rounded-full text-primary-foreground"
-            alt="User"
-          />
+        <div className="h-6 w-6">
+          <VideoCameraIcon />
         </div>
       </div>
     </div>
