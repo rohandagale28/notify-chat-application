@@ -4,7 +4,7 @@ import { useAccount } from '@/context/AccountProvider'
 
 interface Person {
   image: string
-  sub?: string
+  _id?: string
   username?: string
   picture?: string
 }
@@ -19,7 +19,7 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
     if (socket) {
       socket.emit('getOnlineUser', person?._id)
     }
-  }, [socket, person.sub])
+  }, [socket, person._id])
 
   return (
     <div className="w-full h-[4.6rem] flex text-secondary-foreground justify-between items-center rounded-xl">
@@ -36,7 +36,10 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
           <div
             className={`h-1.5 w-1.5 ${status ? 'bg-green-500' : 'bg-red-500'} rounded-full`}
           ></div>
-          <div className='tracking-wider'> {status === true ? <span>Online</span> : <span>Offline</span>}</div>
+          <div className="tracking-wider">
+            {' '}
+            {status === true ? <span>Online</span> : <span>Offline</span>}
+          </div>
         </div>
       </div>
       <div className="flex gap-8 pr-8">
