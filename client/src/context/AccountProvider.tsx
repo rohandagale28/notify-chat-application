@@ -17,7 +17,7 @@ const AccountProvider = ({ children }: { children: React.ReactNode }) => {
   const socketURI = import.meta.env.VITE_SOCKET_API
 
   useEffect(() => {
-    const socketInstance = io('https://circles-fellow-sweet-era.trycloudflare.com')
+    const socketInstance = io(`${socketURI}`)
 
     setSocket(socketInstance)
 

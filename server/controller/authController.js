@@ -94,7 +94,6 @@ const verifyMe = async (req, res) => {
 
 const logOut = async (req, res) => {
   try {
-    console.log('its hit')
     res.clearCookie('_vercel_jwt', { httpOnly: true })
     res.status(200).json({ success: true, message: 'Logout successful' })
   } catch (error) {
