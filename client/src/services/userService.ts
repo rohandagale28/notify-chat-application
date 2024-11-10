@@ -5,7 +5,7 @@ const url = import.meta.env.VITE_REST_URL
 //==========|| searching user with parameter ||==========//
 export const searchUser = async (id: string) => {
   try {
-    const response = await axios.get(`${url}/dashboard/${id}`, {
+    const response = await axios.get(`${url}/get/${id}`, {
       withCredentials: true,
     })
     console.log(response)
@@ -24,4 +24,3 @@ export const getUsers = async (account: any) => {
     return response
   } catch (error) {}
 }
-

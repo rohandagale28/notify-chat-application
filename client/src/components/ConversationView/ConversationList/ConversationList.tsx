@@ -4,6 +4,7 @@ import { Messanger } from '../Messanger/Messanger'
 import { Request } from '../ConversationHeader/Request'
 import { searchUser } from '@/services/userService'
 import axios from 'axios'
+import { getConverstionList } from '@/services/appService'
 
 interface User {
   _id: string
@@ -44,13 +45,9 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   /*-------------------- Get Conversation List ---------------*/
   const getConversationUsers = async () => {
     try {
-      if (account?._id) {
-        const response = await axios.get(
-          `http://localhost:5000/dashboard/conversation/${account?._id}`,
-          { withCredentials: true }
-        )
-        setData(response.data)
-      }
+      const response = await getConverstionList(account?._id)
+      console.warn(response)
+      setData(response)
     } catch (err) {
       console.error(err)
     }
@@ -79,7 +76,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
 
   // Memoize the mapped search result
   const searchList = useMemo(() => {
-    return searchResult.data
+    return searchResult?.data
       .filter((item) => item._id !== account._id)
       .map((item) => (
         <React.Fragment key={item._id}>
