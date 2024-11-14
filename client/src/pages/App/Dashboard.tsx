@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (socket && account) {
-      socket.emit('addUsers', account._id)
+      socket.emit('addUsers', account?._id)
       setIsLoading(false)
     }
     console.log(account)

@@ -24,6 +24,7 @@ const LoginForm = () => {
   const { toast } = useToast()
   const [formData, setFormData] = useState<FormData>({ email: '', password: '' })
   const [errors, setErrors] = useState<Errors>({ email: '', password: '' })
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -46,15 +47,17 @@ const LoginForm = () => {
     if (Object.values(validationErrors).some((error) => error)) return
 
     try {
+      setLoading(true)
       const response: any = await loginUser(formData)
-
       if (response.status === 200) {
+        setLoading(false)
         toast({
           title: 'Login successful',
           description: 'You have successfully logged in.',
         })
         navigate('/dashboard')
       } else if (response.status === 404) {
+        setLoading(false)
         toast({
           title: 'User not registered',
           description: 'Please sign up.',
@@ -65,6 +68,7 @@ const LoginForm = () => {
           ),
         })
       } else if (response.status === 401) {
+        setLoading(false)
         toast({
           title: 'Invalid credentials',
           description: 'Please check your email or password and try again.',
@@ -72,6 +76,7 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error('Login error', error)
+      setLoading(false)
       toast({
         title: 'An error occurred',
         description: 'Unable to login, please try again later.',
@@ -141,6 +146,16 @@ const LoginForm = () => {
             <span className="text-muted-foreground hover:text-secondary-foreground">Sign up</span>
           </div>
         </Link>
+        {loading ? (
+          <>
+            <div className="flex items-center justify-center gap-2 absolute bottom-10 right-20">
+              <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent border-l-transparent border-b-transparent  border-solid  rounded-full animate-spin"></div>
+              <div>Loading...</div>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   )

@@ -28,14 +28,14 @@ export const ChatboxView: React.FC = () => {
     if (!account || !person._id) return
 
     try {
-      const { data } = await createConversation({ senderId: account._id, receiverId: person._id })
-      setConversationId(data._id)
-      setMessages(data.messages)
+      const { data } = await createConversation({ senderId: account?._id, receiverId: person?._id })
+      setConversationId(data?._id)
+      setMessages(data?.messages)
       console.log(data, 'conversation Data')
     } catch (err) {
       console.log('Get conversation messages error : ', err)
     }
-  }, [account._id, person._id])
+  }, [account?._id, person?._id])
 
   /*------------------ Handle Upcoming Message ---------------*/
   useEffect(() => {
@@ -65,9 +65,7 @@ export const ChatboxView: React.FC = () => {
     }
   }, [person._id])
 
-  useEffect(() => {
-    
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <div className="h-full w-full box-border p-5 bg-primary flex flex-col gap-3">

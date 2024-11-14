@@ -33,7 +33,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   /*-------------------- Search Results ----------------------*/
   const getSearchUser = async () => {
     try {
-      if (search.length !== 0) {
+      if (search && search.length !== 0) {
         const response: SearchResult = await searchUser(search)
         setSearchResult(response)
       }
@@ -56,7 +56,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   /*-------------------- User Effects ------------------------*/
   useEffect(() => {
     getConversationUsers()
-  }, [account._id])
+  }, [account?._id])
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -68,11 +68,11 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   // Memoize the mapped contact list for conversation
   const contactList = useMemo(() => {
     return data?.contactList?.map((item) => (
-      <React.Fragment key={item._id}>
+      <React.Fragment key={item?._id}>
         <Messanger contact={item} />
       </React.Fragment>
     ))
-  }, [data, account._id])
+  }, [data, account?._id])
 
   // Memoize the mapped search result
   const searchList = useMemo(() => {
@@ -83,7 +83,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
           <Request contact={item} />
         </React.Fragment>
       ))
-  }, [searchResult, account._id])
+  }, [searchResult, account?._id])
 
   return (
     <div className="flex flex-col h-full w-full gap-2">

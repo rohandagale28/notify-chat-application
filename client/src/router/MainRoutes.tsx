@@ -4,6 +4,7 @@ import App from '@/App'
 import ProtectedRoutes from '@/utils/ProtectedRoutes'
 import RegistrationForm from '@/components/Forms/RegistrationForm/RegistrationForm'
 import LoginForm from '@/components/Forms/LoginForm/LoginForm'
+import NavBar from '@/Navbar'
 
 //==========|| lazy loading ||==========//
 const Dashboard = lazy(() => import('@/pages/App/Dashboard'))
@@ -11,7 +12,12 @@ const Dashboard = lazy(() => import('@/pages/App/Dashboard'))
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <>
+        <NavBar />
+        <App />,
+      </>
+    ),
   },
   {
     path: '/dashboard',

@@ -1,7 +1,6 @@
 const userModel = require('../model/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const request = require('../model/FriendRequest')
 const cloudinary = require('cloudinary').v2
 
 cloudinary.config({
@@ -17,8 +16,7 @@ const registerUser = async (req, res) => {
 
     const result = await cloudinary.uploader.upload(image, {
       folder: 'profiles',
-    })
-    console.log(result.secure_url)
+    }) // conflict here
 
     const userExist = await userModel.findOne({ email: email })
 
@@ -35,11 +33,10 @@ const registerUser = async (req, res) => {
       image: result.secure_url,
     })
 
-    const data = await newUser.save()
+    await newUser.save()
 
-    return res.status(201).json({ success: true, message: 'User registered successfully' })
+    res.status(201).json({ success: true, message: 'User registered successfully' })
   } catch (error) {
-    console.log(error)
     res.status(500).json({ message: 'Internal server error' })
   }
 }

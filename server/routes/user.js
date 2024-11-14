@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const { addUser, getUser } = require('../controller/userController')
 const { newConversation, getConversation } = require('../controller/conversationController')
-const { newMessage, getMessages } = require('../controller/messageController')  
+const { newMessage, getMessages } = require('../controller/messageController')
 
 router.post('/add', addUser)
 router.get('/get/:id', getUser)
