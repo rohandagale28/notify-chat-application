@@ -14,7 +14,8 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
 
   const { socket } = useAccount()
 
-  console.warn(person)
+  console.log('***** This is ChatboxHeader *****')
+
   useEffect(() => {
     if (socket) {
       socket.emit('getOnlineUser', person?._id)

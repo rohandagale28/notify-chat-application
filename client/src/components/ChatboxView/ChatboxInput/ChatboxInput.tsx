@@ -54,6 +54,7 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
     }
   }
 
+  console.log('***** This is ChatboxInput *****')
   return (
     <div className="flex w-full h-[4.6rem] items-center justify-between rounded-xl  px-16 gap-16">
       <div className="">

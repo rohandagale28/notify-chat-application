@@ -3,7 +3,6 @@ import { AccountContext } from '../../../context/AccountProvider'
 import { Messanger } from '../Messanger/Messanger'
 import { Request } from '../ConversationHeader/Request'
 import { searchUser } from '@/services/userService'
-import axios from 'axios'
 import { getConverstionList } from '@/services/appService'
 
 interface User {
@@ -46,7 +45,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   const getConversationUsers = async () => {
     try {
       const response = await getConverstionList(account?._id)
-      console.warn(response)
+      console.log("***** Conversatin List *****")
       setData(response)
     } catch (err) {
       console.error(err)

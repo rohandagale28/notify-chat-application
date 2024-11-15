@@ -7,6 +7,7 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
   const { setAccount } = useAccount()
   const navigate = useNavigate()
 
+  // Memoized getUserData function with dependencies
   const getUserData = useCallback(async () => {
     try {
       const response = await getUser()
@@ -17,15 +18,14 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
       console.log('Error fetching user:', error)
       navigate('/login')
     }
-  }, [])
+  }, [setAccount, navigate])
 
   useEffect(() => {
     getUserData()
   }, [])
 
-  console.log('dashboard re-rendered')
+  console.log('ProtectedRoutes component re-rendered')
 
-  return <>{children}</>
+  return children
 })
-
 export default ProtectedRoutes

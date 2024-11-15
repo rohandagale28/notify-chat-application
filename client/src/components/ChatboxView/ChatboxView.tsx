@@ -1,10 +1,11 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react'
 import { AccountContext } from '../../context/AccountProvider'
 import { EmptyChatbox } from './EmptyChatbox'
 import { ChatboxHeader } from './ChatboxHeader/ChatboxHeader'
 import { ChatboxInput } from './ChatboxInput/ChatboxInput'
-import { ChatboxField } from './ChatboxField/ChatboxField'
 import { createConversation } from '@/services/appService'
+
+const ChatboxField = lazy(() => import('./ChatboxField/ChatboxField'))
 
 interface Message {
   _id: string
@@ -63,7 +64,7 @@ export const ChatboxView: React.FC = () => {
     if (person._id) {
       getConversationMessages()
     }
-  }, [person._id])
+  }, [person?._id])
 
   useEffect(() => {}, [])
 
@@ -72,7 +73,9 @@ export const ChatboxView: React.FC = () => {
       {Object.keys(person).length ? (
         <>
           <ChatboxHeader person={person} />
-          <ChatboxField messages={messages} />
+          <Suspense fallback={<>Loading</>}>
+            <ChatboxField messages={messages} />
+          </Suspense>
           <ChatboxInput conversationId={conversationId} />
         </>
       ) : (

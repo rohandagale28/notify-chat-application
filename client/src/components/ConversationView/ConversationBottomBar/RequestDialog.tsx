@@ -1,7 +1,6 @@
 import { Dialog, DialogContent, DialogDescription, DialogFooter } from '@/components/ui/dialog'
 import { DialogTitle, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import { useAccount } from '@/context/AccountProvider'
 import { Accept } from '../ConversationHeader/Accept'
 import { AcceptPersonIcon } from '@/components/svg/Index'
@@ -26,6 +25,7 @@ export default function DialogDemo() {
   useEffect(() => {
     getUser()
   }, [account])
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -51,11 +51,6 @@ export default function DialogDemo() {
             ))}
           </>
         )}
-        <DialogFooter>
-          {/* <Button variant="outline" className="" type="submit">
-            Save changes
-          </Button> */}
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   )
