@@ -12,6 +12,16 @@ export const loginUser = async (formData: Object) => {
   }
 }
 
+/*-------------------- Register User --------------*/
+export const registerUser = async (formData: Object) => {
+  try {
+    const res = await axios.post(`${url}/auth/register`, formData, { withCredentials: true })
+    return res
+  } catch (error) {
+    return error
+  }
+}
+
 /*-------------------- Logout User ---------------------------*/
 export const logoutUser = async () => {
   try {

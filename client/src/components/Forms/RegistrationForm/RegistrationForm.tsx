@@ -6,6 +6,7 @@ import { ToastAction } from '@radix-ui/react-toast'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { registerUser } from '@/services/authService'
 
 const RegistrationForm = () => {
   const { toast } = useToast()
@@ -89,15 +90,8 @@ const RegistrationForm = () => {
 
     if (!usernameError && !emailError && !passwordError) {
       try {
-        const response = await fetch('http://localhost:5000/register', {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        })
-        console.log(response)
+        const response = await registerUser(formData)
+
         if (response.status === 200) {
           toast({
             title: 'Registration successful',
