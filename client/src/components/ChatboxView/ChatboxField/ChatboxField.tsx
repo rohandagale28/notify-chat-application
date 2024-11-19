@@ -27,7 +27,7 @@ const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
     }
   }, [person?._id, messages])
 
-  console.log("***** This is ChatboxField *****")
+  console.log('***** This is ChatboxField *****')
   return (
     <div
       className="flex gap-4 h-full w-full p-8 box-border flex-col  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-gray-300"
@@ -50,4 +50,3 @@ const ChatboxField: React.FC<ChatboxFieldProps> = ({ messages }) => {
 
 // Export ChatboxField as the default export
 export default ChatboxField
-

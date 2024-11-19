@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogDescription, DialogFooter } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogDescription } from '@/components/ui/dialog'
 import { DialogTitle, DialogHeader, DialogTrigger } from '@/components/ui/dialog'
 import React, { useEffect, useState } from 'react'
 import { useAccount } from '@/context/AccountProvider'
@@ -6,7 +6,7 @@ import { Accept } from '../ConversationHeader/Accept'
 import { AcceptPersonIcon } from '@/components/svg/Index'
 import { getConverstionList } from '@/services/appService'
 
-export default function DialogDemo() {
+export default function RequestDialog() {
   const { account } = useAccount()
 
   const [data, setData] = useState<any>(null)
@@ -44,7 +44,7 @@ export default function DialogDemo() {
           <div className="text-center w-full font-semibold">No Pending Request</div>
         ) : (
           <>
-            {data?.data?.pendingList?.map((item: any) => (
+            {data?.pendingList?.map((item: any) => (
               <React.Fragment key={item._id as string}>
                 <Accept contact={item} />
               </React.Fragment>

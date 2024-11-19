@@ -21,7 +21,7 @@ const Dashboard = () => {
   }
 
   return (
-    <main className="flex flex-row h-screen w-full box-border ">
+    <main className="flex flex-row h-screen w-full box-border bg-background">
       <ConversationView />
       <ChatboxView />
     </main>

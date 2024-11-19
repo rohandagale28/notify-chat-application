@@ -35,7 +35,7 @@ export const Request = ({ contact }: any) => {
       <div>
         <div className="text-secondary-foreground text-sm">{contact?.username}</div>
       </div>
-      <button>
+      <button onClick={handleSubmit}>
         <div className="h-4 w-4">
           <AddPersonIcon />
         </div>

@@ -29,3 +29,4 @@ export const acceptRequest = async (senderId: string, receiverId: string) => {
     throw error
   }
 }
+

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react'
+import { useState, useContext, memo } from 'react'
 import { AccountContext } from '@/context/AccountProvider'
 import axios from 'axios'
 import { DocumentIcon, SendIcon } from '@/components/svg/Index'
@@ -16,7 +16,7 @@ interface ChatboxInputProps {
   conversationId: string | null
 }
 
-export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) => {
+const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) => {
   const { account, person, setIncomingMessage, socket } = useContext(AccountContext)
   const [text, setText] = useState('')
 
@@ -45,8 +45,8 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
       socket.emit('sendMessage', message)
 
       if (conversationId) {
-        await addMessage(message)
         setIncomingMessage({ ...message, createdAt: Date.now() })
+        await addMessage(message)
         setText('')
       }
     } catch (err) {
@@ -79,10 +79,12 @@ export const ChatboxInput: React.FC<ChatboxInputProps> = ({ conversationId }) =>
         disabled={text.trim() === ''}
         className="cursor-pointer h-auto w-auto"
       >
-        <div className="w-5">
+        <div className={`w-5 ${!text.trim() ? 'text-muted-foreground' : 'text-white'}`}>
           <SendIcon />
         </div>
       </button>
     </div>
   )
 }
+
+export default memo(ChatboxInput)

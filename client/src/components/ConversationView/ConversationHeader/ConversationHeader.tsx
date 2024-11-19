@@ -16,7 +16,6 @@ interface ConversationHeaderProps {
 export const ConversationHeader: React.FC<ConversationHeaderProps> = ({ account }) => {
   const { setSearch } = useContext(AccountContext)
 
-  // Memoize handleSearchChange to avoid unnecessary re-renders
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearch(e.target.value)
@@ -24,6 +23,7 @@ export const ConversationHeader: React.FC<ConversationHeaderProps> = ({ account 
     [setSearch]
   )
 
+  console.log('*** converstaion header re-rendered ***')
   return (
     <div className="flex flex-col gap-6 px-0">
       <div className="flex flex-row items-center w-full">

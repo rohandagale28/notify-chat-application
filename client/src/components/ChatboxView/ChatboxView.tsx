@@ -1,8 +1,8 @@
-import { lazy, Suspense, useCallback, useContext, useEffect, useState } from 'react'
-import { AccountContext } from '../../context/AccountProvider'
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react'
+import { useAccount } from '../../context/AccountProvider'
 import { EmptyChatbox } from './EmptyChatbox'
-import { ChatboxHeader } from './ChatboxHeader/ChatboxHeader'
-import { ChatboxInput } from './ChatboxInput/ChatboxInput'
+import ChatboxHeader from './ChatboxHeader/ChatboxHeader'
+import ChatboxInput from './ChatboxInput/ChatboxInput'
 import { createConversation } from '@/services/appService'
 
 const ChatboxField = lazy(() => import('./ChatboxField/ChatboxField'))
@@ -18,8 +18,7 @@ interface Message {
 }
 
 export const ChatboxView: React.FC = () => {
-  const { person, account, socket, setIncomingMessage, incomingMessage } =
-    useContext(AccountContext)
+  const { person, account, socket, setIncomingMessage, incomingMessage } = useAccount()
 
   const [conversationId, setConversationId] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -32,9 +31,8 @@ export const ChatboxView: React.FC = () => {
       const { data } = await createConversation({ senderId: account?._id, receiverId: person?._id })
       setConversationId(data?._id)
       setMessages(data?.messages)
-      console.log(data, 'conversation Data')
     } catch (err) {
-      console.log('Get conversation messages error : ', err)
+      console.warn('Could not fetch messages from Database : ', err)
     }
   }, [account?._id, person?._id])
 
@@ -69,7 +67,7 @@ export const ChatboxView: React.FC = () => {
   useEffect(() => {}, [])
 
   return (
-    <div className="h-full w-full box-border p-5 bg-primary flex flex-col gap-3">
+    <div className="h-full w-full box-border  bg-background flex flex-col gap-3 py-5">
       {Object.keys(person).length ? (
         <>
           <ChatboxHeader person={person} />

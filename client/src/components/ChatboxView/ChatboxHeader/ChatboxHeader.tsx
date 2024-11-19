@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { VideoCameraIcon } from '@/components/svg/Index'
+import { memo, useEffect, useState } from 'react'
+import { CallIcon, VideoCameraIcon } from '@/components/svg/Index'
 import { useAccount } from '@/context/AccountProvider'
 
 interface Person {
@@ -9,21 +9,11 @@ interface Person {
   picture?: string
 }
 
-export const ChatboxHeader = ({ person }: { person: Person }) => {
-  const [status, setStatus] = useState(false)
-
-  const { socket } = useAccount()
-
-  console.log('***** This is ChatboxHeader *****')
-
-  useEffect(() => {
-    if (socket) {
-      socket.emit('getOnlineUser', person?._id)
-    }
-  }, [socket, person._id])
+const ChatboxHeader = ({ person }: { person: Person }) => {
+  const status = true
 
   return (
-    <div className="w-full h-[4.6rem] flex text-secondary-foreground justify-between items-center rounded-xl">
+    <div className="w-full h-[4.6rem] px-5 pb-5 flex text-secondary-foreground justify-between items-center border-b-2">
       <div className="pl-4">
         <img
           src={person?.image}
@@ -43,11 +33,20 @@ export const ChatboxHeader = ({ person }: { person: Person }) => {
           </div>
         </div>
       </div>
-      <div className="flex gap-8 pr-8">
-        <div className="h-6 w-6">
-          <VideoCameraIcon />
+      <div className="flex items-center justify-center gap-1 pr-8">
+        <div className="bg-secondary h-8 w-12 items-center justify-center flex rounded-s-lg hover:bg-muted cursor-pointer">
+          <div className="h-4 w-4 ">
+            <CallIcon />
+          </div>
+        </div>
+        <div className="bg-secondary h-8 w-12 items-center justify-center flex rounded-e-lg hover:bg-muted cursor-pointer">
+          <div className="h-4 w-4">
+            <VideoCameraIcon />
+          </div>
         </div>
       </div>
     </div>
   )
 }
+
+export default memo(ChatboxHeader)

@@ -15,14 +15,18 @@ function App() {
         </div>
         <div className="flex flex-row items-center justify-center gap-4">
           <Link to="/login">
-            <Button className="w-20 bg-black hover:bg-muted-foreground">Login</Button>
+            <Button className="w-20 bg-foreground hover:bg-muted-foreground font-semibold ">
+              Login
+            </Button>
           </Link>
           <Link to="/register">
-            <Button className="w-20 bg-black hover:bg-muted-foreground">Register</Button>
+            <Button className="w-20 bg-foreground hover:bg-muted-foreground font-semibold ">
+              Register
+            </Button>
           </Link>
         </div>
         <a href="">
-          <div className="text-[12px] m-2  py-1 px-4 rounded-full  text-muted-foreground hover:text-primary hover:bg-muted cursor-pointer transition-all">
+          <div className="text-[12px] m-2  py-1 px-4 rounded-full  text-foreground hover:text-muted-foreground  cursor-pointer transition-all">
             Explore our GitHub repository and contribute...!
           </div>
         </a>

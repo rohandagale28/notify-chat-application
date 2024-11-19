@@ -41,13 +41,10 @@ const removeUser = (socketId) => {
 
 io.on("connection", (socket) => {
   console.log("connection detected");
-  console.log(users);
+
   socket.on("addUsers", (userData) => {
     addUser(userData, socket.id);
     console.log(userData, socket.id);
-
-    io.emit("getUsers", Array.from(users.values()));
-    console.log(users);
   });
 
   // send message
@@ -62,6 +59,14 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("getOnlineStatus", (person) => {
+    console.log(person);
+    const data = getUser(person);
+
+    if (data) {
+      io.to(socket.id).emit("setOnlineStatus", data);
+    }
+  });
   // disconnect
   socket.on("disconnect", () => {
     removeUser(socket.id);

@@ -26,6 +26,6 @@ const ProtectedRoutes = memo(({ children }: { children: any }) => {
 
   console.log('ProtectedRoutes component re-rendered')
 
-  return children
+  return <>{children}</>
 })
 export default ProtectedRoutes

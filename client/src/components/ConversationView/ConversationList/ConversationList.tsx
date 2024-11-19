@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react'
+import React, { useContext, useEffect, useState, useMemo, useCallback } from 'react'
 import { AccountContext } from '../../../context/AccountProvider'
 import { Messanger } from '../Messanger/Messanger'
 import { Request } from '../ConversationHeader/Request'
@@ -42,15 +42,15 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
   }
 
   /*-------------------- Get Conversation List ---------------*/
-  const getConversationUsers = async () => {
+  const getConversationUsers = useCallback(async () => {
     try {
       const response = await getConverstionList(account?._id)
-      console.log("***** Conversatin List *****")
+      console.log('***** Conversation List *****')
       setData(response)
     } catch (err) {
       console.error(err)
     }
-  }
+  }, [account?._id])
 
   /*-------------------- User Effects ------------------------*/
   useEffect(() => {
@@ -71,7 +71,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
         <Messanger contact={item} />
       </React.Fragment>
     ))
-  }, [data, account?._id])
+  }, [data?.contactList, account?._id])
 
   // Memoize the mapped search result
   const searchList = useMemo(() => {
@@ -82,7 +82,7 @@ export const ConversationList: React.FC<ConversationListProps> = ({ account }) =
           <Request contact={item} />
         </React.Fragment>
       ))
-  }, [searchResult, account?._id])
+  }, [searchResult?.data, account?._id])
 
   return (
     <div className="flex flex-col h-full w-full gap-2">

@@ -8,8 +8,9 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { DropIcon, LogOutIcon, ProfileIcon, SettingIcon } from '@/components/svg/Index'
 import { deleteMessage } from '@/services/appService'
+import { DeleteIcon, InfoIcon, SettingsIcon, TrashIcon } from 'lucide-react'
 
-export function MessageDropdown({ id }) {
+export function MessageDropdown({ id, senderId, accountId }) {
   const handleDelete = async () => {
     await deleteMessage(id)
   }
@@ -23,29 +24,41 @@ export function MessageDropdown({ id }) {
           </div>
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='bg-secondary'>
+      <DropdownMenuContent className="bg-primary">
+        {senderId != accountId ? (
+          <>
+            <DropdownMenuItem className="cursor-pointer">
+              <div className="h-4 w-4">
+                <InfoIcon height={16} width={16} />
+              </div>
+              <span>Info</span>
+              <DropdownMenuShortcut></DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <></>
+        )}
         <DropdownMenuItem className="cursor-pointer">
           <div className="h-4 w-4">
-            <ProfileIcon />
-          </div>
-          <span>Edit</span>
-          <DropdownMenuShortcut></DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer">
-          <div className="h-4 w-4">
-            <SettingIcon />
+            <SettingsIcon  height={16} width={16}  />
           </div>
           <span>Settings</span>
           <DropdownMenuShortcut></DropdownMenuShortcut>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleDelete} className="cursor-pointer">
-          <div className="h-4 w-4">
-            <LogOutIcon />
-          </div>
-          <span>Delete</span>
-          <DropdownMenuShortcut></DropdownMenuShortcut>
-        </DropdownMenuItem>
+        {senderId != accountId ? (
+          <>
+            <DropdownMenuItem onClick={handleDelete} className="cursor-pointer">
+              <div className="h-4 w-4">
+                <TrashIcon height={16} width={16} />
+              </div>
+              <span>Delete</span>
+              <DropdownMenuShortcut></DropdownMenuShortcut>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <></>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

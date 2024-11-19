@@ -28,17 +28,19 @@ export const Accept = ({ contact }: any) => {
 
   return (
     <div
-      className={`flex justify-between items-center gap-4 p-3 rounded-xl relative cursor-pointer ${contact?.sub === person.sub ? 'bg-secondary' : 'bg-[#282828]'}`}
+      className={`flex  items-center gap-4 p-3 rounded-xl relative cursor-pointer ${contact?.sub === person.sub ? 'bg-secondary' : 'bg-[#282828]'}`}
     >
       <div className="flex-shrink-0">
-        <img src={profileIcon} alt="Profile" className="h-6 w-6 object-cover rounded-full" />
+        <img src={contact.image} alt="Profile" className="h-6 w-6 object-cover rounded-full" />
       </div>
       <div>
         <div className="text-secondary-foreground text-sm">{contact?.username}</div>
       </div>
-      <Button variant="default" onClick={handleSubmit}>
-        accept
-      </Button>
+      <div className="m-auto flex justify-self-end w-auto">
+        <Button variant="outline" onClick={handleSubmit}>
+          accept
+        </Button>
+      </div>
     </div>
   )
 }

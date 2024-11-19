@@ -141,9 +141,11 @@ const LoginForm = () => {
       </form>
       <div className="flex flex-row text-sm">
         <Link to="/register">
-          <div className="text-muted-foreground  text-xs hover:underline">
+          <div className="text-muted-foreground  text-xs">
             Don&#39;t have an account?{' '}
-            <span className="text-muted-foreground hover:text-secondary-foreground">Sign up</span>
+            <span className="text-muted-foreground hover:text-secondary-foreground hover:underline">
+              Sign up
+            </span>
           </div>
         </Link>
         {loading ? (

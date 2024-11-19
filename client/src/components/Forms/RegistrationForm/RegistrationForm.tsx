@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { validateEmail } from '@/utils/utils'
 import { useToast } from '@/hooks/use-toast'
 import { ToastAction } from '@radix-ui/react-toast'
@@ -160,26 +160,28 @@ const RegistrationForm = () => {
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
         </div>
         <div className="form-outline mb-4">
-          <Input
+          <Label>Profile</Label>
+          <Input 
             onChange={handleImage}
             type="file"
             id="formupload"
             name="image"
             className="form-control"
           />
-          <label className="form-label" htmlFor="form4Example2">
-            Image
-          </label>
         </div>
         <Button type="submit" className="px-4 py-2 w-full">
           Register
         </Button>
       </form>
       <div className="flex flex-row text-sm">
-        <p>Already have an account?</p>
-        <p>
-          <NavLink to="/login">Login</NavLink>
-        </p>
+        <Link to="/login">
+          <div className="text-muted-foreground  text-xs ">
+            Already have an account?{' '}
+            <span className="text-muted-foreground hover:text-secondary-foreground hover:underline">
+              Login
+            </span>
+          </div>
+        </Link>
       </div>
     </div>
   )
